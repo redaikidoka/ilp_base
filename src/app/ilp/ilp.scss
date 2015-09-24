@@ -1,0 +1,126 @@
+.profile-pic {
+	margin-right: 0.75em; 
+	width: 7em; 
+	height: 7em;
+}
+
+.ion-alert { color: $attention-color;}
+
+.btn-save {
+	//@include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+	@include button-variant(white, $btn-save, $btn-save);
+}
+
+nav.navbar.subnav {
+	background-color: $subnav-bg-color;
+	border-top: inset 1px hsla(0,0%,0%,0.3);
+	border-bottom: outset 1px hsla(0,0%,0%,0.2);
+	padding-left: 0;
+
+	.nav-item {
+		font-family: "Open Sans", sans-serif;
+		font-size: 12.24px;
+		font-weight: bold;
+		line-height: 30px;
+		letter-spacing: 2.5px;
+		text-transform: uppercase;
+		padding: 6px 20px 8px 20px !important;
+		margin: -9px 0 -9px 0 !important;
+		border-right:  1px solid hsla(175, 60%, 79%, 0.7);
+
+		a { 
+			color: black; //$subnav-item-color;
+			transition: color 0.5s, background-color 0.6s;
+		}
+		
+		a:hover {
+			color:$subnav-item-selected-color;
+			text-decoration: none;
+		}
+
+	}
+
+
+
+	.nav-item.active, .nav-item:hover, .nav-item.active a {
+		background-color: $subnav-bg-selected-color;
+		color: $subnav-item-selected-color;
+		box-shadow: 0 2px 4px $subtle-shadow;
+
+	}
+	.nav-item:hover a {
+		color: $menu-item-color-hilite;
+	}
+}
+
+
+#ilp-summary {
+
+	.card {
+		border: none;
+	}
+
+	.card-header {
+		padding: 12px 4px 4px 0px;
+		background: none;
+		border: none;
+	}
+
+	.card-header h4 {
+		font-size: 16px;
+		font-weight: 600;
+		margin: 0 0 0 3px;
+		padding: 0 0 3px 2px;
+		
+	}
+
+	div.card-header h4.hilite {
+		color: $attention-color;
+	}
+
+
+	.card-header img.icon {
+		float: right;
+		margin: 0px 0 0 6px;
+	}
+
+	.card-block {
+		background-color: white;
+		padding: 4px 0 2px 6px;
+		box-shadow: 0px 2px 4px hsla(0,0%,0%, 0.4);
+
+		textarea {
+			border: none;
+			background: none;
+			width: 100%;
+		}
+
+		img.icon {
+			float: left;
+			margin: -18px 2px 0 0;
+
+		}
+		img.disabled {
+			opacity: 0.4;
+		}
+
+		label.updatenote {
+			float: left;
+			margin: -18px 0 0 4px;
+			font-size: smaller;
+			font-style: italic;
+			color: #888;
+		}
+
+		textarea:focus {
+			border: 0 transparent !important;
+			border-image-width: 0;
+			box-shadow: none;
+
+		}
+	}
+
+
+
+
+}

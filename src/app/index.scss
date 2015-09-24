@@ -1,0 +1,68 @@
+/**
+ *  If you want to override some bootstrap variables, you have to change values here.
+ *  The list of variables are listed here bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_variables.scss
+ */
+$navbar-inverse-link-color: #5D0E77;
+$icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+
+$attention-color: #ff6000;
+$menu-bg-color: #44b3aa;
+$menu-bg-selected-color: #5d0e77;
+$menu-item-color: #5D0E77;
+$menu-item-color-hilite: #FBFBFB;
+$page-bg-color: #f0f0f0;
+$header-dark-bg-color: #009388;
+$header-dark-color: white;
+$dark-blip-bg-color: #555555;
+$dark-blip-color: #F0F0F0;
+$panel-info-bg-color: #d8d8d8;
+$subtle-shadow: hsla(0,0%,0%, 0.3);
+
+$subnav-bg-color: #00d9c7;
+$subnav-bg-selected-color: $menu-bg-selected-color;
+$subnav-item-color: #5D0E77;
+$subnav-item-selected-color: #FBFBFB;
+
+$attention-color: #FF3800; // ORAAAAANGE!!!!!!!!!!
+$attention-color-hilite: #FF6000; // DARK OORRRRAAAAANNNNGEEEEEE
+$action-color: #00988C;
+$action-color-hilite: #00D9C7;
+
+$btn-save:  #00D9C7;
+
+/**
+ *  Do not remove this comments bellow. It's the markers used by wiredep to inject
+ *  sass dependencies when defined in the bower.json of your dependencies
+ */
+// bower:scss
+// endbower
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+.thumbnail {
+  height: 200px;
+
+  img.pull-right {
+    width: 50px;
+  }
+}
+
+body {
+	background-color: $page-bg-color;
+	font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, label {
+	font-family: 'Open Sans', sans-serif;
+}
+/**
+ *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject
+ *  all your sass files automatically
+ */
+// injector
+// endinjector

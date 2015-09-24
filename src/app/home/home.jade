@@ -1,0 +1,20 @@
+acme-navbar(username="home.userName" userpic="home.userPic" current="")
+div.container-fluid
+  div
+
+  div.jumbotron.text-center
+    h1 NSSF Individual Learning Plans
+    p &nbsp;    
+    
+    div.input-group.text-center( style="width:50%; min-width:20em; margin: 0 auto;")
+      input.form-control(type="text" placeholder="User Name" aria-describedby="emailaddon")
+      span.input-group-addon#emailaddon @nssf.org
+    br    
+    div.input-group.text-center(style="width:50%; min-width:20em; margin: 0 auto;")
+      input.form-control(type="password" placeholder="password")
+    
+    p &nbsp;
+    
+    a(ng-href="#/classes") Login
+
+

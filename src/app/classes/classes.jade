@@ -1,0 +1,41 @@
+acme-navbar(username="classes.user.name" userpic="classes.userPic" activetab="'classes'" )
+div.container-fluid
+  div
+
+  h3(style="padding-top: 1em; padding-left: .5em;" ) Classes for {{classes.currentSchoolYear}}
+  
+  ul.nav.nav-tabs(style="padding-left: .5em;" )
+    li.nav-item( ng-repeat="class in classes.classList")
+      a.nav-link(ng-class="{'active': (class.idClass == classes.currentClassId) }" href="#" role="tab" data-toggle="tab") {{class.name}}
+  
+  div.container
+    br
+    h4 Grade: {{classes.currentClass.grade}}
+    br
+    form
+      fieldset.form-group
+        label(for="course-description") Course Overview
+        textarea.form-control#course-description(rows="4" placeholder="enter the description of your course")
+      button.btn.btn-primary Save
+    br
+
+  div.card
+      div.card-header
+        h4 Students 
+      div.card-block
+        ul.list-unstyled.student-list
+          li(ng-repeat="student in classes.studentList" style="padding-bottom: 6px;") 
+            img(src="assets/images/students/{{student.profilepicture}}" style="margin-right: 0.75em;")
+            {{ student.name }}
+            a(ng-show="student.hasIlp" ng-href="#/ilp") View ILP
+            button.btn.spacious(ng-show="!student.hasIlp" ng-class="{'btn-danger' : !student.hasIlp}" ng-href="#/ILP/{{student.idStudent}}") Initial Intake
+        br
+        button.btn(ng-href="#") Add Student
+  div.card
+    div.card-header
+      h4 Goals 
+        a.btn.btn-secondary(href="") See Goals
+    div.card-block.collapse#collapseGoals
+      p This is hidden
+
+

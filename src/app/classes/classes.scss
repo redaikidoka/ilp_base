@@ -1,0 +1,29 @@
+.student-list {
+	line-height: 4em;
+}
+
+.btn-danger {
+	background-color: $attention-color;
+}
+
+.btn-danger:hover {
+	background-color: $attention-color-hilite;
+	transition: background-color 0.5s;
+
+}
+
+.btn-primary {
+	background-color: $action-color;
+	border: none;
+}
+
+.btn-primary:hover {
+	background-color: $action-color-hilite;
+	transition: background-color 0.5s;
+}
+
+
+
+.spacious {
+	margin-left: .5em;
+}

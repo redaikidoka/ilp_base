@@ -1,0 +1,23 @@
+   //- div.card.col-md-4.col-sm-12
+    //-   div.card-header
+    //-     img.icon(src="assets/icons/i_pin.png") 
+    //-     img.icon(src="assets/icons/i_question.png") 
+    //-     h4 Likes
+    //-   div.card-block
+    //-     textarea(rows="6" autofocus placeholder="Quick list of student likes") {{}}
+    //-     img.icon.disabled(src="assets/icons/i_....png")
+    //-     label.updatenote Never Updated
+
+
+    //- div.card.col-md-8.col-sm-12
+    //-   div.card-header
+    //-     img.icon(src="assets/icons/i_pin.png") 
+    //-     img.icon(src="assets/icons/i_question.png") 
+    //-     h4 Social/Emotional Notes
+    //-   div.card-block
+    //-     textarea(rows="6" placeholder="Make Social/Emotional Notes here") {{}}
+    //-     img.icon(src="assets/icons/i_....png")
+    //-     label.updatenote Last Updated 3 Days Ago
+   //- div.card-columns(ng-repeat="col in ilp.plan.pages[0].layoutColumns")
+   //-   div.card(ng-repeat="fld in ilp.plan.pages[0].fields | filter: {layoutColumn: col}" ng-class="{'col-md-8 col-sm-12' : fld.layoutColumn==20, 'col-md-4 col-sm-12' : fld.layoutColumn==10}")
+ 

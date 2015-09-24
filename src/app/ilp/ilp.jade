@@ -1,0 +1,33 @@
+acme-navbar(username="ilp.user.name" userpic="ilp.user.profilePicture" activetab="'ilp'")
+div.container-fluid
+  label.em.small.pull-right Last Updated {{ilp.plan.sUpdate}}
+  img.m-t-md.profile-pic.pull-left(ng-src="assets/images/students/{{ilp.student.fullpicture}}" )
+  h2.m-t-md {{ilp.student.name}}
+  label House: 
+    em {{ilp.student.cohort}}
+  label.m-l Age: 
+    em {{ilp.student.age}}
+    span.m-l Grade: 
+    em K
+
+div.m-t-md
+  nav.navbar.subnav
+    ul.nav.nav-pills
+      li.nav-item(ng-repeat="pg in ilp.plan.pages" ng-class="{'active': pg.idSectionDef == 1 }")
+        a(ng-class="{'selected' : pg.idSectionDef == 1}") {{pg.title}} 
+          i.icon.ion-alert(ng-show="pg.idSectionDef==1 || pg.idSectionDef == 5" ) &nbsp;
+div
+  img.pull-right(src="assets/images/goals.png")
+  button.btn.btn-save.m-t.m-l(type="button") Save
+  div.clearfix.container-fluid.m-t#ilp-summary
+    div.card(ng-repeat="fld in ilp.plan.pages[0].fields" ng-class="{'col-md-8 col-sm-12' : fld.layoutColumn==20, 'col-md-4 col-sm-12' : fld.layoutColumn==10}")
+      div.card-header
+        img.icon(src="assets/icons/i_pin.png") 
+        img.icon(src="assets/icons/i_question.png") 
+        h4(ng-class="getHeaderColor(fld)") {{fld.name}}
+      div.card-block
+        textarea(rows="8" placeholder="{{fld.description}}") {{fld.contents}}
+        img.icon(src="assets/icons/i_....png")
+        label.updatenote {{fld.sUpdate}}
+  button.btn.btn-save.m-t.m-l.pull-right(type="button") Save
+  br
