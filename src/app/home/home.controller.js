@@ -6,13 +6,31 @@
     .controller('HomeController', HomeController);
 
   /** @ngInject */
-  function HomeController() {
+  function HomeController($scope, $location, $rootScope) {
     var vm = this;
+    var localUser = {};
+    $scope.user = {};
 
-    vm.stupidThing = [];
-    vm.userName="Filius Flitwik";
-    vm.userPic="assets/images/flitwick.jpeg";
+    var testUserName = "Filius Flitwik";
+    var testuserPic="assets/images/flitwick.jpeg";
+    vm.userPic = "";
+    // vm.userName="Filius Flitwik";
+    // vm.userPic="assets/images/flitwick.jpeg";
 
+    $scope.login = function(user) {
+        console.log("Clicked login with:", user);
+        if (user.name === 'filius')
+        {
+            localUser.name = testUserName;
+            localUser.username = user.name;
+            localUser.password = user.password;
+            localUser.thumbnail = testuserPic;
+            localUser.validated = true;
+            localUser.loggedin = true;
+            $rootScope.user = localUser;
+            $location.path('/classes');
+       }
+    };
 
     // vm.awesomeThings = [];
     // vm.classAnimation = '';

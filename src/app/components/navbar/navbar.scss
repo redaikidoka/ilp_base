@@ -10,6 +10,10 @@
 
 }
 
+.navbar {
+	padding: 0.5rem 0.5rem 0.5rem 0;
+}
+
 .navbar-nav {
 
 }
@@ -19,8 +23,8 @@
 	font-size: 18px;
 	line-height: 40px;
 	text-transform: uppercase;
-	padding: 8px 16px 11px 16px !important;
-	margin: -7px 0 -11px 0 !important;
+	padding: 9px 16px 11px 16px !important;
+	margin: -8px 0 -11px 0 !important;
 	border-right: 1px solid hsla(0,0%,0%,0.1);
 
 	a { 
@@ -90,10 +94,17 @@ li.nav-item.user:hover {
 	background-color: none;
 }
 
-
+.navbar-brand img {
+	 height:44px;
+	 width:44px; 
+	 display:inline;
+	 margin: -4px 0 -4px 0;
+}
 
 .nav-item.user img {
 	box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+	overflow:hidden; 
+	border-radius:50%
 }
 
 	.nav-item.active a{ 

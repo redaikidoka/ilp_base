@@ -3,18 +3,17 @@
 
   angular
     .module('ilpBase')
-    .directive('acmeNavbar', acmeNavbar);
+    .directive('ilpNavbar', ilpNavbar);
 
 
   /** @ngInject */
-  function acmeNavbar() {
+  function ilpNavbar() {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/navbar/navbar.html',
       scope: {
-           username: '=',
-           userpic: '=',
-           activetab: '='
+          user: '=',
+          activetab: '='
       },
       // link: linkFunc,
       controller: NavbarController,
@@ -38,8 +37,11 @@
       // var vm = this;
       var console = $log;
 
-      console.log("Navbar for " + this.username + " on " + this.activetab);
-      // console.log("Pic: ",vm.userpic);
+      if (this.user)
+{        console.log("Navbar for ", this.user, " on " + this.activetab);
+      }      else 
+ {       console.log("Navbar: no user");
+       }      // console.log("Pic: ",vm.userpic);
       // console.log("activetab: " + vm.activetab);
 
       // "vm.creation" is avaible by directive option "bindToController: true"

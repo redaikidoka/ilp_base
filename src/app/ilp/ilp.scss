@@ -2,8 +2,15 @@
 	margin-right: 0.75em; 
 	width: 7em; 
 	height: 7em;
+	overflow:hidden; 
+	border-radius:50%
 }
 
+label.update {
+	font-size: .6em;
+	font-style: italic;
+	color: lighten($text-color, 20%);
+}
 .ion-alert { color: $attention-color;}
 
 .btn-save {
@@ -64,24 +71,31 @@ nav.navbar.subnav {
 		padding: 12px 4px 4px 0px;
 		background: none;
 		border: none;
+		background-color: #009388;
+		color: white;
+	}
+
+	.card-header.hilite {
+		background-color: transparent !important;
+		color: $text-color;
 	}
 
 	.card-header h4 {
 		font-size: 16px;
 		font-weight: 600;
-		margin: 0 0 0 3px;
+		margin: -4px 0 2px 3px;
 		padding: 0 0 3px 2px;
 		
 	}
 
-	div.card-header h4.hilite {
+	div.card-header.hilite h4 {
 		color: $attention-color;
 	}
 
 
 	.card-header img.icon {
 		float: right;
-		margin: 0px 0 0 6px;
+		margin: -4px 0 2px 6px;
 	}
 
 	.card-block {
@@ -100,27 +114,27 @@ nav.navbar.subnav {
 			margin: -18px 2px 0 0;
 
 		}
+
 		img.disabled {
 			opacity: 0.4;
 		}
 
 		label.updatenote {
+			font-size: .6em;
 			float: left;
-			margin: -18px 0 0 4px;
-			font-size: smaller;
+			margin: -15px 0 0 4px;
 			font-style: italic;
-			color: #888;
+			color: lighten($text-color, 20%);
 		}
+
 
 		textarea:focus {
 			border: 0 transparent !important;
 			border-image-width: 0;
 			box-shadow: none;
-
+			border: none;
 		}
 	}
-
-
 
 
 }

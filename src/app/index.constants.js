@@ -6,5 +6,4 @@
     .module('ilpBase')
     .constant('moment', moment);
 
-
 })();

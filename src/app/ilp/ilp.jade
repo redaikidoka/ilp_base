@@ -1,6 +1,7 @@
-acme-navbar(username="ilp.user.name" userpic="ilp.user.profilePicture" activetab="'ilp'")
+ilp-navbar(username="ilp.user.name" userpic="ilp.user.profilePicture" activetab="'ilp'")
 div.container-fluid
-  label.em.small.pull-right Last Updated {{ilp.plan.sUpdate}}
+  label.update.pull-right Last Updated 
+    span(am-time-ago="ilp.lastUpdated") {{ilp.lastUpdated | fromNow}} ...
   img.m-t-md.profile-pic.pull-left(ng-src="assets/images/students/{{ilp.student.fullpicture}}" )
   h2.m-t-md {{ilp.student.name}}
   label House: 
@@ -20,14 +21,18 @@ div
   img.pull-right(src="assets/images/goals.png")
   button.btn.btn-save.m-t.m-l(type="button") Save
   div.clearfix.container-fluid.m-t#ilp-summary
-    div.card(ng-repeat="fld in ilp.plan.pages[0].fields" ng-class="{'col-md-8 col-sm-12' : fld.layoutColumn==20, 'col-md-4 col-sm-12' : fld.layoutColumn==10}")
-      div.card-header
-        img.icon(src="assets/icons/i_pin.png") 
-        img.icon(src="assets/icons/i_question.png") 
-        h4(ng-class="getHeaderColor(fld)") {{fld.name}}
-      div.card-block
-        textarea(rows="8" placeholder="{{fld.description}}") {{fld.contents}}
-        img.icon(src="assets/icons/i_....png")
-        label.updatenote {{fld.sUpdate}}
+    div.col-md-4.col-sm-12
+      div.card(ng-repeat="fld in ilp.plan.pages[0].fields | filter:{ layoutColumn: 10}" )
+        div.card-header
+          img.icon(src="assets/icons/i_pin.png") 
+          img.icon(src="assets/icons/i_question.png") 
+          h4(ng-class="getHeaderColor(fld)") {{fld.name}}
+        div.card-block
+          textarea(rows="8" placeholder="{{fld.description}}") {{fld.contents}}
+          img.icon(src="assets/icons/i_....png")
+          label.updatenote(ng-show="fld.sUpdate") Last Updated {{fld.sUpdate | fromNow}}
+    div.col-md-8.col-sm-12
+      ilp-field(ng-repeat="fld in ilp.plan.pages[0].fields | filter:{ layoutColumn: 20}"  datafield="fld")
   button.btn.btn-save.m-t.m-l.pull-right(type="button") Save
   br
+  //- ng-class="{'col-md-8 col-sm-12' : fld.layoutColumn==20, 'col-md-4 col-sm-12' : fld.layoutColumn==10}"

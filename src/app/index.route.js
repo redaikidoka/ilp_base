@@ -26,7 +26,19 @@
         controller: 'IlpController',
         controllerAs: 'ilp'
       })
-      ;
+      .state('sandbox', {
+        url: '/sandbox',
+        templateUrl: 'app/sandbox/sandbox.html',
+        controller: 'SandboxController',
+        controllerAs: 'sandbox'
+      })
+      .state('feed', {
+        url: '/feed',
+        templateUrl: 'app/feed/feed.html',
+        controller: 'FeedController',
+        controllerAs: 'feed'
+      })      
+       ;
 
     $urlRouterProvider.otherwise('/');
   }

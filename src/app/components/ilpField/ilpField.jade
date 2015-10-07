@@ -1,0 +1,9 @@
+div.card
+  div.card-header(ng-class="getHeaderColor(vm.datafield)")
+    img.icon.pin(src="assets/icons/i_pin.png") 
+    img.icon.prompts(src="assets/icons/i_question.png") 
+    h4 {{vm.datafield.name}} 
+  div.card-block
+    textarea(rows="8" placeholder="{{vm.datafield.description}}") {{vm.datafield.contents}}
+    img.icon.history(src="assets/icons/i_....png")
+    label.updatenote(ng-show="vm.datafield.sUpdate") Last Updated {{vm.datafield.sUpdate | fromNow}}
