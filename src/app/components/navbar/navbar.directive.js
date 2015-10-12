@@ -3,11 +3,11 @@
 
   angular
     .module('ilpBase')
-    .directive('ilpNavbar', ilpNavbar);
+    .directive('acmeNavbar', acmeNavbar);
 
 
   /** @ngInject */
-  function ilpNavbar() {
+  function acmeNavbar() {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/navbar/navbar.html',
@@ -16,7 +16,7 @@
           activetab: '='
       },
       // link: linkFunc,
-      controller: NavbarController,
+      controller: AcmeNavbarController,
       controllerAs: 'vm',
       bindToController: true
     };
@@ -33,14 +33,15 @@
    //  }
 
     /** @ngInject */
-    function NavbarController($log) {
+    function AcmeNavbarController($log) {
       // var vm = this;
       var console = $log;
-
+      
+      console.log(this.user);
       if (this.user)
-{        console.log("Navbar for ", this.user, " on " + this.activetab);
+{        console.log("Acme Navbar for ", this.user, " on " + this.activetab);
       }      else 
- {       console.log("Navbar: no user");
+ {       console.log("Acme Navbar: no user");
        }      // console.log("Pic: ",vm.userpic);
       // console.log("activetab: " + vm.activetab);
 

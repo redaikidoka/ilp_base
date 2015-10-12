@@ -37,7 +37,7 @@
       var console = $log;
 
       $scope.getHeaderColor = function(fld) {
-          console.log(fld);
+         // console.log(fld);
 
           if (!fld.contents) {
               return 'hilite';
@@ -45,7 +45,7 @@
           return '';
         };
 
-      console.log("ilpfield for ", vm.datafield);
+      //console.log("ilpfield for ", vm.datafield);
 
     }
   }

@@ -8,11 +8,7 @@
   /** @ngInject */
   function ClassesController() {
     var vm = this;
-
-    vm.otherThing = [];
-    vm.userName="Filius Flitwik";
-    vm.userPic="assets/images/flitwick.jpeg";
-
+    
     vm.currentSchoolYear="2015/2016";
 
     vm.user =   {

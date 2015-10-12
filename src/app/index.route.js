@@ -14,6 +14,12 @@
         controller: 'HomeController',
         controllerAs: 'home'
       })
+      .state('login', {
+        url: '/login',
+        templateUrl: 'app/home/home.html',
+        controller: 'LoginController',
+        controllerAs: 'login'
+      })
       .state('classes', {
         url: '/classes',
         templateUrl: 'app/classes/classes.html',

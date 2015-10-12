@@ -1,12 +1,12 @@
-ilp-navbar(username="classes.user.name" userpic="classes.userPic" activetab="'classes'" )
+ilp-nav(activetab="'classes'" )
 div.container-fluid
   div
   h3(style="padding-top: 1em; padding-left: .5em;" ) Classes for {{classes.currentSchoolYear}}
 div.m-t-md
   nav.navbar.subnav
     ul.nav.nav-pills
-      li.nav-item( ng-repeat="class in classes.classList")
-        a.nav-link(ng-class="{'active': (class.idClass == classes.currentClassId) }" href="#" role="tab" data-toggle="tab") {{class.name}}
+      li.nav-item( ng-repeat="class in classes.classList" ng-class="{'active': (class.idClass == classes.currentClassId) }" )
+        a.nav-link(role="tab" data-toggle="tab") {{class.name}}
   div.container
     br
     h4 Grade: {{classes.currentClass.grade}}
@@ -18,23 +18,28 @@ div.m-t-md
       button.btn.btn-primary Save
     br
 
-  div.card
+    div.card
       div.card-header
-        h4 Students 
-      div.card-block
+        h4 
+          a(data-toggle="collapse" data-target="#collapseStudents") 
+            i.icon.ion-arrow-down-b 
+          span &nbsp;&nbsp; Students 
+      div.card-block.collapse.in#collapseStudents
         ul.list-unstyled.student-list
           li(ng-repeat="student in classes.studentList" style="padding-bottom: 6px;") 
-            img(src="assets/images/students/{{student.profilepicture}}" style="margin-right: 0.75em;")
+            img.m-r(ng-src="assets/images/students/{{student.profilepicture}}" )
             span {{student.name}}
             a(ng-show="student.hasIlp" ng-href="#/ilp") View ILP
             button.btn.spacious(ng-show="!student.hasIlp" ng-class="{'btn-danger' : !student.hasIlp}" ng-href="#/ILP/{{student.idStudent}}") Initial Intake
         br
         button.btn(ng-href="#") Add Student
-  div.card
-    div.card-header
-      h4 Goals 
-        a.btn.btn-secondary(href="") See Goals
-    div.card-block.collapse#collapseGoals
-      p This is hidden
+    div.card
+      div.card-header
+        h4 
+          button.btn.btn-default(type="button" ng-click="isCollapsed = !isCollapsed" ) 
+            i.icon.ion-arrow-right-b 
+          span &nbsp;&nbsp;Goals 
+      div.card-block.collapse#collapseGoals(collapse="isCollapsed")
+        p Goals coming in v2
 
 

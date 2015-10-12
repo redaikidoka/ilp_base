@@ -16,11 +16,13 @@ label.update {
 .btn-save {
 	//@include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
 	@include button-variant(white, $btn-save, $btn-save);
+	margin: 6px;
 }
 
 nav.navbar.subnav {
+	border-radius: 0;
 	background-color: $subnav-bg-color;
-	border-top: inset 1px hsla(0,0%,0%,0.3);
+	border-top: inset 1px hsla(0,0%,0%,0.2);
 	border-bottom: outset 1px hsla(0,0%,0%,0.2);
 	padding-left: 0;
 
@@ -28,7 +30,7 @@ nav.navbar.subnav {
 		font-family: "Open Sans", sans-serif;
 		font-size: 12.24px;
 		font-weight: bold;
-		line-height: 30px;
+		line-height: 18px;
 		letter-spacing: 2.5px;
 		text-transform: uppercase;
 		padding: 6px 20px 8px 20px !important;
@@ -49,11 +51,16 @@ nav.navbar.subnav {
 
 
 
-	.nav-item.active, .nav-item:hover, .nav-item.active a {
+	.nav-item.active, .nav-item:hover {
 		background-color: $subnav-bg-selected-color;
 		color: $subnav-item-selected-color;
 		box-shadow: 0 2px 4px $subtle-shadow;
+	}
 
+	.nav-item.active a {
+		background: none;
+		box-shadow: none;
+		color: $subnav-item-selected-color;
 	}
 	.nav-item:hover a {
 		color: $menu-item-color-hilite;
@@ -65,6 +72,7 @@ nav.navbar.subnav {
 
 	.card {
 		border: none;
+		margin: 8px 0 16px 0;
 	}
 
 	.card-header {

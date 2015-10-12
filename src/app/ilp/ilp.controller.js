@@ -11,10 +11,10 @@
         var console = $log;
         vm.lastUpdated = new Date();
 
-        $log.debug("Here we are in the ilp!");
+        //$log.debug("Here we are in the ilp!");
 
         $scope.getHeaderColor = function(fld) {
-            console.log(fld);
+            //console.log(fld);
 
             if (!fld.contents) {
                 return 'hilite';

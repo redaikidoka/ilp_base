@@ -1,0 +1,25 @@
+nav.navbar.navbar-dark.bg-inverse
+  div.container-fluid
+    div.navbar-header
+      a.navbar-brand(ng-href="#/")  
+        img#logo(alt="brand" src='assets/images/nsf_logo_color.png') 
+      button.navbar-toggle.collapsed(type="button" data-toggle="collapse" data-target="#mainmenu" aria-expanded="false")
+      span.sr-only Toggle navigation
+      span.icon-bar
+      span.icon-bar
+      span.icon-bar
+    div
+      ul.nav.navbar-nav
+        li.nav-item(ng-class="{'active' : vm.activetab == 'classes'}")
+          a.selected(ng-href="#/classes") My Classes
+        li.nav-item(ng-class="{ 'active' : vm.activetab == 'ilp'}")
+          a(ng-href="#/ilp") ILP
+        li.nav-item.disabled(ng-class="{ 'active' : vm.activetab == 'feed'}")
+          a(ng-href="#/feed") Feed
+        li.nav-item.disabled(ng-class="{ 'active' : vm.activetab == 'sandbox'}")
+          a(ng-href="#/sandbox") Sandbox
+
+      ul.nav.navbar-nav.pull-right#loggedin(ng-show="vm.user.loggedin")
+        li.nav-item.user
+          img(ng-src='{{vm.user.thumbnail}}')
+          a.username(ng-href="#" style="display:inline; padding-left:0.2rem !important;") &nbsp; {{ vm.user.name }} 

@@ -21,3 +21,170 @@
    //- div.card-columns(ng-repeat="col in ilp.plan.pages[0].layoutColumns")
    //-   div.card(ng-repeat="fld in ilp.plan.pages[0].fields | filter: {layoutColumn: col}" ng-class="{'col-md-8 col-sm-12' : fld.layoutColumn==20, 'col-md-4 col-sm-12' : fld.layoutColumn==10}")
  
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+ilpnav.scss
+
+
+.bg-inverse {
+    background-color: $menu-bg-color;
+    color: #5D0E77;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    // src: url('(http://fonts.googleapis.com/css?family=Open+Sans)');
+
+}
+
+.navbar {
+    padding: 0.5rem 0.5rem 0.5rem 0;
+}
+
+.navbar-nav {
+
+}
+
+.nav-item {
+    font-family: "Open Sans", sans-serif;
+    font-size: 18px;
+    line-height: 40px;
+    text-transform: uppercase;
+    padding: 9px 16px 11px 16px !important;
+    margin: -8px 0 -11px 0 !important;
+    border-right: 1px solid hsla(0,0%,0%,0.1);
+
+    a { 
+        color: $menu-item-color;
+        transition: color 0.5s, background-color 0.6s;
+    }
+    
+    a:hover {
+        color:$menu-item-color-hilite;
+        text-decoration: none;
+    }
+
+    a:selected {
+    color:$menu-item-color-hilite;
+    text-decoration: none;
+    }
+
+}
+
+
+.nav-item.active, .nav-item:hover {
+    background-color: $menu-item-color;
+    color: $menu-item-color-hilite;
+    box-shadow: 0 2px 4px $subtle-shadow;
+
+}
+
+.nav-item:hover a {
+    color: $menu-item-color-hilite;
+}
+
+li.nav-item.disabled {
+    background-color: none;
+    color: hsla(0,0%,0%,0.5);
+    transition: none;
+}
+li.nav-item.disabled a {
+    color: hsla(0,0%,0%,0.3);
+    text-shadow: 0 2px 4px hsla(0,0%,0%,0.2);
+    transition: none;
+}
+li.nav-item.disabled:hover {
+    background-color: none;
+    color: hsla(0,0%,0%,0.3);
+    transition: none;
+}
+li.nav-item.disabled a:hover {
+    color: hsla(0,0%,0%,0.3);
+    text-shadow: 0 2px 4px hsla(0,0%,0%,0.2);
+    transition: none;
+}
+
+.nav-item.user  {
+        font-family: "Just Another Hand", cursive;
+        text-transform: capitalize;
+        font-size: 26px;
+        letter-spacing: 2px;
+        font-weight: normal;
+        background-color: none;
+        border: none;
+    }
+
+
+li.nav-item.user:hover {
+    background-color: none;
+}
+
+.navbar-brand img {
+     height:44px;
+     width:44px; 
+     display:inline;
+     margin: -4px 0 -4px 0;
+}
+
+.nav-item.user img {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    overflow:hidden; 
+    border-radius:50%
+}
+
+    .nav-item.active a{ 
+        color: white;
+    }

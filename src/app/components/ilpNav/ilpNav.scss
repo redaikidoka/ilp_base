@@ -1,0 +1,120 @@
+
+.bg-inverse {
+    background-color: $menu-bg-color;
+    color: #5D0E77;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    // src: url('(http://fonts.googleapis.com/css?family=Open+Sans)');
+
+}
+
+.navbar {
+    padding: 0.5rem 0.5rem 0.5rem 0;
+}
+
+.navbar-nav {
+
+}
+
+.navbar-brand img#logo {
+     height:48px;
+     width:48px; 
+     margin: -14px 0 -6px 0;
+}
+
+li.nav-item {
+    font-family: "Open Sans", sans-serif;
+    font-size: 18px;
+    line-height: 32px;
+    text-transform: uppercase;
+    padding: 7px 14px 14px 14px !important;
+    margin: -7px 0 -10px 0 !important;
+    border-right: 1px solid hsla(0,0%,0%,0.1);
+
+    a { 
+        color: $menu-item-color;
+        transition: color 0.5s;
+        background: none;
+        padding: 12px !important;
+    }
+    
+    a:hover {
+        color:$menu-item-color-hilite;
+        text-decoration: none;
+        background:none;
+        text-shadow: none;
+        box-shadow: none;
+    }
+
+    a:selected {
+        color:$menu-item-color-hilite;
+        text-decoration: none;
+    }
+    
+    .active a{ 
+        color: white;
+    }
+
+    .disabled {
+        background-color: none;
+        color: hsla(0,0%,0%,0.5);
+        transition: none;
+            a {
+                color: hsla(0,0%,0%,0.3);
+                text-shadow: 0 2px 4px hsla(0,0%,0%,0.2);
+                transition: none;
+                :hover {
+                    color: hsla(0,0%,0%,0.3);
+                    text-shadow: 0 2px 4px hsla(0,0%,0%,0.2);
+                    transition: none;
+                }
+            } 
+            :hover {
+                background-color: none;
+                color: hsla(0,0%,0%,0.3);
+                transition: none;
+            }
+    }
+
+    :hover a {
+    color: $menu-item-color-hilite;
+    }
+
+    .active, :hover {
+           background-color: $menu-item-color;
+        color: $menu-item-color-hilite;
+        box-shadow: 0 2px 4px $subtle-shadow;
+  
+    }
+
+    .user  {
+        border: none;
+        font-family: "Just Another Hand", cursive;
+        text-transform: capitalize;
+        font-size: 16px;
+        letter-spacing: 1px;
+        font-weight: lighter;
+        background-color: none !important;
+        border: none;
+        width: 200px;
+        
+       a.username {
+            display: inline !important;
+            padding-left: 0.1rem !important;
+        }
+
+        :hover {
+            background-color: none;
+        }
+
+        img {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            overflow:hidden; 
+            border-radius:50%;
+            display: inline;
+        }
+    }
+}
+

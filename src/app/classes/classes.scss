@@ -27,3 +27,14 @@
 .spacious {
 	margin-left: .5em;
 }
+
+ul.nav-pills li.nav-item a.active {
+	background: none;
+}
+
+ul.nav-pills li.nav-item.active {
+	background-color: $menu-item-color;
+	color: $menu-item-color-hilite;
+	box-shadow: 0 2px 4px $subtle-shadow;
+}
+
