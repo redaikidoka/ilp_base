@@ -1,0 +1,39 @@
+
+div.container
+  h4 Grade: {{aclass.currentClass.grade}}
+  form
+    fieldset.form-group
+      label(for="course-description") {{aclass.currentClass.name}} Course Overview
+      textarea.form-control#course-description(rows="4" placeholder="enter the description of your course" ng-bind="aclass.currentClass.description")
+
+    button.btn.btn-primary.pull-right Save
+
+div.container.m-t-md
+  div.card
+    div.card-header
+      h4 
+        button.btn.btn-default(type="button" ng-click="isCollapsedS = !isCollapsedS")
+          i.icon.ion-arrow-down-b(ng-show="!isCollapsedS")
+          i.icon.ion-arrow-right-b(ng-show="isCollapsedS")
+        span &nbsp;&nbsp; Students 
+      button.btn(ui-href="#").pull-right Add Student
+ 
+    div.card-block.collapse.in#collapseStudents(collapse="isCollapsedS")
+      ul.list-unstyled.student-list
+        li.p-b(ng-repeat="student in aclass.studentList" ) 
+          img.m-r(ng-src="assets/images/students/{{student.profilepicture}}" )
+          span {{student.name}}
+          a(ng-show="student.hasIlp" ng-href="#/ilp") View ILP
+          button.btn.spacious(ng-show="!student.hasIlp" ng-class="{'btn-danger' : !student.hasIlp}" ng-href="#/ILP/{{student.idStudent}}") Initial Intake
+      br
+  div.card
+    div.card-header
+      h4 
+        button.btn.btn-default(type="button" ng-click="isOpenG = !isOpenG" ) 
+          i.icon.ion-arrow-down-b(ng-show="isOpenG")
+          i.icon.ion-arrow-right-b(ng-show="!isOpenG")
+        span &nbsp;&nbsp;Goals 
+    div.card-block.collapse#collapseGoals(collapse="!isOpenG")
+      p Goals coming in v2
+
+

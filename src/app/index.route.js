@@ -20,11 +20,17 @@
         controller: 'LoginController',
         controllerAs: 'login'
       })
-      .state('classes', {
-        url: '/classes',
+      .state('myclasses', {
+        url: '/myclasses',
         templateUrl: 'app/classes/classes.html',
         controller: 'ClassesController',
-        controllerAs: 'classes'
+        controllerAs: 'myclasses'
+      })
+      .state('myclasses.class', {
+        url: '/class/{classId}',
+        templateUrl: 'app/classes/classlist.html',
+        controller: 'ClassListController',
+        controllerAs: 'aclass'
       })
       .state('ilp', {
         url: '/ilp',

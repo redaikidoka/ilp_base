@@ -42,27 +42,17 @@
             	this.user = $rootScope.user;
             	console.log("We have user in ilpNav");
             }
-            
-            // if (this.user) {
-            //     console.log("ilpNav for ", this.user, " on " + this.activetab);
-            // } else {
-            //     console.log("ilpNav: no user");
-            // } 
-
-            if (1) //TODO: FIND A WAY TO BUILD DEBUG IN
-            {
+            else {
                 this.user = {
-                    "name" : "Filius Flitwick",
-                    "username" : "filius",
+                    "name" : "Severus Snape",
+                    "username" : "snape",
                     "password" : "debug",
-                    "thumbnail" : "assets/images/flitwick.jpeg",
+                    "thumbnail" : "assets/images/snape.jpg",
                     "validated" : false,
                     "loggedin" : true
                 };
-
-                //console.log("debug user: ", this.user);
+               
             }
-
 
 
         }

@@ -8,7 +8,7 @@
     /** @ngInject */
     function IlpController($scope, $log) {
         var vm = this;
-        var console = $log;
+        // var console = $log;
         vm.lastUpdated = new Date();
 
         //$log.debug("Here we are in the ilp!");

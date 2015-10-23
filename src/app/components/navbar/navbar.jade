@@ -7,13 +7,13 @@ nav.navbar.navbar-static-top.navbar-dark.bg-inverse
     div.collapse.navbar-toggleable-sm#bs-example-navbar-collapse-6
       ul.nav.navbar-nav#mainmenu
         li.nav-item(ng-class="{'active' : vm.activetab == 'classes'}")
-          a.selected(ng-href="#/classes") My Classes
+          a.selected(ui-href="myclasses") My Classes
         li.nav-item(ng-class="{ 'active' : vm.activetab == 'ilp'}")
-          a(ng-href="#/ilp") ILP
+          a(ui-href="ilp") ILP
         li.nav-item.disabled(ng-class="{ 'active' : vm.activetab == 'feed'}")
-          a(ng-href="#/feed") Feed
+          a(ui-href="feed") Feed
         li.nav-item.disabled(ng-class="{ 'active' : vm.activetab == 'sandbox'}")
-          a(ng-href="#/sandbox") Sandbox
+          a(ui-href="sandbox") Sandbox
 
       ul.nav.navbar-nav.pull-right.acme-navbar-text#loggedin(ng-show="vm.user.loggedin")
         li.nav-item.user

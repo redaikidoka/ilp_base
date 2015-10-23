@@ -1,45 +1,13 @@
 ilp-nav(activetab="'classes'" )
 div.container-fluid
   div
-  h3(style="padding-top: 1em; padding-left: .5em;" ) Classes for {{classes.currentSchoolYear}}
+  h3.p-t.p-l Classes for {{myclasses.currentSchoolYear}}
 div.m-t-md
   nav.navbar.subnav
     ul.nav.nav-pills
-      li.nav-item( ng-repeat="class in classes.classList" ng-class="{'active': (class.idClass == classes.currentClassId) }" )
-        a.nav-link(role="tab" data-toggle="tab") {{class.name}}
-  div.container
-    br
-    h4 Grade: {{classes.currentClass.grade}}
-    br
-    form
-      fieldset.form-group
-        label(for="course-description") Course Overview
-        textarea.form-control#course-description(rows="4" placeholder="enter the description of your course")
-      button.btn.btn-primary Save
-    br
+      li.nav-item(ng-repeat="c in myclasses.classList" ui-sref-active="active" )
+        a.nav-link(ui-sref="myclasses.class({classId: c.idClass})") {{c.name}}
+div(ui-view)
 
-    div.card
-      div.card-header
-        h4 
-          a(data-toggle="collapse" data-target="#collapseStudents") 
-            i.icon.ion-arrow-down-b 
-          span &nbsp;&nbsp; Students 
-      div.card-block.collapse.in#collapseStudents
-        ul.list-unstyled.student-list
-          li(ng-repeat="student in classes.studentList" style="padding-bottom: 6px;") 
-            img.m-r(ng-src="assets/images/students/{{student.profilepicture}}" )
-            span {{student.name}}
-            a(ng-show="student.hasIlp" ng-href="#/ilp") View ILP
-            button.btn.spacious(ng-show="!student.hasIlp" ng-class="{'btn-danger' : !student.hasIlp}" ng-href="#/ILP/{{student.idStudent}}") Initial Intake
-        br
-        button.btn(ng-href="#") Add Student
-    div.card
-      div.card-header
-        h4 
-          button.btn.btn-default(type="button" ng-click="isCollapsed = !isCollapsed" ) 
-            i.icon.ion-arrow-right-b 
-          span &nbsp;&nbsp;Goals 
-      div.card-block.collapse#collapseGoals(collapse="isCollapsed")
-        p Goals coming in v2
 
 
