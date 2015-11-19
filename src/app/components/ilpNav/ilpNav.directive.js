@@ -12,8 +12,8 @@
             restrict: 'E',
             templateUrl: 'app/components/ilpNav/ilpNav.html',
             scope: {
-                user: '=',
-                activetab: '='
+                // user: '=',
+                // activetab: '='
             },
             //link: linkFunc,
             controller: NavController,
@@ -40,19 +40,19 @@
             if ($rootScope.user)
             {
             	this.user = $rootScope.user;
-            	console.log("We have user in ilpNav");
+            	// console.log("We have user in ilpNav");
             }
-            else {
-                this.user = {
-                    "name" : "Severus Snape",
-                    "username" : "snape",
-                    "password" : "debug",
-                    "thumbnail" : "assets/images/snape.jpg",
-                    "validated" : false,
-                    "loggedin" : true
-                };
+            // else {
+            //     this.user = {
+            //         "name" : "Severus Snape",
+            //         "username" : "snape",
+            //         "password" : "debug",
+            //         "thumbnail" : "assets/images/snape.jpg",
+            //         "validated" : false,
+            //         "loggedin" : true
+            //     };
                
-            }
+            // }
 
 
         }

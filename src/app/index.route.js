@@ -12,19 +12,22 @@
         url: '/',
         templateUrl: 'app/home/home.html',
         controller: 'HomeController',
-        controllerAs: 'home'
+        controllerAs: 'home',
+        authenticate: false
       })
       .state('login', {
         url: '/login',
         templateUrl: 'app/home/home.html',
-        controller: 'LoginController',
-        controllerAs: 'login'
+        controller: 'HomeController',
+        controllerAs: 'home',
+        authenticate: false
       })
       .state('myclasses', {
         url: '/myclasses',
         templateUrl: 'app/classes/classes.html',
         controller: 'ClassesController',
-        controllerAs: 'myclasses'
+        controllerAs: 'myclasses',
+        authenticate: true
       })
       .state('myclasses.class', {
         url: '/class/{classId}',
@@ -33,22 +36,31 @@
         controllerAs: 'aclass'
       })
       .state('ilp', {
-        url: '/ilp',
+        url: '/ilp/{idStudent}',
         templateUrl: 'app/ilp/ilp.html',
         controller: 'IlpController',
-        controllerAs: 'ilp'
+        controllerAs: 'ilp',
+        authenticate: true
+      })
+      .state('ilp.summary', {
+        url: '/ilp/{idStudent}/summary',
+        templateUrl: 'app/ilp/summary.html',
+        controller: 'ilpSummaryController',
+        controllerAs: 'ilpSummary'
       })
       .state('sandbox', {
         url: '/sandbox',
         templateUrl: 'app/sandbox/sandbox.html',
         controller: 'SandboxController',
-        controllerAs: 'sandbox'
+        controllerAs: 'sandbox',
+        authenticate: false
       })
       .state('feed', {
         url: '/feed',
         templateUrl: 'app/feed/feed.html',
         controller: 'FeedController',
-        controllerAs: 'feed'
+        controllerAs: 'feed',
+        authenticate: false
       })      
        ;
 

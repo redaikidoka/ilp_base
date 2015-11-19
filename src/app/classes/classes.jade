@@ -1,8 +1,7 @@
-ilp-nav(activetab="'classes'" )
+ilp-nav
 div.container-fluid
-  div
-  h3.p-t.p-l Classes for {{myclasses.currentSchoolYear}}
-div.m-t-md
+  h3 {{myclasses.classList.length}} Classes for {{myclasses.currentSchoolYear}}
+div.m-t-md#classnav
   nav.navbar.subnav
     ul.nav.nav-pills
       li.nav-item(ng-repeat="c in myclasses.classList" ui-sref-active="active" )

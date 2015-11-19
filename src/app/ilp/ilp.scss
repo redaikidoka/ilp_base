@@ -34,7 +34,7 @@ nav.navbar.subnav {
 		letter-spacing: 2.5px;
 		text-transform: uppercase;
 		padding: 6px 20px 8px 20px !important;
-		margin: -9px 0 -9px 0 !important;
+		margin: -2px 0 -7px 0 !important;
 		border-right:  1px solid hsla(175, 60%, 79%, 0.7);
 
 		a { 
@@ -45,6 +45,7 @@ nav.navbar.subnav {
 		a:hover {
 			color:$subnav-item-selected-color;
 			text-decoration: none;
+			background-color: none;
 		}
 
 	}
@@ -64,6 +65,7 @@ nav.navbar.subnav {
 	}
 	.nav-item:hover a {
 		color: $menu-item-color-hilite;
+		background: none;
 	}
 }
 

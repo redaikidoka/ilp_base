@@ -9,7 +9,8 @@
   function SandboxController() {
     var vm = this;
 
-    vm.user = "";
+    vm.thing = {};
+    vm.listthing = [];
 
   }
 })();

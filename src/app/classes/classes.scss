@@ -27,14 +27,24 @@
 .spacious {
 	margin-left: .5em;
 }
+/*
+#classnav {
+	nav.navbar.subnav li.nav-item{
+		margin: -7px 0 -7px 0 !important;
+	} 
 
-ul.nav-pills li.nav-item a.active {
-	background: none;
+	ul.nav-pills li.nav-item {
+		a.active, a:hover
+		{
+			background: none;
+		}
+	}
+
+	ul.nav-pills li.nav-item.active, ul.nav-pills li.nav-item:hover {
+		background-color: $menu-item-color;
+		color: $menu-item-color-hilite;
+		box-shadow: 0 2px 4px $subtle-shadow;
+
+	}
 }
-
-ul.nav-pills li.nav-item.active {
-	background-color: $menu-item-color;
-	color: $menu-item-color-hilite;
-	box-shadow: 0 2px 4px $subtle-shadow;
-}
-
+*/

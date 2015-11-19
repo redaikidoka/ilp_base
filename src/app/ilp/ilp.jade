@@ -1,7 +1,7 @@
-ilp-nav(activetab="'ilp'" )
+ilp-nav
 div.container-fluid
   label.update.pull-right Last Updated 
-    span(am-time-ago="ilp.lastUpdated") {{ilp.lastUpdated | fromNow}} ...
+    span(am-time-ago="ilp.lastUpdated") {{ilp.plan.sUpdate | fromNow}} ...
   img.m-t-md.profile-pic.pull-left(ng-src="assets/images/students/{{ilp.student.fullpicture}}" )
   h2.m-t-md {{ilp.student.name}}
   label House: 
@@ -27,4 +27,3 @@ div
       ilp-field(ng-repeat="fld in ilp.plan.pages[0].fields | filter:{ layoutColumn: 20}"  datafield="fld")
   button.btn.btn-save.m-t.m-l.pull-right(type="button") Save
   br
-  //- ng-class="{'col-md-8 col-sm-12' : fld.layoutColumn==20, 'col-md-4 col-sm-12' : fld.layoutColumn==10}"

@@ -1,17 +1,25 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('ilpBase')
-    .controller('ClassesController', ClassesController);
+    angular
+        .module('ilpBase')
+        .controller('ClassesController', ClassesController);
 
-  /** @ngInject */
-  function ClassesController(dtaClass) {
-    var vm = this;
-    vm.currentSchoolYear = "2015/2016";
-    vm.currentClassId = 2;
-    vm.classList = dtaClass.getClassList();
-    vm.currentClass = vm.classList[1];
-    
-  }
+    /** @ngInject */
+    function ClassesController(dtaClass) {
+        var vm = this;
+        vm.currentSchoolYear = dtaClass.getSchoolYear();
+
+        // grab the class list
+        dtaClass.getClassList()
+            .then(function(result) {
+                vm.classList = result;
+                console.log("Grabbed Class list: ", vm.classList);
+            }, function(err) {
+                // Error occurred
+                console.log("no class list. :(");
+            });
+
+
+    }
 })();

@@ -11,20 +11,20 @@ div.container
 div.container.m-t-md
   div.card
     div.card-header
+      button.btn(ui-sref="#").pull-right.disabled Add Student
       h4 
         button.btn.btn-default(type="button" ng-click="isCollapsedS = !isCollapsedS")
           i.icon.ion-arrow-down-b(ng-show="!isCollapsedS")
           i.icon.ion-arrow-right-b(ng-show="isCollapsedS")
-        span &nbsp;&nbsp; Students 
-      button.btn(ui-href="#").pull-right Add Student
+        span &nbsp;&nbsp; {{aclass.studentList.length}} Students 
  
     div.card-block.collapse.in#collapseStudents(collapse="isCollapsedS")
       ul.list-unstyled.student-list
         li.p-b(ng-repeat="student in aclass.studentList" ) 
           img.m-r(ng-src="assets/images/students/{{student.profilepicture}}" )
-          span {{student.name}}
-          a(ng-show="student.hasIlp" ng-href="#/ilp") View ILP
-          button.btn.spacious(ng-show="!student.hasIlp" ng-class="{'btn-danger' : !student.hasIlp}" ng-href="#/ILP/{{student.idStudent}}") Initial Intake
+          span {{student.name}}&nbsp;
+          a(ng-show="student.hasIlp" ui-sref="ilp({ idStudent: student.idStudent })") View ILP
+          button.btn.spacious(ng-show="!student.hasIlp" ng-class="{'btn-danger' : !student.hasIlp}" ui-sref="ilp({ idStudent: student.idStudent})") Initial Intake
       br
   div.card
     div.card-header
