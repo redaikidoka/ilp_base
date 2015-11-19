@@ -6,7 +6,7 @@
         .controller('ClassesController', ClassesController);
 
     /** @ngInject */
-    function ClassesController(dtaClass) {
+    function ClassesController(dtaClass, $state) {
         var vm = this;
         vm.currentSchoolYear = dtaClass.getSchoolYear();
 
@@ -15,6 +15,7 @@
             .then(function(result) {
                 vm.classList = result;
                 console.log("Grabbed Class list: ", vm.classList);
+                $state.go('myclasses.class', {classId: vm.classList[0].idClass});
             }, function(err) {
                 // Error occurred
                 console.log("no class list. :(");
