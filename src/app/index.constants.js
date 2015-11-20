@@ -8,7 +8,8 @@
     .constant('appSettings', {
     	appName: 'ILP',
     	appMode: 'test',
-    	appTesting: true
+    	appTesting: true,
+    	restURL: 'http://localhost:3000/api'
     });
 
 })();

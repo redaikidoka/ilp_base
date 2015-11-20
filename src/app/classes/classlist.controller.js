@@ -16,16 +16,16 @@
       console.log("No class ID:", vm.currentClassId);
     }
 
-    vm.currentClass = dtaClass.getClass(vm.currentClassId);
-    // dtaClass.getClass(vm.currentClassId)
-    //     .then(function(result) {
-    //         vm.currentClass = result;
-    //         console.log("Grabbed Class : ", result);
-    //     }, function(err) {
-    //         // Error occurred
-    //         //TODO: Process error
-    //         console.log("no class :(", err, vm.currentClassId);
-    //     });
+    // vm.currentClass = dtaClass.getClass(vm.currentClassId);
+    dtaClass.getClass(vm.currentClassId)
+        .then(function(result) {
+            vm.currentClass = result;
+            console.log("Grabbed Class : ", result);
+        }, function(err) {
+            // Error occurred
+            //TODO: Process error
+            console.log("no class :(", err, vm.currentClassId);
+        });
 
     // vm.studentList = dtaClass.getStudentList(vm.currentClassId);
     dtaClass.getStudentList(vm.currentClassId)
@@ -34,7 +34,7 @@
         vm.studentList = results;
       }, function(err) {
         //TODO: Process error
-        console.log("did not get studnet list for class: ", vm.currentClassId);
+        console.log("classlistcontroller: did not get student list for class: ", vm.currentClassId);
 
       });
   }
