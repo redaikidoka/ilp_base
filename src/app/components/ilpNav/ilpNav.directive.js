@@ -35,7 +35,7 @@
         /** @ngInject */
         function NavController($log, $rootScope) {
             // var vm = this;
-            var console = $log;
+            // var console = $log;
             
             if ($rootScope.user)
             {

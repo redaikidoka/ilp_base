@@ -6,32 +6,40 @@
       .service('AuthService', AuthService);
 
   /** @ngInject */
-  function AuthService($rootScope, appSettings) {
-   
+  function AuthService($rootScope, $log, appSettings) {
+    var console = $log;
+
     this.login = login;
     this.isAuthenticated = isAuthenticated;
     this.logout = logout;
     this.getUserId = getUserId;
+    this.getDefaultUser = getDefaultUser;
 
-
+    // gets the current teacher id
     function getUserId() {
-      if (!$rootScope.user || !$rootScope.user.loggedin)
-        { return null;}
+      if (!isAuthenticated())
+        { 
+          return null;
+        }
 
       return $rootScope.user.idTeacher;
     }
-    
+
     function login(uname, upass) {
       if (appSettings.appTesting)
       {
         $rootScope.user = getTestUser();
+        if( $rootScope.user.username !== uname )
+          {console.log("diff username on test login", uname, $rootScope.user.username, upass);}
         return true;
       }
+
+      //TODO: verify user login
+      return false;
     }
 
 
     function isAuthenticated() {
-
       // console.log("Authenticating: ", $rootScope.user);
 
       // check user 
@@ -45,7 +53,8 @@
           }
       }
       else if (appSettings.appTesting) {
-        $rootScope.user = getTestUser();
+        console.log("getting default user");
+        $rootScope.user = getDefaultUser();
 
         return true;
 

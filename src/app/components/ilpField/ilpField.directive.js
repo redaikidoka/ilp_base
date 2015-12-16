@@ -10,11 +10,14 @@
   function ilpField() {
     var directive = {
       restrict: 'E',
+      replace: true,
       templateUrl: 'app/components/ilpField/ilpField.html',
+      require: 'ngModel',
       scope: {
-           datafield: '='
+         datafield: '=',
+         onchangecallback: "&"
       },
-      // link: linkFunc,
+      // link: linkField,
       controller: ilpFieldController,
       controllerAs: 'vm',
       bindToController: true
@@ -22,18 +25,21 @@
 
     return directive;
 
-   // function linkFunc(scope, el, attr, vm) {
-        //var console = $log;
-   //    // $log.debug("navbar.linkF");
-   //    // $log.debug("pic: " + scope.userpic);
-   //    // $log.debug("activeTab" + scope.activetab);
-   //    console.log("nvabar.linkFunc", scope, el, attr, vm);
-   //  }
+  // function linkField(scope, element, attrs, ctrl) {
+  //     if (!ctrl) { return ;}
+  //     element.on("focusout", function triggerChange(event) {
+  //       var input = event.target;
+  //       if (input.value && input.type === "text") {
+  //         ctrl.$setViewValue(input.value.trim());
+  //         ctrl.$render();
+  //       }
+  //     });
+  //   }
 
     /** @ngInject */
-    function ilpFieldController($scope,$log) {
+    function ilpFieldController($scope, $element, $attrs, $location, $log, AuthService, dtaIlp) {
       var vm = this;
-
+      
       var console = $log;
 
       $scope.getHeaderColor = function(fld) {
@@ -45,8 +51,28 @@
           return '';
         };
 
-      //console.log("ilpfield for ", vm.datafield);
+        $scope.editField = function() {
+          // console.log("field we are saving:", vm.datafield);
+          
+          // var results = dtaIlp.updateFieldItem(vm.datafield);
+          // console.log("save results:", results);
+          dtaIlp.updateFieldItem(vm.datafield).then(function(results){
+                // console.log("ilpField: result of update:", results);
+                vm.datafield.sUserId=AuthService.getUserId();
+                vm.datafield.sUpdate = Date.now();
 
+                // console.log("update function: ", $scope.onchangecallback);
+                // $parent.$scope.checkilp();
+                if ($scope.onchangecallback) {
+                  $scope.onchangecallback(); 
+                }
+            }, function(err) {
+                // TODO: Show an error here
+
+                // Error occurred
+                console.log("No update :(", err);
+            });
+        };
     }
   }
 

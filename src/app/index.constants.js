@@ -5,6 +5,7 @@
   angular
     .module('ilpBase')
     .constant('moment', moment)
+    .constant('imgPath', "/assets/images")
     .constant('appSettings', {
     	appName: 'ILP',
     	appMode: 'test',

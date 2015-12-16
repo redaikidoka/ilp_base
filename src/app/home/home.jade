@@ -1,4 +1,4 @@
-ilp-navbar(user="home.localUser" activetab="'home'" ng-show='$scope.localUser.loggedin')
+ilp-navbar( ng-show='$scope.localUser.loggedin')
 div.container-fluid#login
   div.m-t.jumbotron.text-center
     h1 NSSF Individual Learning Plans
@@ -12,6 +12,8 @@ div.container-fluid#login
         input.form-control(type="password" placeholder="password" ng-model="user.password")
       
       input.m-t(type="submit" ng-click="login(user)")
+
+  div.alert.alert-danger(role="alert" ng-show="hasProblem()" ) {{ $scope.loginmessage }}
 
 
 

@@ -6,330 +6,136 @@
         .service('dtaIlp', dtaIlp);
 
     /** @ngInject */
-    function dtaIlp($log) {
+    function dtaIlp($log, Ilp, VwClassStudentsWithIlp, IlsSectionDef, VwIlpFields, IlpField, AuthService ) {
         var console = $log;
 
         var currentSchoolYear = "2015/2016";
+        var currentSchoolYearID = 1;
 
-        var plan = {
-            "idIlp": 1,
-            "idSchoolyear": 1,
-            "idStudent": 17,
-            "sUpdate": "2015-09-01T10:56:04.000Z",
-            "sCreate": null,
-            "pages": []
-        };
+        var ilpSections;
+        // var ilpFieldDefs;
 
-        var student = {
-            "absences": 0,
-            "age": 5,
-            "cohort": "Gryffindor",
-            "dob": "2010-07-01T00:00:00.000Z",
-            "grade": 0,
-            "hasIlp": null,
-            "idClass": 2,
-            "idClassstudentLink": 23,
-            "idSchoolyear": 1,
-            "idStudent": 23,
-            "name": "Harry Potter",
-            "nameFirst": "Harry",
-            "nameLast": "Potter",
-            "profilepicture": "23_b.png",
-            "fullpicture": "hp1.jpg",
-            "studentid": "44117232"
-        };
+        IlsSectionDef.find(
+            // { filter: { where: {idStudent : studentID,
+            //   idSchoolyear : currentSchoolYearID  }}}
+        ).$promise
+        .then(function(result) {
+            ilpSections = result;
+            // console.log("Grabbed the list of ilpSections : ", result);
+        }, function(err) {
+            // Error occurred
+            //TODO: Process error
+            console.log("no class :(", err);
+        });
 
-        plan.pages = [{
-            "idSectionDef": 1,
-            "name": "Summary",
-            "description": "Used for Intakes and Updates",
-            "title": "Summary",
-            "order": 10,
-            "idSectionType": null,
-            "sectionType": "F"
-        }, {
-            "idSectionDef": 2,
-            "name": "Arc 1",
-            "description": null,
-            "title": "Arc 1",
-            "order": 20,
-            "idSectionType": null,
-            "sectionType": "A"
-        }, {
-            "idSectionDef": 3,
-            "name": "Arc 2",
-            "description": null,
-            "title": "Arc 2",
-            "order": 30,
-            "idSectionType": null,
-            "sectionType": "A"
-        }, {
-            "idSectionDef": 4,
-            "name": "Arc 3",
-            "description": null,
-            "title": "Arc 3",
-            "order": 40,
-            "idSectionType": null,
-            "sectionType": "A"
-        }, {
-            "idSectionDef": 5,
-            "name": "SEL",
-            "description": null,
-            "title": "SEL",
-            "order": 50,
-            "idSectionType": null,
-            "sectionType": "F"
-        }, {
-            "idSectionDef": 6,
-            "name": "Art",
-            "description": null,
-            "title": "Art",
-            "order": 60,
-            "idSectionType": null,
-            "sectionType": "F"
-        }, {
-            "idSectionDef": 7,
-            "name": "Spanish",
-            "description": null,
-            "title": "Spanish",
-            "order": 70,
-            "idSectionType": null,
-            "sectionType": "?"
-        }, {
-            "idSectionDef": 8,
-            "name": "Feed",
-            "description": null,
-            "title": "Feed",
-            "order": 80,
-            "idSectionType": null,
-            "sectionType": "D"
-        }];
-
-        plan.pages[0].layoutColumns = [10, 20];
-
-        plan.pages[0].fields = [{
-            "sectionName": "Summary",
-            "sectionDescription": "Used for Intakes and Updates",
-            "sectionTitle": "Summary",
-            "idSectionDef": 1,
-            "idFieldDef": 1,
-            "name": "Meeting Notes",
-            "description": "Notes for each get-together",
-            "fieldType": "T",
-            "slug": "meeting",
-            "layoutColumn": 10,
-            "displayOrder": 22,
-            "updatesFeed": 1,
-            "feedsTo": null,
-            "isRequired": 0,
-            "contents": "In Meeting: Petunia Dursley, Harry Potter, Severus Snape, Albus Dumbledore.",
-            "sCreate": "2015-09-17T11:06:19.000Z",
-            "sUpdate": "2015-10-26T11:06:19.000Z",
-            "sIdUser": -1,
-            "idIlp": 7,
-            "idStudent": 17,
-            "idField": 46
-        }, {
-            "sectionName": "Summary",
-            "sectionDescription": "Used for Intakes and Updates",
-            "sectionTitle": "Summary",
-            "idSectionDef": 1,
-            "idFieldDef": 2,
-            "name": "Likes",
-            "description": "What the student likes",
-            "fieldType": "L",
-            "slug": "likes",
-            "layoutColumn": 10,
-            "displayOrder": 5,
-            "updatesFeed": 1,
-            "feedsTo": null,
-            "isRequired": 0,
-            "contents": "Quidditch",
-            "sCreate": "2015-09-17T11:06:19.000Z",
-            "sUpdate": "2015-10-22T11:06:19.000Z",
-            "sIdUser": -1,
-            "idIlp": 7,
-            "idStudent": 17,
-            "idField": 47
-        }, {
-            "sectionName": "Summary",
-            "sectionDescription": "Used for Intakes and Updates",
-            "sectionTitle": "Summary",
-            "idSectionDef": 1,
-            "idFieldDef": 3,
-            "name": "Dislikes",
-            "description": "What the student preferes not to have",
-            "fieldType": "L",
-            "slug": "dislikes",
-            "layoutColumn": 10,
-            "displayOrder": 10,
-            "updatesFeed": 1,
-            "feedsTo": null,
-            "isRequired": 0,
-            "contents": null,
-            "sCreate": "2015-09-17T11:06:19.000Z",
-            "sUpdate": null,
-            "sIdUser": -1,
-            "idIlp": 7,
-            "idStudent": 17,
-            "idField": 48
-        }, {
-            "sectionName": "Summary",
-            "sectionDescription": "Used for Intakes and Updates",
-            "sectionTitle": "Summary",
-            "idSectionDef": 1,
-            "idFieldDef": 4,
-            "name": "Family",
-            "description": "Notes on the students family",
-            "fieldType": "T",
-            "slug": "family",
-            "layoutColumn": 20,
-            "displayOrder": 29,
-            "updatesFeed": 1,
-            "feedsTo": null,
-            "isRequired": 0,
-            "contents": "Parents deceased. Guardian ad Litem is Petunia Dursley.\nCurrently living under the stairs at the Dursley residence.",
-            "sCreate": "2015-09-17T11:06:19.000Z",
-            "sUpdate": "2015-10-17T11:06:19.000Z",
-            "sIdUser": -1,
-            "idIlp": 7,
-            "idStudent": 17,
-            "idField": 49
-        }, {
-            "sectionName": "Summary",
-            "sectionDescription": "Used for Intakes and Updates",
-            "sectionTitle": "Summary",
-            "idSectionDef": 1,
-            "idFieldDef": 5,
-            "name": "Extra-Curricular",
-            "description": "Favorite Extra-Curricular activities",
-            "fieldType": "L",
-            "slug": "ec",
-            "layoutColumn": 10,
-            "displayOrder": 20,
-            "updatesFeed": 1,
-            "feedsTo": null,
-            "isRequired": 0,
-            "contents": null,
-            "sCreate": "2015-09-17T11:06:19.000Z",
-            "sUpdate": null,
-            "sIdUser": -1,
-            "idIlp": 7,
-            "idStudent": 17,
-            "idField": 50
-        }, {
-            "sectionName": "Summary",
-            "sectionDescription": "Used for Intakes and Updates",
-            "sectionTitle": "Summary",
-            "idSectionDef": 1,
-            "idFieldDef": 6,
-            "name": "Social/Emotional Notes",
-            "description": "How the student interacts",
-            "fieldType": "T",
-            "slug": "learning",
-            "layoutColumn": 20,
-            "displayOrder": 25,
-            "updatesFeed": 1,
-            "feedsTo": null,
-            "isRequired": 0,
-            "contents": null,
-            "sCreate": "2015-09-17T11:06:19.000Z",
-            "sUpdate": null,
-            "sIdUser": -1,
-            "idIlp": 7,
-            "idStudent": 17,
-            "idField": 51
-        }, {
-            "sectionName": "Summary",
-            "sectionDescription": "Used for Intakes and Updates",
-            "sectionTitle": "Summary",
-            "idSectionDef": 1,
-            "idFieldDef": 7,
-            "name": "Peer Group",
-            "description": "Notes on friends/etc.",
-            "fieldType": "T",
-            "slug": "peers",
-            "layoutColumn": 20,
-            "displayOrder": 30,
-            "updatesFeed": 1,
-            "feedsTo": null,
-            "isRequired": 0,
-            "contents": "No friends at home. Bullied by Dudley. Strong friend group at school.",
-            "sCreate": "2015-09-17T11:06:19.000Z",
-            "sUpdate": "2015-09-17T11:06:19.000Z",
-            "sIdUser": -1,
-            "idIlp": 7,
-            "idStudent": 17,
-            "idField": 52
-        }, {
-            "sectionName": "Summary",
-            "sectionDescription": "Used for Intakes and Updates",
-            "sectionTitle": "Summary",
-            "idSectionDef": 1,
-            "idFieldDef": 8,
-            "name": "Health",
-            "description": "Any health concerns or regular things to watch for",
-            "fieldType": "T",
-            "slug": "health",
-            "layoutColumn": 20,
-            "displayOrder": 35,
-            "updatesFeed": 1,
-            "feedsTo": null,
-            "isRequired": 0,
-            "contents": null,
-            "sCreate": "2015-09-17T11:06:19.000Z",
-            "sUpdate": null,
-            "sIdUser": -1,
-            "idIlp": 7,
-            "idStudent": 17,
-            "idField": 53
-        }, {
-            "sectionName": "Summary",
-            "sectionDescription": "Used for Intakes and Updates",
-            "sectionTitle": "Summary",
-            "idSectionDef": 1,
-            "idFieldDef": 9,
-            "name": "Academic Notes",
-            "description": "How the student Learns",
-            "fieldType": "",
-            "slug": "academic",
-            "layoutColumn": 20,
-            "displayOrder": 27,
-            "updatesFeed": 1,
-            "feedsTo": null,
-            "isRequired": 0,
-            "contents": null,
-            "sCreate": "2015-09-17T11:06:19.000Z",
-            "sUpdate": null,
-            "sIdUser": -1,
-            "idIlp": 7,
-            "idStudent": 17,
-            "idField": 54
-        }];
-
+  
         // console.log("dtaIlp plan", plan);
+        this.createPlan = createPlan;
+        this.createPlanYear = createPlanYear;
         this.getPlan = getPlan;
         this.getStudent = getStudent;
         this.getFields = getFields;
         this.getSchoolYear = getSchoolYear;
+        this.getSections = getSections;
 
-        function getPlan(idStudent) {
-            console.log("getting plan for student: ", idStudent);
-            return plan;
+        this.updateFieldItem = updateFieldItem;
+        this.updateField = updateField;
+
+        // get the ILP for a student in the current school year
+        function getPlan(studentID) {
+
+            // console.log("ILP.findONe idStudent : ", studentID, "Schoolyear: ", currentSchoolYearID);
+            return Ilp.findOne(
+                { filter: { where: {idStudent : studentID,
+                  idSchoolyear : currentSchoolYearID  }}}
+            ).$promise;
+            // return plan;
         }
 
-        function getStudent(idStudent) {
-            console.log("getting student: ", idStudent);
-            return student;
+        function createPlan(studentId) {
+            // create a plan in the current year
+            return createPlanYear(studentId, currentSchoolYearID);
         }
 
-        function getFields(pagenum) {
+        function createPlanYear(studentID, yearID) {
+            // // first create a plan
+            // return Ilp.create(
+            //     { idStudent: studentID, 
+            //         idSchoolyear: yearID, 
+            //         sUserid: AuthService.getUserId()})
+            //     .$promise;
+            // //that's it!
+
+            var ilpData = {"idSchoolyear" : yearID, 
+            "idStudent": studentID,
+            "sUserid": AuthService.getUserId()
+          };
+
+        console.log("new ilp", ilpData);
+
+        return Ilp
+          .create(ilpData)
+          .$promise;
+          
+
+        }
+
+        function getStudent(studentID) {
+            // console.log(" student.findOne: ", studentID, "Schoolyear: ", currentSchoolYearID);
+            // return student;
+            return VwClassStudentsWithIlp.findOne(
+                { filter: { where: {idStudent : studentID,
+                  idSchoolyear : currentSchoolYearID  }}}
+            ).$promise;
+        }
+
+        function getSections()
+        {
+            // if (ilpSections) {
+            //     //TODO: make a promise
+            //     return ilpSections;
+            // }
+            // else {
+                return IlsSectionDef.find().$promise;
+            // }
+        }
+
+        function getFields(ilpID) {
+
             // TODO: console.log("getting page", pagenum);
-            return plan.pages[pagenum].fields;
+            // return plan.pages[pagenum].fields;
+            return VwIlpFields.find(
+                {filter: {where: {idIlp: ilpID}} }
+                ).$promise;
+                
         }
 
         function getSchoolYear() {
             return currentSchoolYear;
+        }
+
+
+        // 2015-12-10 7:06:06 (Pól): given a vwilpfields object, let's do an update on the field itself, then slag the data back in.
+        function updateFieldItem(theField) {
+            // return theField.$save();
+
+            return IlpField.update(
+                { where: {idStudent : theField.idStudent,
+                    idField: theField.idField  }},
+                {
+                    contents: theField.contents, 
+                    sUserid: AuthService.getUserId()}
+            ).$promise;
+        }
+
+        function updateField(fieldId, fieldContent) {
+            var userID = AuthService.getUserId();
+
+            return IlpField.updateAll(
+              { idField : fieldId },
+                {contents : fieldContent, sIdUser : userID}
+                );
+        
         }
     }
 

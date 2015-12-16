@@ -1,6 +1,6 @@
 
 div.container
-  h4 Grade: {{aclass.currentClass.grade}}
+  h4 Grade: {{aclass.currentClass.grade | showgrade}}
   form
     fieldset.form-group
       label(for="course-description") {{aclass.currentClass.name}} Course Overview
@@ -22,10 +22,20 @@ div.container.m-t-md
       ul.list-unstyled.student-list
         li.p-b(ng-repeat="student in aclass.studentList" ) 
           img.m-r(ng-src="assets/images/students/{{student.profilepicture}}" )
+          btn-view-ilp.pull-right(student="student" classid="aclass.currentClassId")
           span {{student.name}}&nbsp;
-          a(ng-show="student.hasIlp" ui-sref="ilp({ idStudent: student.idStudent })") View ILP
-          button.btn.spacious(ng-show="!student.hasIlp" ng-class="{'btn-danger' : !student.hasIlp}" ui-sref="ilp({ idStudent: student.idStudent})") Initial Intake
+          a.m-l.btn.btn-primary.spacious(ng-show="student.hasIlp && !student.intakeDone" ui-sref="ilp({ idStudent: student.idStudent, idClass: aclass.currentClassId})") 
+            b Continue Intake
+          a(title="Intake Complete!" ng-show="student.intakeDone" ui-sref="ilp({ idStudent: student.idStudent, idClass: aclass.currentClassId })")
+            span View ILP&nbsp;
+            i.icon.ion-information-circled.status_icon
+          button.btn.spacious(ng-show="!student.hasIlp" ng-class="{'btn-danger' : !student.hasIlp}"  ng-click='startIntake(student.idStudent, aclass.currentClassId)') Start Intake
       br
+      div.alert.alert-warning.alert-dismissible( role="alert" ng-show="$scope.problem")
+        button.close(type="button" data-dismiss="alert" aria-label="Close")
+          span(aria-hidden="true") &times;
+        strong Oh, dear{{$scope.problem}}
+
   div.card
     div.card-header
       h4 

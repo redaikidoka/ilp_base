@@ -36,7 +36,7 @@
         controllerAs: 'aclass'
       })
       .state('ilp', {
-        url: '/ilp/{idStudent}',
+        url: '/ilp/{idStudent}?idClass',
         templateUrl: 'app/ilp/ilp.html',
         controller: 'IlpController',
         controllerAs: 'ilp',
@@ -44,6 +44,12 @@
       })
       .state('ilp.summary', {
         url: '/ilp/{idStudent}/summary',
+        templateUrl: 'app/ilp/summary.html',
+        controller: 'ilpSummaryController',
+        controllerAs: 'ilpSummary'
+      })
+       .state('ilp.goals', {
+        url: '/ilp/{idStudent}/goals',
         templateUrl: 'app/ilp/summary.html',
         controller: 'ilpSummaryController',
         controllerAs: 'ilpSummary'

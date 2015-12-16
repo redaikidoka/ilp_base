@@ -6,31 +6,38 @@
     .controller('HomeController', HomeController);
 
   /** @ngInject */
-  function HomeController($scope, $state, $rootScope) {
-    var vm = this;
-    var localUser = {};
+  function HomeController($scope, $log, $state, $rootScope, AuthService) {
+    // var vm = this;
+    var console = $log;
+    // var localUser = {};
     $scope.user = {};
+    $scope.loginproblem = false;
+    $scope.loginmessage = '';
 
-    var testUserName = "Filius Flitwik";
-    var testuserPic="assets/images/flitwick.jpeg";
-    vm.userPic = "";
+    // var testUserName = "Filius Flitwik";
+    // var testuserPic="assets/images/flitwick.jpeg";
 
 
-    $scope.login = function(user) {
-        // console.log("Clicked login with:", user);
-        if (user.name === 'filius')
-        {
-            localUser.name = testUserName;
-            localUser.username = user.name;
-            localUser.password = user.password;
-            localUser.thumbnail = testuserPic;
-            localUser.validated = true;
-            localUser.loggedin = true;
+    $scope.login = function(user, pw) {
 
-            $rootScope.user = localUser;
-            
-            $state.go('myclasses');
-       }
+      // hand things off to the AuthService
+      if (AuthService.login(user, pw))
+      {
+        $state.go('myclasses');
+      }
+      else {
+        console.log("didn't login. :(");
+        $scope.loginproblem = true;
+        $scope.loginmessage="I'm sorry, I couldn't log you in. :(";
+      }
+
+    };
+
+    $scope.hasProblem = function() {
+      if ($scope.loginproblem === true)
+        { return true;}
+
+      return false;
     };
 
   }
