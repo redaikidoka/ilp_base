@@ -1,0 +1,10 @@
+div
+  img.pull-right(src="assets/images/goals.png" ng-show="vm.sectionID == 1")
+  button.btn.btn-save.m-t.m-l(type="button" ng-click="checkilp()") Save
+  div.clearfix.container-fluid.m-t#ilp-summary
+    div.col-md-4.col-sm-12
+      ilp-field(ng-repeat="fld in getFields($state.idSection) | filter:{ layoutColumn: 10}"  datafield="fld" )
+    div.col-md-8.col-sm-12
+      ilp-field(ng-repeat="fld in getFields($state.idSection) | filter:{ layoutColumn: 20, idSectionDef: vm.currentSectionID}"  datafield="fld" onchangecallback="checkilp")
+  button.btn.btn-save.m-t.m-l.pull-right(type="button" ng-click="checkilp()") Save
+  br

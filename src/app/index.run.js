@@ -7,6 +7,7 @@
 
   /** @ngInject */
   function runBlock($log, $rootScope, $state, AuthService) {
+    $rootScope.bodyClass='';
   	$rootScope.$on("$stateChangeStart", function(event, toState /*, toParams, fromState, fromParams */){
   		// console.log("$stateChangeStart.$on");
   		if (toState.authenticate && !AuthService.isAuthenticated()) {

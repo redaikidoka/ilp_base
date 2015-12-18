@@ -10,6 +10,7 @@
       var vm = this;
       vm.currentSchoolYear = dtaClass.getSchoolYear();
       var console = $log;
+      
       // grab the class list
       dtaClass.getClassList()
         .then(function(result) {

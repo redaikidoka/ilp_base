@@ -33,7 +33,8 @@
         url: '/class/{classId}',
         templateUrl: 'app/classes/classlist.html',
         controller: 'ClassListController',
-        controllerAs: 'aclass'
+        controllerAs: 'aclass',
+        authenticate: true
       })
       .state('ilp', {
         url: '/ilp/{idStudent}?idClass',
@@ -42,11 +43,19 @@
         controllerAs: 'ilp',
         authenticate: true
       })
+      .state('ilp.section', {
+        url: '/section/{idSection}',
+        templateUrl: 'app/ilp/ilpSection.html',
+        // controller: 'ilpSectionController',
+        // controllerAs: 'ilpSection',
+        authenticate: true
+      })
       .state('ilp.summary', {
         url: '/ilp/{idStudent}/summary',
         templateUrl: 'app/ilp/summary.html',
         controller: 'ilpSummaryController',
-        controllerAs: 'ilpSummary'
+        controllerAs: 'ilpSummary',
+        authenticate: true
       })
        .state('ilp.goals', {
         url: '/ilp/{idStudent}/goals',

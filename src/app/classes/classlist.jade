@@ -20,21 +20,15 @@ div.container.m-t-md
  
     div.card-block.collapse.in#collapseStudents(collapse="isCollapsedS")
       ul.list-unstyled.student-list
-        li.p-b(ng-repeat="student in aclass.studentList" ) 
+        li.p-b(ng-repeat="student in aclass.studentList | orderBy:'nameLast'" ) 
           img.m-r(ng-src="assets/images/students/{{student.profilepicture}}" )
-          btn-view-ilp.pull-right(student="student" classid="aclass.currentClassId")
           span {{student.name}}&nbsp;
-          a.m-l.btn.btn-primary.spacious(ng-show="student.hasIlp && !student.intakeDone" ui-sref="ilp({ idStudent: student.idStudent, idClass: aclass.currentClassId})") 
-            b Continue Intake
-          a(title="Intake Complete!" ng-show="student.intakeDone" ui-sref="ilp({ idStudent: student.idStudent, idClass: aclass.currentClassId })")
-            span View ILP&nbsp;
-            i.icon.ion-information-circled.status_icon
-          button.btn.spacious(ng-show="!student.hasIlp" ng-class="{'btn-danger' : !student.hasIlp}"  ng-click='startIntake(student.idStudent, aclass.currentClassId)') Start Intake
+          btn-view-ilp(student="student" classid="aclass.currentClassId")
       br
       div.alert.alert-warning.alert-dismissible( role="alert" ng-show="$scope.problem")
         button.close(type="button" data-dismiss="alert" aria-label="Close")
           span(aria-hidden="true") &times;
-        strong Oh, dear{{$scope.problem}}
+        strong We had a problem{{$scope.problem}}
 
   div.card
     div.card-header
@@ -44,6 +38,6 @@ div.container.m-t-md
           i.icon.ion-arrow-right-b(ng-show="!isOpenG")
         span &nbsp;&nbsp;Goals 
     div.card-block.collapse#collapseGoals(collapse="!isOpenG")
-      p Goals coming in v2
+      p Goals coming later in the ILP application.
 
 

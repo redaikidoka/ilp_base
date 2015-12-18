@@ -29,7 +29,7 @@
       if (appSettings.appTesting)
       {
         $rootScope.user = getTestUser();
-        if( $rootScope.user.username !== uname )
+        if( $rootScope.user.username !== uname.name )
           {console.log("diff username on test login", uname, $rootScope.user.username, upass);}
         return true;
       }

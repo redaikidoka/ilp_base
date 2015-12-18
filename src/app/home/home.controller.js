@@ -13,11 +13,9 @@
     $scope.user = {};
     $scope.loginproblem = false;
     $scope.loginmessage = '';
+    $scope.customBodyClass = 'home';
 
-    // var testUserName = "Filius Flitwik";
-    // var testuserPic="assets/images/flitwick.jpeg";
-
-
+    console.log($rootScope.bodyClass); 
     $scope.login = function(user, pw) {
 
       // hand things off to the AuthService
@@ -31,6 +29,10 @@
         $scope.loginmessage="I'm sorry, I couldn't log you in. :(";
       }
 
+    };
+
+    $scope.getBodyClass = function() {
+      return 'home';
     };
 
     $scope.hasProblem = function() {

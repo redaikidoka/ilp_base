@@ -6,9 +6,9 @@
         .controller('IlpFieldPaneController', IlpFieldPaneController);
 
     /** @ngInject */
-    function IlpFieldPaneController($scope, $stateParams, $log) {
-        var vm = this;
-        var console = $log;
+    function IlpFieldPaneController() { //($scope, $stateParams, $log) {
+        // var vm = this;
+        // var console = $log;
 
         // if ($stateParams.idStudent) {
         //     vm.idStudent = $stateParams.idStudent;

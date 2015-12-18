@@ -25,10 +25,10 @@
     return directive;
 
     /** @ngInject */
-    function btnVewIlpController($scope, $log) {
+    function btnVewIlpController($scope) {
       var vm = this;
       
-      var console = $log;
+      // var console = $log;
 
       // console.log('viewilpbtn for:', vm.student);
       // console.log(" in: ",vm.classid);

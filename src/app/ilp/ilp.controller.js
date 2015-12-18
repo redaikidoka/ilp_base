@@ -6,7 +6,7 @@
         .controller('IlpController', IlpController);
 
     /** @ngInject */
-    function IlpController($scope, $stateParams, $state, $log, dtaIlp, dtaClass, $filter) {
+    function IlpController($scope, $rootScope, $stateParams, $state, $log, dtaIlp, dtaClass, $filter) {
         var vm = this;
         var console = $log;
 
@@ -16,43 +16,55 @@
         // verify the student id
         if ($stateParams.idStudent) {
             vm.idStudent = $stateParams.idStudent;
-        }
-        else { 
+            // save the student we are looking at
+            $rootScope.currentStudentId = vm.idStudent;
+        } else {
             //TODO: Load the last student / first student? First class? Rootscope?
-            vm.idStudent = 23; 
-        }
-        
+            // vm.idStudent = 23; 
+            vm.idStudent = $rootScope.currentStudentId;
 
+            //TODO: Load the first student in the class
+        }
+
+        // fetch and store the class info
         if ($stateParams.idClass) {
             vm.idClass = $stateParams.idClass;
-        }
-        else { 
-            vm.idClass = 1;
-            console.log("ilp: no class id. :(", $stateParams);
+            // save the class we are looking at
+            $rootScope.currentClassId = vm.idClass;
+        } else {
+
+            vm.idClass = $rootScope.currentClassId;
+            console.log("ilp: no class id. :(params)", $stateParams, 
+                "loaded: ", vm.idClass);
+
+            // if we're doing a refresh, get back to the class list
+            if (!vm.idClass) {
+                $state.go('myclasses');
+            }
         }
 
         // get the class for this student
-        dtaClass.getClass(vm.idClass).then(function(results){
-                console.log("ilp: loaded class", results);
-                vm.currentClass = results;
-            }, function(err) {
-                //TODO: show an error here
-                console.log("ilp:no class :(", err);
-            });
+        dtaClass.getClass(vm.idClass).then(function(results) {
+            // console.log("ilp: loaded class", results);
+            vm.currentClass = results;
+        }, function(err) {
+            //TODO: show an error here
+            console.log("ilp:no class :(", err);
+        });
 
         // grab that class' list of students
-        dtaClass.getStudentList(vm.idClass).then(function(results){
-                console.log("ilp: loaded students", results);
-                vm.studentList = results;
-            }, function(err) {
-                //TODO: show an error here
-                console.log("ilp:no students :(", err);
-            });
-        
+        dtaClass.getStudentList(vm.idClass).then(function(results) {
+            // console.log("ilp: loaded students", results);
+            vm.studentList = results;
+        }, function(err) {
+            //TODO: show an error here
+            console.log("ilp:no students :(", err);
+        });
+
 
         // fetch the student
-        dtaIlp.getStudent(vm.idStudent).then(function(results){
-            console.log("ilp:Got a student!", results);
+        dtaIlp.getStudent(vm.idStudent).then(function(results) {
+            // console.log("ilp:Got a student!", results);
             vm.student = results;
 
             $scope.setDefaultStudent(vm.student.idStudent);
@@ -65,42 +77,79 @@
         });
 
         // get the section list
-        dtaIlp.getSections().then(function(sexions){
+        dtaIlp.getSections().then(function(sexions) {
             vm.sexions = sexions;
-        }, function(err){
+
+            if ($stateParams.idSection)
+            {
+                vm.currentSectionID = $stateParams.idSection;
+            }
+            else {
+                vm.currentSectionID = vm.sexions[0].idSectionDef;
+            }
+        }, function(err) {
             console.log("no sections. :(", err);
         });
 
         // fetch the plan
-        dtaIlp.getPlan(vm.idStudent).then(function(results){
+        dtaIlp.getPlan(vm.idStudent).then(function(results) {
             vm.plan = results;
-            console.log("the plan I got back", vm.plan);
+            // console.log("the plan I got back", vm.plan);
+
+            loadFields();
 
 
-            dtaIlp.getFields(vm.plan.idIlp).then(function(fields){
-                vm.plan.fields = fields;
-
-                $scope.checkilp();
-            }); 
-
-                    
         }, function(err) {
             // Error occurred
-            // TODO: Show an error here
-            console.log("no plan. :(", err);
+
+            console.log("no plan - creating", err);
+
+            // create the Plan
+            dtaIlp.createPlanYear(vm.idStudent, vm.currentClass.idSchoolyear)
+                .then(function(result) {
+                    // console.log("posted ilp:", result);
+                    vm.plan = result;
+                    loadFields();
+                    // $state.go('ilp', {idStudent: vm.idStudent, idClass: classID});
+                }, function(err) {
+                    // TODO: Show an error here
+                    console.log("failed to post ilp", err);
+                    $scope.problem = err.statusText;
+                });
         });
-        
+
+        function loadFields() {
+            // console.log("loading fields");
+
+            dtaIlp.getFields(vm.plan.idIlp).then(function(fields) {
+                vm.plan.fields = fields;
+                console.log(fields);
+                $scope.checkilp();
+            });
+
+        }
+
+        $scope.getFields = function(idSection) {
+            if(vm && vm.plan && vm.plan.fields){
+                return $filter('filter')(vm.plan.fields, 
+                    {idSectionDef: idSection}, 
+                    true);
+            }
+            // return vm.plan.fields;
+        };
 
         $scope.setDefaultStudent = function(studentId) {
             // console.log("looking for student: ", studentId);
-             var found = $filter('filter')(vm.studentList, {idStudent: studentId}, true);
-             if (found && found.length) {
-                 vm.selectedStudent = found[0];
-             } else {
-                 vm.selectedStudent = null;
-             }
+            var found = $filter('filter')(vm.studentList, {
+                idStudent: studentId
+            }, true);
+            if (found && found.length) {
+                vm.selectedStudent = found[0];
+            } else {
+                vm.selectedStudent = null;
+            }
 
-             // console.log("found:", found);
+            // console.log("found:", found);
         };
 
         // if there are field contents', we turn green
@@ -114,26 +163,24 @@
         $scope.getStudentPhoto = function(picture) {
             var imagepath = "/assets/images/";
             // return their picture
-            if (picture)
-                { return imagepath + "students/" + picture; }
+            if (picture) {
+                return imagepath + "students/" + picture;
+            }
 
             // if there's no student,return blank.
-            if (!vm.student) {  
+            if (!vm.student) {
                 return '';
             }
 
             //placeholder
-            if(vm.student.gender) {
-                if (vm.student.gender.substring(0,1).toUpperCase() === "F")
-                {
+            if (vm.student.gender) {
+                if (vm.student.gender.substring(0, 1).toUpperCase() === "F") {
                     return imagepath + "placeholder/" + "female.jpg";
-                }
-                else {
+                } else {
                     return imagepath + "placeholder/" + "male.jpg";
                 }
-            }
-            else {
-                return  imagepath + "placeholder/" + "cat.jpg";
+            } else {
+                return imagepath + "placeholder/" + "cat.jpg";
             }
 
 
@@ -142,15 +189,17 @@
         $scope.checkilp = function() {
             // console.log("checkingthe ILP", vm.plan, vm.plan.fields, vm.plan.intakeDone);
 
-            if (!vm.plan || !vm.plan.fields) {return false;}
-            if (vm.plan.intakeDone) { return true;}
+            if (!vm.plan || !vm.plan.fields) {
+                return false;
+            }
+            if (vm.plan.intakeDone) {
+                return true;
+            }
 
             vm.plan.intakeDone = true;
 
-            for (var i=0; i<vm.plan.fields.length; i++)
-            {
-                if (!vm.plan.fields[i].contents)
-                {
+            for (var i = 0; i < vm.plan.fields.length; i++) {
+                if (!vm.plan.fields[i].contents) {
                     vm.plan.intakeDone = false;
                     return;
                 }
@@ -162,15 +211,15 @@
             }
         };
 
-        $scope.switchIlp = function() {
-            console.log('switch ilp to: ', vm.selectedStudent.idStudent, vm.idClass);
+        // $scope.switchIlp = function() {
+        //     console.log('switch ilp to: ', vm.selectedStudent.idStudent, vm.idClass);
 
-             $state.go('ilp', 
-                {idStudent: vm.selectedStudent.idStudent, 
-                idClass: vm.idClass}
-            );
+        //     $state.go('ilp', {
+        //         idStudent: vm.selectedStudent.idStudent,
+        //         idClass: vm.idClass
+        //     });
 
-        };
+        // };
 
 
     }

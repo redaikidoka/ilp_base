@@ -2,10 +2,11 @@ ilp-nav
 div.container-fluid
   label.update.pull-right Last Updated 
     span(am-time-ago="ilp.lastUpdated" ng-show="ilp.plan.sUpdate" ) {{ilp.plan.sUpdate | fromNow}} ...
+    br
+    span ID#: {{ilp.student.studentid}}
   img.m-t-md.profile-pic.pull-left(ng-src="{{getStudentPhoto(ilp.student.fullpicture)}}" alt="{{ilp.student.name}}" )
   h2.m-t-md {{ilp.student.name}} in 
-    label
-      em {{ilp.currentClass.name}}
+    em {{ilp.currentClass.name}}
   label Grade: 
       em {{ilp.student.grade | showgrade}}
   label.m-l Age: 
@@ -18,20 +19,28 @@ div.container-fluid
     label(style="margin-bottom:-20px;") {{ilp.currentClass.name}}&nbsp;Students
     br
     btn-view-ilp.pull-right(student="ilp.selectedStudent" sizer='btn-xs' classid="ilp.idClass")
-    select(name="studentlist" ng-model="ilp.selectedStudent" ng-options="student.name for student in ilp.studentList track by student.idStudent" )
+    select(name="studentlist" ng-model="ilp.selectedStudent" ng-options="student.name for student in ilp.studentList | orderBy:'nameLast' track by student.idStudent " )
 div.m-t-md
   nav.navbar.subnav
     ul.nav.nav-pills
-      li.nav-item(ng-repeat="sexion in ilp.sexions | filter:{'active': '1'}" ng-class="{'active': sexion.idSectionDef == 1 }")
-        a(ng-class="{'selected' : sexion.idSectionDef == 1}") {{sexion.title}} 
+      li.nav-item(ng-repeat="sexion in ilp.sexions | filter:{'active': '1'}" ui-sref-active="active")
+        a.nav-link(ui-sref="ilp.section({idSection: sexion.idSectionDef})" ) {{sexion.title}} 
           i.icon.ion-alert(ng-show="sexion.idSectionDef==1 && !ilp.plan.intakeDone" ) &nbsp;
-div
-  img.pull-right(src="assets/images/goals.png")
-  button.btn.btn-save.m-t.m-l(type="button" ng-click="checkilp()") Save
-  div.clearfix.container-fluid.m-t#ilp-summary
-    div.col-md-4.col-sm-12
-      ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ layoutColumn: 10, idSectionDef: 1}" onchangecallback="ilp.checkilp" datafield="fld" )
-    div.col-md-8.col-sm-12
-      ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ layoutColumn: 20, idSectionDef: 1}"  datafield="fld" onchangecallback="checkilp")
-  button.btn.btn-save.m-t.m-l.pull-right(type="button" ng-click="checkilp()") Save
-  br
+div(ui-view)
+//- div
+//-   img.pull-right(src="assets/images/goals.png")
+//-   button.btn.btn-save.m-t.m-l(type="button" ng-click="checkilp()") Save
+//-   div.clearfix.container-fluid.m-t#ilp-summary
+//-     div.col-md-4.col-sm-12
+//-       ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ layoutColumn: 10, idSectionDef: 1}" onchangecallback="ilp.checkilp" datafield="fld" )
+//-     div.col-md-8.col-sm-12
+//-       ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ layoutColumn: 20, idSectionDef: 1}"  datafield="fld" onchangecallback="checkilp")
+//-   button.btn.btn-save.m-t.m-l.pull-right(type="button" ng-click="checkilp()") Save
+//-   br
+//- Imported from classlist
+      //- li.nav-item(ng-repeat="c in myclasses.classList" ui-sref-active="active" )
+      //-   a.nav-link(ui-sref="myclasses.class({classId: c.idClass})") {{c.name}}
+
+      //- li.nav-item(ng-repeat="sexion in ilp.sexions | filter:{'active': '1'}" ng-class="{'active': sexion.idSectionDef == 1 }")
+      //-   a(ng-class="{'selected' : sexion.idSectionDef == 1}") {{sexion.title}} 
+      //-     i.icon.ion-alert(ng-show="sexion.idSectionDef==1 && !ilp.plan.intakeDone" ) &nbsp;

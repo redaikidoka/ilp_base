@@ -59,12 +59,12 @@
           dtaIlp.updateFieldItem(vm.datafield).then(function(results){
                 // console.log("ilpField: result of update:", results);
                 vm.datafield.sUserId=AuthService.getUserId();
-                vm.datafield.sUpdate = Date.now();
+                vm.datafield.sUpdate = results.sUpdate; Date.now();
 
                 // console.log("update function: ", $scope.onchangecallback);
                 // $parent.$scope.checkilp();
-                if ($scope.onchangecallback) {
-                  $scope.onchangecallback(); 
+                if (vm.onchangecallback) {
+                  vm.onchangecallback(); 
                 }
             }, function(err) {
                 // TODO: Show an error here

@@ -65,6 +65,14 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 
+body.home {
+    background: url('/assets/images/tea.JPG') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 h1, h2, h3, h4, h5, label {
 	font-family: 'Open Sans', sans-serif;
 }
