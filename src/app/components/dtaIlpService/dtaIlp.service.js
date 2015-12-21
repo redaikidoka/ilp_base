@@ -6,13 +6,15 @@
             .service('dtaIlp', dtaIlp);
 
         /** @ngInject */
-        function dtaIlp($log, Ilp, VwClassStudentsWithIlp, IlsSectionDef, VwIlpFields, IlpField, AuthService) {
+        function dtaIlp($log, $q, Ilp, VwClassStudentsWithIlp, IlsSectionDef, VwIlpFields, IlpField, AuthService) {
             var console = $log;
 
-            var currentSchoolYear = "2015/2016";
-            var currentSchoolYearID = 1;
+            // var currentSchoolYear = "2015/2016";
+            // TODO: LOAD 
+            var currentSchoolYearID = 0;
 
             var ilpSections;
+            var ilpSectionFetchPromise;
             var ilp;
 
             // var ilpFieldDefs;
@@ -35,13 +37,17 @@
             this.getPlan = getPlan;
             this.getStudent = getStudent;
             this.getFields = getFields;
-            this.getSchoolYear = getSchoolYear;
             this.getSections = getSections;
 
             this.updateFieldItem = updateFieldItem;
             this.updateField = updateField;
 
             function loadPlan(studentId, yearId) {
+                // RETURNS AN ILP OBJECT
+                // ilp.student {}
+                // ilp.plan {}
+                // ilp.plan.sections
+                // ilp.plan.fields
 
                 if (!studentId || !yearId) {
                     ilp = null;
@@ -49,12 +55,11 @@
 
                 }
 
-
                 // load the student
                 // check to see if we have it already
-                if (ilp && ilp.student) {
-                    if (ilp.idStudent === studentId &&
-                        ilp.idSchoolYear === yearId &&
+                if (ilp && ilp.plan && ilp.student) {
+                    if (ilp.plan.idStudent === studentId &&
+                        ilp.plan.idSchoolYear === yearId &&
                         ilp.student.idStudent === studentId) {
                         return ilp;
                     }
@@ -69,17 +74,23 @@
                         ilp.student = results;
 
                         // load the ilp record
-                        dtaIlp.getPlan(studentId).then(function(results) {
+                        getPlan(studentId).then(function(results) {
                             ilp.plan = results;
 
                             loadFields(ilp.plan.idIlp);
+                           // sections
+                            ilp.plan.sections = ilpSections;
+
+                            console.log("Assembled ilp: ", ilp);
+
+                            return ilp;
                         }, function(err) {
                             // Error occurred
 
                             console.log("no plan - creating", err);
 
                             // create the Plan
-                            dtaIlp.createPlanYear(studentId, yearId)
+                            createPlanYear(studentId, yearId)
                                 .then(function(result) {
                                     // console.log("posted ilp:", result);
                                     ilp.plan = result;
@@ -92,13 +103,7 @@
                                 });
                         });
 
-                        // sections
-                        ilp.plan.sections = ilpSections;
-
-                        console.log("Assembled ilp: ", ilp);
-
-                        return ilp;
-                    }, function(err) {
+                     }, function(err) {
                         // TODO: Show an error here
 
                         // Error occurred
@@ -110,9 +115,8 @@
                 }
 
                 function loadFields(idILP) {
-                    // console.log("loading fields");
-
-                    dtaIlp.getFields(idILP).then(function(fields) {
+        
+                    getFields(idILP).then(function(fields) {
                         ilp.plan.fields = fields;
                         console.log("dtaIlp: Loading fields", fields);
                     });
@@ -177,13 +181,13 @@
                 }
 
                 function getSections() {
-                    // if (ilpSections) {
-                    //     //TODO: make a promise
-                    //     return ilpSections;
-                    // }
-                    // else {
-                    return IlsSectionDef.find().$promise;
-                    // }
+                    if (ilpSections) {
+                        // $q.when(myRefData);
+                        return $q.when(ilpSections);
+                    }
+                    else {
+                        return IlsSectionDef.find().$promise;
+                    }
                 }
 
                 function getFields(ilpID) {
@@ -199,11 +203,6 @@
                     }).$promise;
 
                 }
-
-                function getSchoolYear() {
-                    return currentSchoolYear;
-                }
-
 
                 // 2015-12-10 7:06:06 (Pól): given a vwilpfields object, let's do an update on the field itself, then slag the data back in.
                 function updateFieldItem(theField) {

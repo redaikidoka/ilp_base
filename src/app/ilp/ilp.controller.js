@@ -6,9 +6,17 @@
         .controller('IlpController', IlpController);
 
     /** @ngInject */
-    function IlpController($scope, $rootScope, $stateParams, $state, $log, dtaIlp, dtaClass, $filter) {
+    function IlpController($scope, $rootScope, $stateParams, $state, $log, 
+            dtaIlp, dtaClass, $filter) {
         var vm = this;
+        // .idStudent
+        // .idClass
+        // .currentClass{}
+        // .studentList{}
+        // 
         var console = $log;
+        vm.ilp = null;
+        // .ilp.student, .ilp.plan, .ilp.plan.sections, ilp.plan.fields
 
         // setup the variable for our student dropdown list
         vm.selectedStudent = null;
@@ -47,6 +55,11 @@
         dtaClass.getClass(vm.idClass).then(function(results) {
             // console.log("ilp: loaded class", results);
             vm.currentClass = results;
+
+            // load the ilp
+            // vm.ilp = dtaIlp.loadPlan(vm.idStudent, vm.currentClass.idSchoolyear);
+            loadIlp();
+            console.log("the ilp: ", vm.ilp);
         }, function(err) {
             //TODO: show an error here
             console.log("ilp:no class :(", err);
@@ -61,72 +74,73 @@
             console.log("ilp:no students :(", err);
         });
 
+        function loadIlp() {
 
-        // fetch the student
-        dtaIlp.getStudent(vm.idStudent).then(function(results) {
-            // console.log("ilp:Got a student!", results);
-            vm.student = results;
+            // fetch the student
+            dtaIlp.getStudent(vm.idStudent).then(function(results) {
+                console.log("ilp:Got a student!", results);
+                vm.ilp.student = results;
 
-            $scope.setDefaultStudent(vm.student.idStudent);
+                $scope.setDefaultStudent(vm.student.idStudent);
 
-        }, function(err) {
-            // TODO: Show an error here
+            }, function(err) {
+                // TODO: Show an error here
 
-            // Error occurred
-            console.log("no student. :(", err);
-        });
+                // Error occurred
+                console.log("no student. :(", err);
+            });
 
-        // get the section list
-        dtaIlp.getSections().then(function(sexions) {
-            vm.sexions = sexions;
+            // fetch the plan
+            dtaIlp.getPlan(vm.idStudent).then(function(results) {
+                vm.ilp.plan = results;
+                // console.log("the plan I got back", vm.plan);
 
-            if ($stateParams.idSection)
-            {
-                vm.currentSectionID = $stateParams.idSection;
-            }
-            else {
-                vm.currentSectionID = vm.sexions[0].idSectionDef;
-            }
-        }, function(err) {
-            console.log("no sections. :(", err);
-        });
-
-        // fetch the plan
-        dtaIlp.getPlan(vm.idStudent).then(function(results) {
-            vm.plan = results;
-            // console.log("the plan I got back", vm.plan);
-
-            loadFields();
+                loadFields();
 
 
-        }, function(err) {
-            // Error occurred
+            }, function(err) {
+                // Error occurred
 
-            console.log("no plan - creating", err);
+                console.log("no plan - creating", err);
 
-            // create the Plan
-            dtaIlp.createPlanYear(vm.idStudent, vm.currentClass.idSchoolyear)
-                .then(function(result) {
-                    // console.log("posted ilp:", result);
-                    vm.plan = result;
-                    loadFields();
-                    // $state.go('ilp', {idStudent: vm.idStudent, idClass: classID});
-                }, function(err) {
-                    // TODO: Show an error here
-                    console.log("failed to post ilp", err);
-                    $scope.problem = err.statusText;
-                });
-        });
+                // create the Plan
+                dtaIlp.createPlanYear(vm.idStudent, vm.currentClass.idSchoolyear)
+                    .then(function(result) {
+                        // console.log("posted ilp:", result);
+                        vm.plan = result;
+                        loadFields();
+                        // $state.go('ilp', {idStudent: vm.idStudent, idClass: classID});
+                    }, function(err) {
+                        // TODO: Show an error here
+                        console.log("failed to post ilp", err);
+                        $scope.problem = err.statusText;
+                    });
+            });
+
+            // get the section list
+            dtaIlp.getSections().then(function(sexions) {
+                vm.ilp.plan.sections = sexions;
+
+                if ($stateParams.idSection) {
+                    vm.currentSectionID = $stateParams.idSection;
+                }
+                else {
+                    vm.currentSectionID = vm.sexions[0].idSectionDef;
+                }
+            }, function(err) {
+                console.log("no sections. :(", err);
+            });
+
+
+        }
 
         function loadFields() {
             // console.log("loading fields");
-
             dtaIlp.getFields(vm.plan.idIlp).then(function(fields) {
-                vm.plan.fields = fields;
-                console.log(fields);
+                vm.ilp.plan.fields = fields;
+                console.log("fields", fields);
                 $scope.checkilp();
             });
-
         }
 
         $scope.getFields = function(idSection) {

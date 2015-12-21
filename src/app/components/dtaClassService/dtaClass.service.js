@@ -7,17 +7,11 @@
  
     /** @ngInject */
     function dtaClass($log, IlpClass, VwClassStudentsWithIlp, VwClassTeachers, AuthService) {
-        var currentSchoolYear = "2015/2016";
-
         var console = $log;
 
-        // var classListRemote = null;
-
-        // IlpClass.find().$promise
-        // .then(function(results) {
-        //   classListRemote = results;
-        //   console.log("Got all IlpClass from Server for caching:", classListRemote);
-        // });
+        var studentList;
+        var currentClassListId;
+        // var teacherId;
 
 
         this.getClassList = getClassList;
@@ -42,6 +36,11 @@
          }
 
         function getStudentList(classId) {
+            if (classId !== currentClassListId){
+                // clear the cache
+                currentClassListId = classId;
+                studentList = {};
+            }
 
             return VwClassStudentsWithIlp.find(
                 { filter: { where: { idClass: parseInt(classId) } } }
@@ -49,9 +48,6 @@
 
         }
 
-        function getSchoolYear() {
-        	return currentSchoolYear;
-        }
     }
 
 })();

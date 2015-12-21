@@ -23,7 +23,7 @@ div.container-fluid
 div.m-t-md
   nav.navbar.subnav
     ul.nav.nav-pills
-      li.nav-item(ng-repeat="sexion in ilp.sexions | filter:{'active': '1'}" ui-sref-active="active")
+      li.nav-item(ng-repeat="sexion in ilp.ilp.plan.sexions | filter:{'active': '1'}" ui-sref-active="active")
         a.nav-link(ui-sref="ilp.section({idSection: sexion.idSectionDef})" ) {{sexion.title}} 
           i.icon.ion-alert(ng-show="sexion.idSectionDef==1 && !ilp.plan.intakeDone" ) &nbsp;
 div(ui-view)
