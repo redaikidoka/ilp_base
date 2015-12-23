@@ -4,6 +4,6 @@ div.card
     img.icon.prompts.m-r(src="assets/icons/i_question.png") 
     h4 {{vm.datafield.name}} 
   div.card-block
-    textarea(rows="8" placeholder="{{vm.datafield.description}}" ng-change="editField()" ng-model="vm.datafield.contents" ng-model-options="{ updateOn: 'blur' }") 
+    textarea(rows="{{getRows()}}" placeholder="{{vm.datafield.description}}" ng-change="editField()" ng-model="vm.datafield.contents" ng-model-options="{ updateOn: 'blur' }") 
     img.icon.history(src="assets/icons/i_....png" ng-show="0")
     label.updatenote(ng-show="vm.datafield.sUpdate" ) Last Updated {{vm.datafield.sUpdate | fromNow}}

@@ -1,10 +1,9 @@
-h3 Section: {{$stateParams.idSection}}
 div
   button.btn.btn-save.m-t.m-l(type="button" ng-click="checkilp()") Save
   div.clearfix.container-fluid.m-t#ilp-goal-entry
-    div(ng-repeat="group in ilp.plan.fields | unique: 'displayGroup' | filter: {idSectionDef: 9} track by group.displayGroup")
-      h3 {{group.displayGroup}}
-      div.col-md-4.col-sm-12
-        ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ idSectionDef: 9, displayGroup: group.displayGroup}"  datafield="fld" )
+    div.clearfix(ng-repeat="group in ilp.plan.fields | unique: 'displayGroup' | filter: {idSectionDef: 9} track by group.displayGroup")
+      h3.clearfix {{group.displayGroup}}
+      ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ idSectionDef: 9, displayGroup: group.displayGroup}"  datafield="fld" ng-class="getFieldClass(fld)" )
+      br.clearfix
   button.btn.btn-save.m-t.m-l.pull-right(type="button" ng-click="checkilp()") Save
   br

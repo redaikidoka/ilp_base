@@ -230,15 +230,21 @@
             return '';
         };
 
+        $scope.getFieldClass = function(fld) {
+            if (fld.fieldType === "TS") { return "col-md-3 col-sm-4";}
+            else { return "col-md-4 col-sm-12";}
+        }
+
         $scope.getStudentPhoto = function(picture) {
             var imagepath = "/assets/images/";
+            console.log("picture: ", picture)
             // return their picture
             if (picture) {
                 return imagepath + "students/" + picture;
             }
 
             // if there's no student,return blank.
-            if (!$scope.student) {
+            if (!$scope.ilp.student) {
                 return '';
             }
 

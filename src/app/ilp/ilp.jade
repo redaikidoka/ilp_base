@@ -1,11 +1,11 @@
 ilp-nav
 div.container-fluid
   label.update.pull-right Last Updated 
-    span(am-time-ago="ilp.lastUpdated" ng-show="ilp.plan.sUpdate" ) {{ilp.ilp.plan.sUpdate | fromNow}} ...
+    span(am-time-ago="ilp.lastUpdated" ng-show="ilp.plan.sUpdate" ) {{ilp.plan.sUpdate | fromNow}} ...
     br
-    span ID#: {{ilp.ilp.student.studentid}}
-  img.m-t-md.profile-pic.pull-left(ng-src="{{getStudentPhoto(ilp.ilp.student.fullpicture)}}" alt="{{ilp.ilp.student.name}}" )
-  h2.m-t-md {{ilp.ilp.student.name}} in 
+    span ID#: {{ilp.student.studentid}}
+  img.m-t-md.profile-pic.pull-left(ng-src="{{getStudentPhoto(ilp.student.fullpicture)}}" alt="{{ilp.student.name}}" )
+  h2.m-t-md {{ilp.student.name}} in 
     em {{ilp.currentClass.name}}
   label Grade: 
       em {{ilp.ilp.student.grade | showgrade}}

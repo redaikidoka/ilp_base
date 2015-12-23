@@ -40,6 +40,7 @@
     function ilpFieldController($scope, $element, $attrs, $location, $log, AuthService, dtaIlp) {
       var vm = this;
       
+      //setup logging
       var console = $log;
 
       $scope.getHeaderColor = function(fld) {
@@ -49,6 +50,13 @@
               return 'hilite';
           }
           return '';
+        };
+        
+        $scope.getRows = function() {
+          // for SHORT TEXT fields (TS), rows = 1
+          if(vm.datafield.fieldType === "TS") { return 2;}
+          // console.log("regular field", vm.datafield);
+          return 8;
         };
 
         $scope.editField = function() {
