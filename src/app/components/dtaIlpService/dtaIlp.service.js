@@ -14,7 +14,7 @@
             var currentSchoolYearID = 0;
 
             var ilpSections;
-            var ilpSectionFetchPromise;
+            // var ilpSectionFetchPromise;
             var ilp;
 
             // var ilpFieldDefs;
@@ -35,6 +35,7 @@
             this.createPlan = createPlan;
             this.createPlanYear = createPlanYear;
             this.getPlan = getPlan;
+            this.getPlanYear = getPlanYear;
             this.getStudent = getStudent;
             this.getFields = getFields;
             this.getSections = getSections;
@@ -139,6 +140,20 @@
                     // return plan;
                 }
 
+               function getPlanYear(studentID, yearId) {
+
+                    // console.log("ILP.findONe idStudent : ", studentID, "Schoolyear: ", currentSchoolYearID);
+                    return Ilp.findOne({
+                        filter: {
+                            where: {
+                                idStudent: studentID,
+                                idSchoolyear: yearId
+                            }
+                        }
+                    }).$promise;
+                    // return plan;
+                }
+
                 function createPlan(studentId) {
                     // create a plan in the current year
                     return createPlanYear(studentId, currentSchoolYearID);
@@ -167,14 +182,14 @@
 
                 }
 
-                function getStudent(studentID) {
+                function getStudent(studentID, yearID) {
                     // console.log(" student.findOne: ", studentID, "Schoolyear: ", currentSchoolYearID);
                     // return student;
                     return VwClassStudentsWithIlp.findOne({
                         filter: {
                             where: {
                                 idStudent: studentID,
-                                idSchoolyear: currentSchoolYearID
+                                idSchoolyear: yearID
                             }
                         }
                     }).$promise;

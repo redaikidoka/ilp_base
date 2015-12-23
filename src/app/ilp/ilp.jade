@@ -1,20 +1,20 @@
 ilp-nav
 div.container-fluid
   label.update.pull-right Last Updated 
-    span(am-time-ago="ilp.lastUpdated" ng-show="ilp.plan.sUpdate" ) {{ilp.plan.sUpdate | fromNow}} ...
+    span(am-time-ago="ilp.lastUpdated" ng-show="ilp.plan.sUpdate" ) {{ilp.ilp.plan.sUpdate | fromNow}} ...
     br
-    span ID#: {{ilp.student.studentid}}
-  img.m-t-md.profile-pic.pull-left(ng-src="{{getStudentPhoto(ilp.student.fullpicture)}}" alt="{{ilp.student.name}}" )
-  h2.m-t-md {{ilp.student.name}} in 
+    span ID#: {{ilp.ilp.student.studentid}}
+  img.m-t-md.profile-pic.pull-left(ng-src="{{getStudentPhoto(ilp.ilp.student.fullpicture)}}" alt="{{ilp.ilp.student.name}}" )
+  h2.m-t-md {{ilp.ilp.student.name}} in 
     em {{ilp.currentClass.name}}
   label Grade: 
-      em {{ilp.student.grade | showgrade}}
+      em {{ilp.ilp.student.grade | showgrade}}
   label.m-l Age: 
-    em {{ilp.student.age}}
+    em {{ilp.ilp.student.age}}
     span.m-l(ng-show="ilp.student.gender") Gender: 
-      em {{ilp.student.gender}}
+      em {{ilp.ilp.student.gender}}
   label.m-l(ng-show="ilp.student.homeLanguage") Speaks at Home:
-    em {{ilp.student.homeLanguage}}
+    em {{ilp.ilp.student.homeLanguage}}
   div.pull-right
     label(style="margin-bottom:-20px;") {{ilp.currentClass.name}}&nbsp;Students
     br
@@ -23,10 +23,18 @@ div.container-fluid
 div.m-t-md
   nav.navbar.subnav
     ul.nav.nav-pills
-      li.nav-item(ng-repeat="sexion in ilp.ilp.plan.sexions | filter:{'active': '1'}" ui-sref-active="active")
-        a.nav-link(ui-sref="ilp.section({idSection: sexion.idSectionDef})" ) {{sexion.title}} 
+      li.nav-item(ui-sref-active="active")
+        a.nav-link(ui-sref="ilp.section({idSection: 1})" ) Summary
           i.icon.ion-alert(ng-show="sexion.idSectionDef==1 && !ilp.plan.intakeDone" ) &nbsp;
+       li.nav-item(ui-sref-active="active")
+        a.nav-link(ui-sref="ilp.goals({idSection: 9})" ) Goals
+        
 div(ui-view)
+      //- ul.nav.nav-pills
+      //- li.nav-item(ng-repeat="sexion in ilp.sections | filter:{'active': '1'}" ui-sref-active="active")
+      //-   a.nav-link(ui-sref="ilp.section({idSection: sexion.idSectionDef})" ) {{sexion.title}} 
+      //-     i.icon.ion-alert(ng-show="sexion.idSectionDef==1 && !ilp.plan.intakeDone" ) &nbsp;
+
 //- div
 //-   img.pull-right(src="assets/images/goals.png")
 //-   button.btn.btn-save.m-t.m-l(type="button" ng-click="checkilp()") Save
@@ -44,3 +52,15 @@ div(ui-view)
       //- li.nav-item(ng-repeat="sexion in ilp.sexions | filter:{'active': '1'}" ng-class="{'active': sexion.idSectionDef == 1 }")
       //-   a(ng-class="{'selected' : sexion.idSectionDef == 1}") {{sexion.title}} 
       //-     i.icon.ion-alert(ng-show="sexion.idSectionDef==1 && !ilp.plan.intakeDone" ) &nbsp;
+        
+        // $scope
+        //  .idStudent
+        //  .idClass
+        //  .idYear
+        //  .currentClass{}
+        //  .studentList{}
+        // 
+        // $scope.ilp = {};
+        //   .ilp.student 
+        //   .ilp.sections
+        //   .ilp.plan =>  ilp.plan.fields

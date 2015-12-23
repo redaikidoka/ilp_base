@@ -36,9 +36,5 @@
         //     vm.idStudent = 23; 
         // }
 
-
-
-
-
     } // end function ilpSectionController
 })();

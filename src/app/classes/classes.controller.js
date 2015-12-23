@@ -6,16 +6,23 @@
       .controller('ClassesController', ClassesController);
 
   /** @ngInject */
-  function ClassesController(dtaClass, $state, $log) {
+  function ClassesController(dtaClass, $state, $log, ConfigService) {
+    // vm.currentSchoolYearId
+    // vm.currentSchoolYear
+    // vm.classList
+
       var vm = this;
-      vm.currentSchoolYear = dtaClass.getSchoolYear();
       var console = $log;
       
+
+      vm.currentSchoolYearId = ConfigService.getCurrentYearId();
+      vm.currentSchoolYear = ConfigService.getCurrentYear();
       // grab the class list
-      dtaClass.getClassList()
+      dtaClass.getClassList(vm.currentSchoolYearId)
         .then(function(result) {
             vm.classList = result;
             // console.log("Grabbed Class list: ", vm.classList);
+
             $state.go('myclasses.class', {classId: vm.classList[0].idClass});
         }, function(err) {
             // Error occurred

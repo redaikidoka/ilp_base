@@ -9,6 +9,7 @@
     function dtaClass($log, IlpClass, VwClassStudentsWithIlp, VwClassTeachers, AuthService) {
         var console = $log;
 
+        // var currentSchoolYearId;
         var studentList;
         var currentClassListId;
         // var teacherId;
@@ -17,17 +18,18 @@
         this.getClassList = getClassList;
         this.getClass = getClass;
         this.getStudentList = getStudentList;
-        this.getSchoolYear = getSchoolYear;
+
 
         /* returns a list of classes for the current user */
-        function getClassList() {
+        function getClassList(yearId) {
             var teacherID = AuthService.getUserId();
-            console.log("TeacherID: ", teacherID);
+            console.log("dtaClass::TeacherID: ", teacherID);
 
             return VwClassTeachers.find(
-                { filter: { where: { idTeacher: teacherID } } }
+                { filter: { where: 
+                    { idTeacher: teacherID,
+                    idSchoolyear: yearId } } }
                 ).$promise;
-            //return IlpClass.find({ filter: { where: {idTeacher: AuthService.getUserId()}}}).$promise;
         }
 
         function getClass(idClass) {

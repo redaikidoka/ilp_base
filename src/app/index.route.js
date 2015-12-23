@@ -50,18 +50,17 @@
         // controllerAs: 'ilpSection',
         authenticate: true
       })
+      .state('ilp.goals', {
+        url: '/goals/{idSection}',
+        templateUrl: 'app/ilp/ilpSectionGoals.html',
+        authenticate: true
+      })
       .state('ilp.summary', {
         url: '/ilp/{idStudent}/summary',
         templateUrl: 'app/ilp/summary.html',
         controller: 'ilpSummaryController',
         controllerAs: 'ilpSummary',
         authenticate: true
-      })
-       .state('ilp.goals', {
-        url: '/ilp/{idStudent}/goals',
-        templateUrl: 'app/ilp/summary.html',
-        controller: 'ilpSummaryController',
-        controllerAs: 'ilpSummary'
       })
       .state('sandbox', {
         url: '/sandbox',

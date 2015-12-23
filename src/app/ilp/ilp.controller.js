@@ -6,47 +6,54 @@
         .controller('IlpController', IlpController);
 
     /** @ngInject */
-    function IlpController($scope, $rootScope, $stateParams, $state, $log, 
-            dtaIlp, dtaClass, $filter) {
+    function IlpController($scope, $rootScope, $stateParams, $state, $log, dtaIlp, dtaClass, $filter) {
         var vm = this;
         // .idStudent
         // .idClass
+        // .idYear
         // .currentClass{}
         // .studentList{}
         // 
         var console = $log;
-        vm.ilp = null;
-        // .ilp.student, .ilp.plan, .ilp.plan.sections, ilp.plan.fields
+        vm.ilp = {};
+        $scope.ilp = {};
+        // .ilp.student, .ilp.sections
+        // .ilp.plan =>  ilp.plan.fields
 
         // setup the variable for our student dropdown list
         vm.selectedStudent = null;
+        $scope.selectedStudent = {};
 
         // verify the student id
         if ($stateParams.idStudent) {
             vm.idStudent = $stateParams.idStudent;
+            $scope.idStudent = $stateParams.idStudent;
             // save the student we are looking at
-            $rootScope.currentStudentId = vm.idStudent;
+            $rootScope.currentStudentId = $stateParams.idStudent;
         } else {
             //TODO: Load the last student / first student? First class? Rootscope?
             // vm.idStudent = 23; 
             vm.idStudent = $rootScope.currentStudentId;
-
+            $scope.idStudent = $rootScope.currentStudentId;
             //TODO: Load the first student in the class
         }
 
         // fetch and store the class info
         if ($stateParams.idClass) {
             vm.idClass = $stateParams.idClass;
+            $scope.idClass = $stateParams.idClass;
             // save the class we are looking at
-            $rootScope.currentClassId = vm.idClass;
+            $rootScope.currentClassId = $stateParams.idClass;
         } else {
 
             vm.idClass = $rootScope.currentClassId;
-            console.log("ilp: no class id. :(params)", $stateParams, 
-                "loaded: ", vm.idClass);
+            $scope.idClass = $rootScope.currentClassId;
+            console.log("ilp: no class id. :(params)", $stateParams,
+                "loaded: ", $rootScope.currentClassId);
 
             // if we're doing a refresh, get back to the class list
             if (!vm.idClass) {
+                console.log("no current class - reverting");
                 $state.go('myclasses');
             }
         }
@@ -55,11 +62,15 @@
         dtaClass.getClass(vm.idClass).then(function(results) {
             // console.log("ilp: loaded class", results);
             vm.currentClass = results;
+            vm.idYear = results.idSchoolyear;
+
+            $scope.currentClass = results;
+            $scope.idYear = results.idSchoolyear;
 
             // load the ilp
             // vm.ilp = dtaIlp.loadPlan(vm.idStudent, vm.currentClass.idSchoolyear);
             loadIlp();
-            console.log("the ilp: ", vm.ilp);
+            // console.log("the ilp: ", vm.ilp);
         }, function(err) {
             //TODO: show an error here
             console.log("ilp:no class :(", err);
@@ -69,6 +80,8 @@
         dtaClass.getStudentList(vm.idClass).then(function(results) {
             // console.log("ilp: loaded students", results);
             vm.studentList = results;
+
+            $scope.studentList = results;
         }, function(err) {
             //TODO: show an error here
             console.log("ilp:no students :(", err);
@@ -77,11 +90,13 @@
         function loadIlp() {
 
             // fetch the student
-            dtaIlp.getStudent(vm.idStudent).then(function(results) {
+            console.log("fetcing student ", vm.idStudent, " year", vm.idYear);
+            dtaIlp.getStudent(vm.idStudent, vm.idYear).then(function(results) {
                 console.log("ilp:Got a student!", results);
                 vm.ilp.student = results;
+                $scope.ilp.student = results;
 
-                $scope.setDefaultStudent(vm.student.idStudent);
+                $scope.setDefaultStudent(results.idStudent);
 
             }, function(err) {
                 // TODO: Show an error here
@@ -91,11 +106,12 @@
             });
 
             // fetch the plan
-            dtaIlp.getPlan(vm.idStudent).then(function(results) {
-                vm.ilp.plan = results;
+            dtaIlp.getPlanYear(vm.idStudent, vm.idYear).then(function(result) {
+                vm.ilp.plan = result;
+                $scope.ilp.plan = result;
                 // console.log("the plan I got back", vm.plan);
 
-                loadFields();
+                loadFields(result.idIlp);
 
 
             }, function(err) {
@@ -107,8 +123,10 @@
                 dtaIlp.createPlanYear(vm.idStudent, vm.currentClass.idSchoolyear)
                     .then(function(result) {
                         // console.log("posted ilp:", result);
-                        vm.plan = result;
-                        loadFields();
+                        vm.ilp.plan = result;
+                        $scope.ilp.plan = result;
+
+                        loadFields(result.idIlp);
                         // $state.go('ilp', {idStudent: vm.idStudent, idClass: classID});
                     }, function(err) {
                         // TODO: Show an error here
@@ -117,44 +135,82 @@
                     });
             });
 
-            // get the section list
-            dtaIlp.getSections().then(function(sexions) {
-                vm.ilp.plan.sections = sexions;
-
-                if ($stateParams.idSection) {
-                    vm.currentSectionID = $stateParams.idSection;
-                }
-                else {
-                    vm.currentSectionID = vm.sexions[0].idSectionDef;
-                }
-            }, function(err) {
-                console.log("no sections. :(", err);
-            });
-
-
         }
 
-        function loadFields() {
+        function loadFields(idIlp) {
             // console.log("loading fields");
-            dtaIlp.getFields(vm.plan.idIlp).then(function(fields) {
+            dtaIlp.getFields(idIlp).then(function(fields) {
+                $scope.ilp.plan.fields = fields;
                 vm.ilp.plan.fields = fields;
                 console.log("fields", fields);
                 $scope.checkilp();
+
+
+                // get the section list
+                dtaIlp.getSections().then(function(sexions) {
+                    vm.sections = sexions;
+                    $scope.ilp.sections = sexions;
+
+                    if ($stateParams.idSection) {
+                        vm.currentSectionID = $stateParams.idSection;
+                        $scope.currentSectionID = $stateParams.idSection;
+                    } else {
+                        // setting default section id
+                        console.log("setting default section id");
+                        console.log("$stateParams: ", $stateParams);
+                        vm.currentSectionID = vm.sections[0].idSectionDef;
+                        $scope.currentSectionID = sexions[0].idSection;
+ 
+                        // go to the first section.
+                        $state.go('ilp.section', {
+                            idSection: sexions[0].idSection
+                        });
+                    }
+                }, function(err) {
+                    console.log("no sections. :(", err);
+                });
+
+
+            }, function(err) {
+                console.log("couldn't load fields", err);
             });
         }
 
         $scope.getFields = function(idSection) {
-            if(vm && vm.plan && vm.plan.fields){
-                return $filter('filter')(vm.plan.fields, 
-                    {idSectionDef: idSection}, 
-                    true);
+            if (!idSection) {
+                console.log("ilp::getFields: no Section id. :(", idSection);
+                return null;
             }
-            // return vm.plan.fields;
+            
+            if (!$scope.ilp ) {
+                console.log("ilp::getFields: no $scope.ilp :(");
+                return null;
+            }
+
+            if (!$scope.ilp.plan){
+                console.log("ilp::getFields: no $scope.ilp.plan :(");
+                return null;
+            }
+
+            if (!$scope.ilp.plan.fields){
+                console.log("ilp::getFields: no $scope.ilp.plan.fields :(");
+                return null;
+            }
+
+
+            console.log("getfields for:", idSection);
+
+            return $filter('filter')($scope.ilp.plan.fields, {
+                        idSectionDef: idSection
+                    },
+                    true);
+
+           // return vm.plan.fields;
         };
 
         $scope.setDefaultStudent = function(studentId) {
             // console.log("looking for student: ", studentId);
-            var found = $filter('filter')(vm.studentList, {
+            var found = $filter('filter')($scope.studentList, {
                 idStudent: studentId
             }, true);
             if (found && found.length) {
@@ -182,7 +238,7 @@
             }
 
             // if there's no student,return blank.
-            if (!vm.student) {
+            if (!$scope.student) {
                 return '';
             }
 
@@ -203,25 +259,25 @@
         $scope.checkilp = function() {
             // console.log("checkingthe ILP", vm.plan, vm.plan.fields, vm.plan.intakeDone);
 
-            if (!vm.plan || !vm.plan.fields) {
+            if (!$scope.ilp.plan || !$scope.ilp.plan.fields) {
                 return false;
             }
-            if (vm.plan.intakeDone) {
+            if ($scope.ilp.plan.intakeDone) {
                 return true;
             }
 
-            vm.plan.intakeDone = true;
+            $scope.ilp.plan.intakeDone = true;
 
-            for (var i = 0; i < vm.plan.fields.length; i++) {
-                if (!vm.plan.fields[i].contents) {
+            for (var i = 0; i < $scope.ilp.plan.fields.length; i++) {
+                if ($scope.ilp.plan.fields[i].idSectionDef === 1 && !$scope.ilp.plan.fields[i].contents) {
                     vm.plan.intakeDone = false;
                     return;
                 }
             }
 
-            console.log("done?", vm.plan.intakeDone);
-            if (vm.plan.intakeDone) {
-                vm.plan.$save();
+            console.log("checkilp: done?", $scope.ilp.plan.intakeDone);
+            if ($scope.ilp.plan.intakeDone) {
+                $scope.ilp.plan.$save();
             }
         };
 
