@@ -90,9 +90,9 @@
         function loadIlp() {
 
             // fetch the student
-            console.log("fetcing student ", vm.idStudent, " year", vm.idYear);
+            // console.log("fetcing student ", vm.idStudent, " year", vm.idYear);
             dtaIlp.getStudent(vm.idStudent, vm.idYear).then(function(results) {
-                console.log("ilp:Got a student!", results);
+                // console.log("ilp:Got a student!", results);
                 vm.ilp.student = results;
                 $scope.ilp.student = results;
 
@@ -142,28 +142,29 @@
             dtaIlp.getFields(idIlp).then(function(fields) {
                 $scope.ilp.plan.fields = fields;
                 vm.ilp.plan.fields = fields;
-                console.log("fields", fields);
+                // console.log("fields", fields);
                 $scope.checkilp();
 
 
                 // get the section list
                 dtaIlp.getSections().then(function(sexions) {
-                    vm.sections = sexions;
+                    // console.log("sexions", sexions);
+                    // vm.sections = sexions;
                     $scope.ilp.sections = sexions;
 
                     if ($stateParams.idSection) {
-                        vm.currentSectionID = $stateParams.idSection;
+                        // vm.currentSectionID = $stateParams.idSection;
                         $scope.currentSectionID = $stateParams.idSection;
                     } else {
                         // setting default section id
-                        console.log("setting default section id");
-                        console.log("$stateParams: ", $stateParams);
-                        vm.currentSectionID = vm.sections[0].idSectionDef;
-                        $scope.currentSectionID = sexions[0].idSection;
+                        // console.log("setting default section id to ", sexions[0].idSectionDef );
+                        // console.log("$stateParams: ", $stateParams);
+                        // vm.currentSectionID = sexions[0].idSectionDef;
+                        $scope.currentSectionID = sexions[0].idSectionDef;
  
                         // go to the first section.
                         $state.go('ilp.section', {
-                            idSection: sexions[0].idSection
+                            idSection: sexions[0].idSectionDef
                         });
                     }
                 }, function(err) {
@@ -237,7 +238,7 @@
 
         $scope.getStudentPhoto = function(picture) {
             var imagepath = "/assets/images/";
-            console.log("picture: ", picture)
+            // console.log("picture: ", picture)
             // return their picture
             if (picture) {
                 return imagepath + "students/" + picture;
