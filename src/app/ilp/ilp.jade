@@ -8,24 +8,24 @@ div.container-fluid
   h2.m-t-md {{ilp.student.name}} in 
     em {{ilp.currentClass.name}}
   label Grade: 
-      em {{ilp.ilp.student.grade | showgrade}}
+      em {{ilp.student.grade | showgrade}}
   label.m-l Age: 
-    em {{ilp.ilp.student.age}}
+    em {{ilp.student.age}}
     span.m-l(ng-show="ilp.student.gender") Gender: 
-      em {{ilp.ilp.student.gender}}
+      em {{ilp.student.gender}}
   label.m-l(ng-show="ilp.student.homeLanguage") Speaks at Home:
-    em {{ilp.ilp.student.homeLanguage}}
+    em {{ilp.student.homeLanguage}}
   div.pull-right
     label(style="margin-bottom:-20px;") {{ilp.currentClass.name}}&nbsp;Students
     br
-    btn-view-ilp.pull-right(student="ilp.selectedStudent" sizer='btn-xs' classid="ilp.idClass")
-    select(name="studentlist" ng-model="ilp.selectedStudent" ng-options="student.name for student in ilp.studentList | orderBy:'nameLast' track by student.idStudent " )
+    btn-view-ilp.m-l.pull-right(student="selectedStudent" sizer='btn-xs' classid="idClass" intakedone="ilp.plan.intakeDone")
+    select(name="studentlist" ng-model="selectedStudent" ng-options="student.name for student in ilp.studentList | orderBy:'nameLast' track by student.idStudent " )
 div.m-t-md
   nav.navbar.subnav
     ul.nav.nav-pills
       li.nav-item(ui-sref-active="active")
-        a.nav-link(ui-sref="ilp.section({idSection: 1})" ) Summary
-          i.icon.ion-alert(ng-show="sexion.idSectionDef==1 && !ilp.plan.intakeDone" ) &nbsp;
+        a.nav-link(ui-sref="ilp.section({idSection: 1})" ) Summary&nbsp;
+          i.icon.ion-alert(ng-show="!ilp.plan.intakeDone" ) &nbsp;
        li.nav-item(ui-sref-active="active")
         a.nav-link(ui-sref="ilp.goals({idSection: 9})" ) Goals
         

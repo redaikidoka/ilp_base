@@ -15,6 +15,7 @@
       scope: {
          student: '=',
          classid: '=',
+         intakedone: '=',
          sizer: '@'
       },
       controller: btnVewIlpController,
@@ -32,14 +33,14 @@
 
       // console.log('viewilpbtn for:', vm.student);
       // console.log(" in: ",vm.classid);
-      // console.log("at size: ", vm.sizer);
+      // console.log("at size: ", vm.sizer); 
 
       $scope.getText = function() {
       	if (vm.student) {
       // console.log('viewilpbtn for:', vm.student);
       		var text = 'Start Intake';
 
-      		if (vm.student.intakedone) { text = 'View Ilp';}
+      		if (vm.intakedone) { text = 'View Ilp';}
       		else if (vm.student.hasIlp) { text = 'Continue Intake';}
       		// console.log("btnViewilp.text =", text);
       		return text;
@@ -54,7 +55,7 @@
       	if (vm.student) {
       		var cssClasses = 'btn btn-danger ' + vm.addedclass;
 
-      		if (vm.student.intakedone) { cssClasses = '';}
+      		if (vm.intakedone) { cssClasses = '';}
       		else if (vm.student.hasIlp) { cssClasses = 'btn btn-primary ' + vm.addedclass;}
       		// console.log("btnViewilp.cssClasses =", cssClasses);
       		return cssClasses;

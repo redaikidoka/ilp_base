@@ -21,7 +21,7 @@
         // .ilp.plan =>  ilp.plan.fields
 
         // setup the variable for our student dropdown list
-        vm.selectedStudent = null;
+        // vm.selectedStudent = null;
         $scope.selectedStudent = {};
 
         // verify the student id
@@ -215,9 +215,9 @@
                 idStudent: studentId
             }, true);
             if (found && found.length) {
-                vm.selectedStudent = found[0];
+                $scope.selectedStudent = found[0];
             } else {
-                vm.selectedStudent = null;
+                $scope.selectedStudent = null;
             }
 
             // console.log("found:", found);
@@ -234,12 +234,11 @@
         $scope.getFieldClass = function(fld) {
             if (fld.fieldType === "TS") { return "col-md-3 col-sm-4";}
             else { return "col-md-4 col-sm-12";}
-        }
+        };
 
         $scope.getStudentPhoto = function(picture) {
             var imagepath = "/assets/images/";
-            // console.log("picture: ", picture)
-            // return their picture
+            // return their picture if we have one
             if (picture) {
                 return imagepath + "students/" + picture;
             }
@@ -277,26 +276,17 @@
 
             for (var i = 0; i < $scope.ilp.plan.fields.length; i++) {
                 if ($scope.ilp.plan.fields[i].idSectionDef === 1 && !$scope.ilp.plan.fields[i].contents) {
-                    vm.plan.intakeDone = false;
+                    $scope.ilp.plan.intakeDone = false;
                     return;
                 }
             }
 
             console.log("checkilp: done?", $scope.ilp.plan.intakeDone);
+
             if ($scope.ilp.plan.intakeDone) {
                 $scope.ilp.plan.$save();
             }
         };
-
-        // $scope.switchIlp = function() {
-        //     console.log('switch ilp to: ', vm.selectedStudent.idStudent, vm.idClass);
-
-        //     $state.go('ilp', {
-        //         idStudent: vm.selectedStudent.idStudent,
-        //         idClass: vm.idClass
-        //     });
-
-        // };
 
 
     }

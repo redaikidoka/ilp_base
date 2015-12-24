@@ -23,7 +23,7 @@ div.container.m-t-md
         li.p-b(ng-repeat="student in aclass.studentList | orderBy:'nameLast'" ) 
           img.m-r(ng-src="assets/images/students/{{student.profilepicture}}" )
           span {{student.name}}&nbsp;
-          btn-view-ilp(student="student" classid="aclass.currentClassId")
+          btn-view-ilp(student="student" classid="aclass.currentClassId" intakedone="student.intakeDone")
       br
       div.alert.alert-warning.alert-dismissible( role="alert" ng-show="$scope.problem")
         button.close(type="button" data-dismiss="alert" aria-label="Close")
