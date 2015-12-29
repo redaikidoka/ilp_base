@@ -15,12 +15,12 @@ div.container-fluid
       em {{ilp.student.gender}}
   label.m-l(ng-show="ilp.student.homeLanguage") Speaks at Home:
     em {{ilp.student.homeLanguage}}
-  div.pull-right
+  div.pull-right#classlist-display
     label(style="margin-bottom:-20px;") {{ilp.currentClass.name}}&nbsp;Students
     br
     btn-view-ilp.m-l.pull-right(student="selectedStudent" sizer='btn-xs' classid="idClass" intakedone="ilp.plan.intakeDone")
     select(name="studentlist" ng-model="selectedStudent" ng-options="student.name for student in ilp.studentList | orderBy:'nameLast' track by student.idStudent " )
-div.m-t-md
+div.m-t-md#plan-nav
   nav.navbar.subnav
     ul.nav.nav-pills
       li.nav-item(ui-sref-active="active")

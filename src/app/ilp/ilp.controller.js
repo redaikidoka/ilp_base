@@ -6,7 +6,7 @@
         .controller('IlpController', IlpController);
 
     /** @ngInject */
-    function IlpController($scope, $rootScope, $stateParams, $state, $log, dtaIlp, dtaClass, $filter) {
+    function IlpController($scope, $rootScope, $stateParams, $state, $log, dtaIlp, dtaClass, $filter, $anchorScroll, $location) {
         var vm = this;
         // .idStudent
         // .idClass
@@ -15,9 +15,11 @@
         // .studentList{}
         // 
         var console = $log;
-        vm.ilp = {};
+        // vm.ilp = {};
         $scope.ilp = {};
-        // .ilp.student, .ilp.sections
+        // .ilp.student
+        // .ilp.sections
+        // .ilp.questions
         // .ilp.plan =>  ilp.plan.fields
 
         // setup the variable for our student dropdown list
@@ -26,21 +28,21 @@
 
         // verify the student id
         if ($stateParams.idStudent) {
-            vm.idStudent = $stateParams.idStudent;
+            // vm.idStudent = $stateParams.idStudent;
             $scope.idStudent = $stateParams.idStudent;
             // save the student we are looking at
             $rootScope.currentStudentId = $stateParams.idStudent;
         } else {
             //TODO: Load the last student / first student? First class? Rootscope?
             // vm.idStudent = 23; 
-            vm.idStudent = $rootScope.currentStudentId;
+            // vm.idStudent = $rootScope.currentStudentId;
             $scope.idStudent = $rootScope.currentStudentId;
             //TODO: Load the first student in the class
         }
 
         // fetch and store the class info
         if ($stateParams.idClass) {
-            vm.idClass = $stateParams.idClass;
+            // vm.idClass = $stateParams.idClass;
             $scope.idClass = $stateParams.idClass;
             // save the class we are looking at
             $rootScope.currentClassId = $stateParams.idClass;
@@ -89,11 +91,11 @@
 
         function loadIlp() {
 
-            // fetch the student
+            // fetch the student  ::: $SCOPE.ILP.STUDENT
             // console.log("fetcing student ", vm.idStudent, " year", vm.idYear);
             dtaIlp.getStudent(vm.idStudent, vm.idYear).then(function(results) {
                 // console.log("ilp:Got a student!", results);
-                vm.ilp.student = results;
+                // vm.ilp.student = results;
                 $scope.ilp.student = results;
 
                 $scope.setDefaultStudent(results.idStudent);
@@ -105,9 +107,9 @@
                 console.log("no student. :(", err);
             });
 
-            // fetch the plan
+            // fetch the plan ::: $SCOPE.ILP.PLAN
             dtaIlp.getPlanYear(vm.idStudent, vm.idYear).then(function(result) {
-                vm.ilp.plan = result;
+                // vm.ilp.plan = result;
                 $scope.ilp.plan = result;
                 // console.log("the plan I got back", vm.plan);
 
@@ -123,7 +125,7 @@
                 dtaIlp.createPlanYear(vm.idStudent, vm.currentClass.idSchoolyear)
                     .then(function(result) {
                         // console.log("posted ilp:", result);
-                        vm.ilp.plan = result;
+                        // vm.ilp.plan = result;
                         $scope.ilp.plan = result;
 
                         loadFields(result.idIlp);
@@ -133,6 +135,15 @@
                         console.log("failed to post ilp", err);
                         $scope.problem = err.statusText;
                     });
+            });
+            
+            // getQuestions ::: $SCOPE.ILP.QUESTIONS
+            dtaIlp.getQuestions().then(function(result) {
+                $scope.ilp.questions = result;
+                console.log("got questions back in ilp: ", $scope.ilp.questions);
+            }, function(err) {
+                console.log("ilp failed to get questions", err);
+                $scope.problem = err.statusText;
             });
 
         }
@@ -161,7 +172,7 @@
                         // console.log("$stateParams: ", $stateParams);
                         // vm.currentSectionID = sexions[0].idSectionDef;
                         $scope.currentSectionID = sexions[0].idSectionDef;
- 
+
                         // go to the first section.
                         $state.go('ilp.section', {
                             idSection: sexions[0].idSectionDef
@@ -177,23 +188,29 @@
             });
         }
 
+        $scope.scrollTo = function(id) {
+            // console.log('scroll to', id);
+            $location.hash(id);
+            $anchorScroll();
+        };
+
         $scope.getFields = function(idSection) {
             if (!idSection) {
                 console.log("ilp::getFields: no Section id. :(", idSection);
                 return null;
             }
-            
-            if (!$scope.ilp ) {
+
+            if (!$scope.ilp) {
                 console.log("ilp::getFields: no $scope.ilp :(");
                 return null;
             }
 
-            if (!$scope.ilp.plan){
+            if (!$scope.ilp.plan) {
                 console.log("ilp::getFields: no $scope.ilp.plan :(");
                 return null;
             }
 
-            if (!$scope.ilp.plan.fields){
+            if (!$scope.ilp.plan.fields) {
                 console.log("ilp::getFields: no $scope.ilp.plan.fields :(");
                 return null;
             }
@@ -202,11 +219,11 @@
             console.log("getfields for:", idSection);
 
             return $filter('filter')($scope.ilp.plan.fields, {
-                        idSectionDef: idSection
-                    },
-                    true);
+                    idSectionDef: idSection
+                },
+                true);
 
-           // return vm.plan.fields;
+            // return vm.plan.fields;
         };
 
         $scope.setDefaultStudent = function(studentId) {
@@ -232,8 +249,11 @@
         };
 
         $scope.getFieldClass = function(fld) {
-            if (fld.fieldType === "TS") { return "col-md-3 col-sm-4";}
-            else { return "col-md-4 col-sm-12";}
+            if (fld.fieldType === "TS") {
+                return "col-md-3 col-sm-4";
+            } else {
+                return "col-md-4 col-sm-12";
+            }
         };
 
         $scope.getStudentPhoto = function(picture) {

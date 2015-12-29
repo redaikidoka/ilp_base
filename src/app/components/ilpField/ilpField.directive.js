@@ -51,7 +51,7 @@
           }
           return '';
         };
-        
+
         $scope.getRows = function() {
           // for SHORT TEXT fields (TS), rows = 1
           if(vm.datafield.fieldType === "TS") { return 2;}

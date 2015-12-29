@@ -40,9 +40,8 @@
       // console.log('viewilpbtn for:', vm.student);
       		var text = 'Start Intake';
 
-      		if (vm.intakedone) { text = 'View Ilp';}
+      		if (vm.intakedone) { text = 'View ILP';}
       		else if (vm.student.hasIlp) { text = 'Continue Intake';}
-      		// console.log("btnViewilp.text =", text);
       		return text;
       	}
 

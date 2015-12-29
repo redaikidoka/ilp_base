@@ -2,7 +2,7 @@ div.card
   div.card-header(ng-class="getHeaderColor(vm.datafield)")
     img.icon.pin(src="assets/icons/i_pin.png" ng-show="0") 
     img.icon.prompts.m-r(src="assets/icons/i_question.png") 
-    h4 {{vm.datafield.name}} 
+    h4.m-l {{vm.datafield.name}} 
   div.card-block
     textarea(rows="{{getRows()}}" placeholder="{{vm.datafield.description}}" ng-change="editField()" ng-model="vm.datafield.contents" ng-model-options="{ updateOn: 'blur' }") 
     img.icon.history(src="assets/icons/i_....png" ng-show="0")

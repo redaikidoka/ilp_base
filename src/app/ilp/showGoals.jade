@@ -1,0 +1,24 @@
+h2 Goals
+div.overflow
+  button.btn.btn-save.m-t.m-l(type="button" ng-click="checkilp()") Save
+  div.clearfix.container-fluid.m-t#ilp-goal-entry
+    div.clearfix(ng-repeat="group in ilp.plan.fields | unique: 'displayGroup' | filter: {idSectionDef: 9} track by group.displayGroup")
+      h3.clearfix {{group.displayGroup}}
+      div(ng-repeat="fld in ilp.plan.fields | filter:{ idSectionDef: 9, displayGroup: group.displayGroup}" )
+        h4 {{fld.name}}
+        p {{fld.contents || fld.description}}
+      br.clearfix
+  br
+
+
+div.goaldisplay.m-t(uib-collapse="showGoals" ng-show="showGoals")
+  h2.p-t Goals
+  div.clearfix.container-fluid.m-t
+    div.col-md-4.col-sm-6(ng-repeat="group in ilp.plan.fields | unique: 'displayGroup' | filter: {idSectionDef: 9} track by group.displayGroup")
+      h3.clearfix {{group.displayGroup}}
+      div(ng-repeat="fld in ilp.plan.fields | filter:{ idSectionDef: 9, displayGroup: group.displayGroup}" ng-show="fld.contents")
+        h4 {{fld.name}}
+        ul
+          li(ng-repeat="listitem in (fld.contents | textToLines)") {{listitem}}
+      br.clearfix
+  br

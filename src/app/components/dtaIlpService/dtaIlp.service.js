@@ -6,7 +6,7 @@
             .service('dtaIlp', dtaIlp);
 
         /** @ngInject */
-        function dtaIlp($log, $q, Ilp, VwClassStudentsWithIlp, IlsSectionDef, VwIlpFields, IlpField, AuthService) {
+        function dtaIlp($log, $q, Ilp, VwClassStudentsWithIlp, IlsSectionDef, VwIlpFields, IlpField, AuthService, IlsFieldQuestion) {
             var console = $log;
 
             // var currentSchoolYear = "2015/2016";
@@ -14,6 +14,7 @@
             var currentSchoolYearID = 0;
 
             var ilpSections;
+            var ilpQuestions;
             // var ilpSectionFetchPromise;
             var ilp;
 
@@ -30,6 +31,16 @@
                     console.log("no class :(", err);
                 });
 
+            IlsFieldQuestion.find().$promise
+                .then(function(questions) {
+                    ilpQuestions = questions;
+                    console.log("Gragged teh questions: ", questions);
+                }, function(err) {
+                    //TODO: process error
+                    console.log("No questions. :(", err);
+                
+                });
+
             this.loadPlan = loadPlan;
 
             this.createPlan = createPlan;
@@ -39,6 +50,7 @@
             this.getStudent = getStudent;
             this.getFields = getFields;
             this.getSections = getSections;
+            this.getQuestions = getQuestions;
 
             this.updateFieldItem = updateFieldItem;
             this.updateField = updateField;
@@ -202,6 +214,29 @@
                     }
                     else {
                         return IlsSectionDef.find().$promise;
+                    }
+                }
+
+                function getQuestions() {
+                    if (ilpQuestions) {
+                        return $q.when(ilpQuestions);
+                    }
+                    else {
+                        var deferred = $q.defer();
+
+                        IlsFieldQuestion.find().$promise
+                            .then(function(questions) {
+                                ilpQuestions = questions;
+                                console.log("Gragged teh questions in GetQuestions(): ", questions);
+                                deferred.resolve(ilpQuestions);
+                            }, function(err) {
+                                //TODO: process error
+                                console.log("No questions. :(");
+                                deferred.reject(err);
+                            
+                            });
+
+                        return deferred.promise;
                     }
                 }
 

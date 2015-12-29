@@ -13,6 +13,10 @@ label.update {
 }
 .ion-alert { color: $attention-color;}
 
+.btn-goal {
+	@include button-variant(white, $btn-goal, $btn-goal );
+
+}
 .btn-save {
 	//@include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
 	@include button-variant(white, $btn-save, $btn-save);
@@ -69,6 +73,20 @@ nav.navbar.subnav {
 	}
 }
 
+div.goaldisplay, #goal-display {
+	padding:5px; 
+	background-color: #555555;
+	color: white;
+	border-radius: 0 0 10px 10px;
+	h4 { 
+		padding: 3px; 
+		background-color: #d4d4d4; 
+		color: #555; 
+		margin-top: 12px; 
+		margin-bottom: 0;
+	}
+	h1 { visibility: hidden; float: right; margin-right: -1000px;}
+}
 
 #ilp-summary, #ilp-goal-entry {
 
@@ -81,8 +99,9 @@ nav.navbar.subnav {
 		padding: 12px 4px 4px 0px;
 		background: none;
 		border: none;
-		background-color: #009388;
+		background-color: $header-dark-bg-color;
 		color: white;
+		border-radius: 10px 10px 0 0 / 10px 10px 0 0;
 	}
 
 	.card-header.hilite {
@@ -117,6 +136,7 @@ nav.navbar.subnav {
 			border: none;
 			background: none;
 			width: 100%;
+			border-radius: 0 0 10px 10px / 0 0 10px 10px;
 		}
 
 		img.icon {
@@ -143,8 +163,30 @@ nav.navbar.subnav {
 			border-image-width: 0;
 			box-shadow: none;
 			border: none;
+			outline:none;
 		}
 	}
+
+
+}
+
+@media print {
+	div#plan-nav, div#classlist-display,  button.btn-save, #goaltab {
+		display: none;
+	}
+
+	textarea {
+
+	}
+
+	#goal-display {
+		h1 {
+			visibility: visible;
+			float: none;
+			margin-right: 0;
+		}
+	}
+
 
 
 }
