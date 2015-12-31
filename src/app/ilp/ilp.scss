@@ -85,7 +85,14 @@ div.goaldisplay, #goal-display {
 		margin-top: 12px; 
 		margin-bottom: 0;
 	}
-	h1 { visibility: hidden; float: right; margin-right: -1000px;}
+	h1 { 
+		width: 100%;
+		margin: -5px 0 0 0;
+
+		text-align: center;
+		background-color: #d4d4d4;
+		color: #555;
+	}
 }
 
 #ilp-summary, #ilp-goal-entry {

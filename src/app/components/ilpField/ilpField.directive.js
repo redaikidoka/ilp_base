@@ -25,16 +25,6 @@
 
     return directive;
 
-  // function linkField(scope, element, attrs, ctrl) {
-  //     if (!ctrl) { return ;}
-  //     element.on("focusout", function triggerChange(event) {
-  //       var input = event.target;
-  //       if (input.value && input.type === "text") {
-  //         ctrl.$setViewValue(input.value.trim());
-  //         ctrl.$render();
-  //       }
-  //     });
-  //   }
 
     /** @ngInject */
     function ilpFieldController($scope, $element, $attrs, $location, $log, AuthService, dtaIlp) {
@@ -42,6 +32,12 @@
       
       //setup logging
       var console = $log;
+      // if ($scope.datafield) {
+      //  $scope.myQuestions = dtaIlp.getQuestionforFieldDefId($scope.datafield.idFieldDef);
+      // }
+      $scope.showQuestions = 0;
+
+      // console.log("for this field def id", $scope.datafield, " i got these questions: ", $scope.myQuestions);
 
       $scope.getHeaderColor = function(fld) {
          // console.log(fld);

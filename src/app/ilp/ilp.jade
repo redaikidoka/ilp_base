@@ -6,7 +6,7 @@ div.container-fluid
     span ID#: {{ilp.student.studentid}}
   img.m-t-md.profile-pic.pull-left(ng-src="{{getStudentPhoto(ilp.student.fullpicture)}}" alt="{{ilp.student.name}}" )
   h2.m-t-md {{ilp.student.name}} in 
-    em {{ilp.currentClass.name}}
+    em {{currentClass.name}}
   label Grade: 
       em {{ilp.student.grade | showgrade}}
   label.m-l Age: 
@@ -16,10 +16,10 @@ div.container-fluid
   label.m-l(ng-show="ilp.student.homeLanguage") Speaks at Home:
     em {{ilp.student.homeLanguage}}
   div.pull-right#classlist-display
-    label(style="margin-bottom:-20px;") {{ilp.currentClass.name}}&nbsp;Students
+    label(style="margin-bottom:-20px;") {{currentClass.name}}&nbsp;Students
     br
     btn-view-ilp.m-l.pull-right(student="selectedStudent" sizer='btn-xs' classid="idClass" intakedone="ilp.plan.intakeDone")
-    select(name="studentlist" ng-model="selectedStudent" ng-options="student.name for student in ilp.studentList | orderBy:'nameLast' track by student.idStudent " )
+    select( ng-model="selectedStudent" ng-options="student.name for student in studentList | orderBy:'nameLast' track by student.idStudent " )
 div.m-t-md#plan-nav
   nav.navbar.subnav
     ul.nav.nav-pills

@@ -1,23 +1,20 @@
 div
-  button.btn.btn-save.m-t.m-l(type="button" ng-click="checkilp()") Save
+  button.btn.btn-save.m-t.m-l(type="button" ng-click="checkilp()") Save Summary
   button.btn.m-r.pull-right.btn-goal(ng-click="scrollTo('goal-display')") GOALS
 div.clearfix.container-fluid.m-t#ilp-summary
     div.col-md-4.col-sm-12
-      ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ layoutColumn: 10, idSectionDef: $stateParams.idSection}"  datafield="fld" )
+      ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ layoutColumn: 10, idSectionDef: $stateParams.idSection}"  datafield="fld" questions="ilp.questions")
     div.col-md-8.col-sm-12
-      ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ layoutColumn: 20, idSectionDef: $stateParams.idSection}"  datafield="fld" onchangecallback="checkilp")
-  button.btn.btn-save.m-t.m-l.pull-right(type="button" ng-click="checkilp()") Save
+      ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ layoutColumn: 20, idSectionDef: $stateParams.idSection}"  datafield="fld" onchangecallback="checkilp" questions = "ilp.questions") 
+      //- questions="getQuestions(fld.idFieldDef)")
+  button.btn.btn-save.m-t.m-l.pull-right(type="button" ng-click="checkilp()") Save Summary
   br.clearfix
 div.clearfix.m-t
 div#goal-display.container-fluid.clearfix.m-t-l
   h1 Goals
   div.col-md-4.col-sm-6(ng-repeat="group in ilp.plan.fields | unique: 'displayGroup' | filter: {idSectionDef: 9} track by group.displayGroup" style="padding:5px;")
     h3 {{group.displayGroup}}
-    div(ng-repeat="fld in ilp.plan.fields | filter:{ idSectionDef: 9, displayGroup: group.displayGroup}" ng-show="fld.contents")
-      h4 {{fld.name}}
+    div(ng-repeat="displayGoal in ilp.plan.fields | filter:{ idSectionDef: 9, displayGroup: group.displayGroup}" ng-show="displayGoal.contents")
+      h4 {{displayGoal.name}}
       ul
-        li(ng-repeat="listitem in (fld.contents | textToLines)") {{listitem}}
-  //-   div(ng-repeat="fld in ilp.plan.fields | filter:{ idSectionDef: 9, displayGroup: group.displayGroup}" ng-hide="fld.contents") 
-  //-     h4 {{fld.name}}
-  //-     i None yet...
-  //- 
+        li(ng-repeat="listitem in (displayGoal.contents | textToLines)") {{listitem}}

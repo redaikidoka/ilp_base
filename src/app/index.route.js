@@ -52,11 +52,11 @@
       })
       .state('ilp.goals', {
         url: '/goals/{idSection}',
-        templateUrl: 'app/ilp/ilpSectionGoals.html',
+        templateUrl: 'app/ilp/ilpGoals.html',
         authenticate: true
       })
       .state('ilp.summary', {
-        url: '/ilp/{idStudent}/summary',
+        url: '/summary',
         templateUrl: 'app/ilp/summary.html',
         controller: 'ilpSummaryController',
         controllerAs: 'ilpSummary',

@@ -15,7 +15,7 @@
         // .studentList{}
         // 
         var console = $log;
-        // vm.ilp = {};
+
         $scope.ilp = {};
         // .ilp.student
         // .ilp.sections
@@ -23,66 +23,51 @@
         // .ilp.plan =>  ilp.plan.fields
 
         // setup the variable for our student dropdown list
-        // vm.selectedStudent = null;
         $scope.selectedStudent = {};
 
         // verify the student id
         if ($stateParams.idStudent) {
-            // vm.idStudent = $stateParams.idStudent;
             $scope.idStudent = $stateParams.idStudent;
             // save the student we are looking at
             $rootScope.currentStudentId = $stateParams.idStudent;
         } else {
             //TODO: Load the last student / first student? First class? Rootscope?
-            // vm.idStudent = 23; 
-            // vm.idStudent = $rootScope.currentStudentId;
             $scope.idStudent = $rootScope.currentStudentId;
             //TODO: Load the first student in the class
         }
 
         // fetch and store the class info
         if ($stateParams.idClass) {
-            // vm.idClass = $stateParams.idClass;
             $scope.idClass = $stateParams.idClass;
             // save the class we are looking at
             $rootScope.currentClassId = $stateParams.idClass;
         } else {
-
-            vm.idClass = $rootScope.currentClassId;
             $scope.idClass = $rootScope.currentClassId;
             console.log("ilp: no class id. :(params)", $stateParams,
                 "loaded: ", $rootScope.currentClassId);
 
             // if we're doing a refresh, get back to the class list
-            if (!vm.idClass) {
+            if (!$scope.idClass) {
                 console.log("no current class - reverting");
                 $state.go('myclasses');
             }
         }
 
         // get the class for this student
-        dtaClass.getClass(vm.idClass).then(function(results) {
+        dtaClass.getClass($scope.idClass).then(function(results) {
             // console.log("ilp: loaded class", results);
-            vm.currentClass = results;
-            vm.idYear = results.idSchoolyear;
-
             $scope.currentClass = results;
             $scope.idYear = results.idSchoolyear;
 
             // load the ilp
-            // vm.ilp = dtaIlp.loadPlan(vm.idStudent, vm.currentClass.idSchoolyear);
             loadIlp();
-            // console.log("the ilp: ", vm.ilp);
         }, function(err) {
             //TODO: show an error here
             console.log("ilp:no class :(", err);
         });
 
         // grab that class' list of students
-        dtaClass.getStudentList(vm.idClass).then(function(results) {
-            // console.log("ilp: loaded students", results);
-            vm.studentList = results;
-
+        dtaClass.getStudentList($scope.idClass).then(function(results) {
             $scope.studentList = results;
         }, function(err) {
             //TODO: show an error here
@@ -92,10 +77,7 @@
         function loadIlp() {
 
             // fetch the student  ::: $SCOPE.ILP.STUDENT
-            // console.log("fetcing student ", vm.idStudent, " year", vm.idYear);
-            dtaIlp.getStudent(vm.idStudent, vm.idYear).then(function(results) {
-                // console.log("ilp:Got a student!", results);
-                // vm.ilp.student = results;
+            dtaIlp.getStudent($scope.idStudent, $scope.idYear).then(function(results) {
                 $scope.ilp.student = results;
 
                 $scope.setDefaultStudent(results.idStudent);
@@ -108,13 +90,10 @@
             });
 
             // fetch the plan ::: $SCOPE.ILP.PLAN
-            dtaIlp.getPlanYear(vm.idStudent, vm.idYear).then(function(result) {
-                // vm.ilp.plan = result;
+            dtaIlp.getPlanYear($scope.idStudent, $scope.idYear).then(function(result) {
                 $scope.ilp.plan = result;
-                // console.log("the plan I got back", vm.plan);
 
                 loadFields(result.idIlp);
-
 
             }, function(err) {
                 // Error occurred
@@ -122,29 +101,18 @@
                 console.log("no plan - creating", err);
 
                 // create the Plan
-                dtaIlp.createPlanYear(vm.idStudent, vm.currentClass.idSchoolyear)
+                dtaIlp.createPlanYear($scope.idStudent, $scope.currentClass.idSchoolyear)
                     .then(function(result) {
-                        // console.log("posted ilp:", result);
-                        // vm.ilp.plan = result;
                         $scope.ilp.plan = result;
 
                         loadFields(result.idIlp);
-                        // $state.go('ilp', {idStudent: vm.idStudent, idClass: classID});
                     }, function(err) {
                         // TODO: Show an error here
                         console.log("failed to post ilp", err);
                         $scope.problem = err.statusText;
                     });
             });
-            
-            // getQuestions ::: $SCOPE.ILP.QUESTIONS
-            dtaIlp.getQuestions().then(function(result) {
-                $scope.ilp.questions = result;
-                console.log("got questions back in ilp: ", $scope.ilp.questions);
-            }, function(err) {
-                console.log("ilp failed to get questions", err);
-                $scope.problem = err.statusText;
-            });
+
 
         }
 
@@ -152,7 +120,6 @@
             // console.log("loading fields");
             dtaIlp.getFields(idIlp).then(function(fields) {
                 $scope.ilp.plan.fields = fields;
-                vm.ilp.plan.fields = fields;
                 // console.log("fields", fields);
                 $scope.checkilp();
 
@@ -160,17 +127,14 @@
                 // get the section list
                 dtaIlp.getSections().then(function(sexions) {
                     // console.log("sexions", sexions);
-                    // vm.sections = sexions;
                     $scope.ilp.sections = sexions;
 
                     if ($stateParams.idSection) {
-                        // vm.currentSectionID = $stateParams.idSection;
                         $scope.currentSectionID = $stateParams.idSection;
                     } else {
                         // setting default section id
                         // console.log("setting default section id to ", sexions[0].idSectionDef );
                         // console.log("$stateParams: ", $stateParams);
-                        // vm.currentSectionID = sexions[0].idSectionDef;
                         $scope.currentSectionID = sexions[0].idSectionDef;
 
                         // go to the first section.
@@ -178,6 +142,23 @@
                             idSection: sexions[0].idSectionDef
                         });
                     }
+
+                    // getQuestions ::: $SCOPE.ILP.QUESTIONS
+                    dtaIlp.getQuestions().then(function(result) {
+                        $scope.ilp.questions = result;
+                        // console.log("got questions back in ilp: ", $scope.ilp.questions);
+                        
+                        // load questions into fields
+                        for (var i =0;i<$scope.ilp.plan.fields.length;i++){
+                            $scope.ilp.plan.fields[i].questions = dtaIlp.getQuestionforFieldDefId($scope.ilp.plan.fields[i].idFieldDef);
+                        }
+
+                    }, function(err) {
+                        console.log("ilp failed to get questions", err);
+                        $scope.problem = err.statusText;
+                    });
+
+
                 }, function(err) {
                     console.log("no sections. :(", err);
                 });
@@ -223,7 +204,22 @@
                 },
                 true);
 
-            // return vm.plan.fields;
+        };
+
+        $scope.getQuestions = function(_idFieldDef) {
+            var found = $filter('filter')($scope.ilp.questions, {
+                    idFieldDef: _idFieldDef
+                },
+                true);
+
+            if (found && found.length) {
+                // console.log("questions for ", _idFieldDef, found);
+                return found;
+            } else {
+                // console.log("no questions for ", _idFieldDef);
+                // console.log("the questions", $scope.ilp.questions)
+                return null;
+            }
         };
 
         $scope.setDefaultStudent = function(studentId) {
@@ -250,9 +246,9 @@
 
         $scope.getFieldClass = function(fld) {
             if (fld.fieldType === "TS") {
-                return "col-md-3 col-sm-4";
+                return "col-lg-3 col-sm-4 col-xs-12";
             } else {
-                return "col-md-4 col-sm-12";
+                return "col-lg-3 col-sm-6 col-xs-12";
             }
         };
 
@@ -269,8 +265,8 @@
             }
 
             //placeholder
-            if (vm.student.gender) {
-                if (vm.student.gender.substring(0, 1).toUpperCase() === "F") {
+            if ($scope.ilp.student.gender) {
+                if ($scope.ilp.student.gender.substring(0, 1).toUpperCase() === "F") {
                     return imagepath + "placeholder/" + "female.jpg";
                 } else {
                     return imagepath + "placeholder/" + "male.jpg";
@@ -283,7 +279,6 @@
         };
 
         $scope.checkilp = function() {
-            // console.log("checkingthe ILP", vm.plan, vm.plan.fields, vm.plan.intakeDone);
 
             if (!$scope.ilp.plan || !$scope.ilp.plan.fields) {
                 return false;
