@@ -7,7 +7,6 @@
 
     /** @ngInject */
     function IlpController($scope, $rootScope, $stateParams, $state, $log, dtaIlp, dtaClass, $filter, $anchorScroll, $location) {
-        var vm = this;
         // .idStudent
         // .idClass
         // .idYear

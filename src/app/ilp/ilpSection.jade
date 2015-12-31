@@ -11,7 +11,7 @@ div.clearfix.container-fluid.m-t#ilp-summary
   br.clearfix
 div.clearfix.m-t
 div#goal-display.container-fluid.clearfix.m-t-l
-  h1 Goals
+  h1 GOALS
   div.col-md-4.col-sm-6(ng-repeat="group in ilp.plan.fields | unique: 'displayGroup' | filter: {idSectionDef: 9} track by group.displayGroup" style="padding:5px;")
     h3 {{group.displayGroup}}
     div(ng-repeat="displayGoal in ilp.plan.fields | filter:{ idSectionDef: 9, displayGroup: group.displayGroup}" ng-show="displayGoal.contents")

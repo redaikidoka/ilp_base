@@ -73,28 +73,6 @@ nav.navbar.subnav {
 	}
 }
 
-div.goaldisplay, #goal-display {
-	padding:5px; 
-	background-color: #555555;
-	color: white;
-	border-radius: 0 0 10px 10px;
-	h4 { 
-		padding: 3px; 
-		background-color: #d4d4d4; 
-		color: #555; 
-		margin-top: 12px; 
-		margin-bottom: 0;
-	}
-	h1 { 
-		width: 100%;
-		margin: -5px 0 0 0;
-
-		text-align: center;
-		background-color: #d4d4d4;
-		color: #555;
-	}
-}
-
 #ilp-summary, #ilp-goal-entry {
 
 	.card {
@@ -172,13 +150,52 @@ div.goaldisplay, #goal-display {
 			border: none;
 			outline:none;
 		}
+
+	}
+
+	.card-block.prompts {
+
+			background-color: #555555;
+			color: white;
+
+			ul {
+				padding-left: 15px;
+			}		
+
+			border-radius: 0 0 10px 10px;		
 	}
 
 
 }
 
+
+div.goaldisplay, #goal-display {
+	padding:5px; 
+	background-color: #555555;
+	color: white;
+	border-radius: 0 0 10px 10px;
+	h4 { 
+		padding: 3px; 
+		background-color: #d4d4d4; 
+		color: #555; 
+		margin-top: 12px; 
+		margin-bottom: 0;
+	}
+	h1 { 
+		text-align: center;
+		margin: 0 0 0 0;
+		
+		text-align: center;
+		color: #d4d4d4;
+	}
+}
+
+
 @media print {
-	div#plan-nav, div#classlist-display,  button.btn-save, #goaltab {
+	div#plan-nav, div#classlist-display,  
+	button.btn-save, button.btn-goal, 
+	img.icon.prompts, label.updatenote, 
+	#goaltab {
 		display: none;
 	}
 
@@ -189,10 +206,9 @@ div.goaldisplay, #goal-display {
 	#goal-display {
 		h1 {
 			visibility: visible;
-			float: none;
-			margin-right: 0;
 		}
 	}
+
 
 
 
