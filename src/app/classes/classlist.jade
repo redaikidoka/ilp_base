@@ -11,7 +11,7 @@ div.container
 div.container.m-t-md
   div.card
     div.card-header
-      button.btn(ui-sref="#").pull-right.disabled Add Student
+      button.btn(ng-click="addStudent()").pull-right.disabled Add Student
       h4 
         button.btn.btn-default(type="button" ng-click="isCollapsedS = !isCollapsedS")
           i.icon.ion-arrow-down-b(ng-show="!isCollapsedS")
@@ -28,7 +28,7 @@ div.container.m-t-md
       div.alert.alert-warning.alert-dismissible( role="alert" ng-show="$scope.problem")
         button.close(type="button" data-dismiss="alert" aria-label="Close")
           span(aria-hidden="true") &times;
-        strong We had a problem{{$scope.problem}}
+        strong We had a problem {{$scope.problem}}
 
   div.card
     div.card-header

@@ -168,7 +168,10 @@ nav.navbar.subnav {
 
 }
 
+#signature {
+	visibility:hidden;
 
+}
 div.goaldisplay, #goal-display {
 	padding:5px; 
 	background-color: #555555;
@@ -203,7 +206,8 @@ div.goaldisplay, #goal-display {
 
 	}
 
-	#goal-display {
+	#goal-display, #signature {
+		visibility: visible;
 		h1 {
 			visibility: visible;
 		}

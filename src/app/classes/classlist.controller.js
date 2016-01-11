@@ -7,9 +7,14 @@
 
   /** @ngInject */
   function ClassListController($log, $scope, $rootScope, $state, $stateParams, dtaClass) {
+    //setup
     var vm = this;
     var console = $log;
     vm.currentClassId = $stateParams.classId;
+    vm.selectedAddStudent = null;
+    vm.studentList = [];
+    vm.fullStudentList= [];
+    $scope.problem = null;
 
     if (!vm.currentClassId) {
       //TODO: Raise an error
@@ -41,5 +46,27 @@
 
       });
 
+      $scope.addStudent = function() {
+
+      };
+
+      $scope.addStudent = function() {
+      	$scope.showAdd = !$scope.showAdd;
+
+      	if (vm.fullStudentList) {
+
+      	}
+      	else {
+      		dtaClass.getFullStudentList(vm.currentClass.idSchoolYear, vm.currentClass.grade)
+		       .then(function(results) {
+		        console.log("got the student list for year/grade: ", vm.currentClass.idSchoolYear, vm.currentClass.grade, results);
+		        vm.fullStudentList = results;
+		      }, function(err) {
+		        //TODO: Process error
+		        console.log("classlistcontroller: did not get student list for class: ", vm.currentClassId, err);
+		        $scope.problem = err;
+		      });
+     	}
+      }
   }
 })();

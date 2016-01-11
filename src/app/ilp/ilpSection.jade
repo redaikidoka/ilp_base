@@ -10,7 +10,7 @@ div.clearfix.container-fluid.m-t#ilp-summary
   button.btn.btn-save.m-t.m-l.pull-right(type="button" ng-click="checkilp()") Save Summary
   br.clearfix
 div.clearfix.m-t
-div#goal-display.container-fluid.clearfix.m-t-l
+div#goal-display.container-fluid.clearfix.m-t
   h1 GOALS
   div.col-md-4.col-sm-6(ng-repeat="group in ilp.plan.fields | unique: 'displayGroup' | filter: {idSectionDef: 9} track by group.displayGroup" style="padding:5px;")
     h3 {{group.displayGroup}}
@@ -18,3 +18,10 @@ div#goal-display.container-fluid.clearfix.m-t-l
       h4 {{displayGoal.name}}
       ul
         li(ng-repeat="listitem in (displayGoal.contents | textToLines)") {{listitem}}
+div#signature
+  br
+  hr
+  h1 Signatures
+  br
+  h3 Teacher __________________________   date __________
+  h3 Parent ___________________________   date __________
