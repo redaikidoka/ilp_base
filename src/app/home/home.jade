@@ -7,14 +7,16 @@ div.fill
       form
         div.input-group
           input.form-control(type="text" placeholder="User Name" aria-describedby="emailaddon" ng-model="user.name")
-          span.input-group-addon#emailaddon @nssf.org
+          span.input-group-addon#emailaddon @newschoolsf.org
         br    
         div.input-group
           input.form-control(type="password" placeholder="password" ng-model="user.password")
         
-        input.m-t.pull-left.btn.btn-info(type="submit" ng-click="login(user)" value="login")
+        input.m-t.btn.btn-info(type="submit" ng-click="login(user.name, user.password)" value="login")
 
-  div.alert.alert-danger(role="alert" ng-show="hasProblem()" ) {{ $scope.loginmessage }}
+    div.clearfix
+      br.m-t-l
+      div.alert.alert-danger(role="alert" ng-show="loginproblem" ) {{ loginmessage }}
 
 
 

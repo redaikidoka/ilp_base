@@ -1,10 +1,14 @@
 div#login {
 
 	div.input-group {
-		width: 20em;
+		width: 25em;
 		min-width: 20em;
 		// margin: 0 auto;
-		text-align:right;
+		text-align:left;
+	}
+
+	form { 
+		text-align: left; 
 	}
 
 }

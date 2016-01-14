@@ -22,6 +22,13 @@
         controllerAs: 'home',
         authenticate: false
       })
+      .state('logout', {
+        url: '/logout',
+        templateUrl: 'app/home/logout.html',
+        controller: 'LogoutController',
+        controllerAs: 'logout',
+        authenticate: true
+      })
       .state('myclasses', {
         url: '/myclasses',
         templateUrl: 'app/classes/classes.html',

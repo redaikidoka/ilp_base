@@ -62,8 +62,9 @@
           // console.log("save results:", results);
           dtaIlp.updateFieldItem(vm.datafield).then(function(results){
                 // console.log("ilpField: result of update:", results);
-                vm.datafield.sUserId=AuthService.getUserId();
-                vm.datafield.sUpdate = results.sUpdate; Date.now();
+                vm.datafield.sUserId = AuthService.getUserId();
+                vm.datafield.sUpdate = Date.now(); //results.sUpdate; 
+                console.log("Date vs supdate", Date.now(), results.sUpdate);
 
                 // console.log("update function: ", $scope.onchangecallback);
                 // $parent.$scope.checkilp();

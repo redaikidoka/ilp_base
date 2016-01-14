@@ -9,16 +9,12 @@
     function dtaIlp($log, $q, Ilp, VwClassStudentsWithIlp, IlsSectionDef, VwIlpFields, IlpField, AuthService, IlsFieldQuestions) {
         var console = $log;
 
-        // var currentSchoolYear = "2015/2016";
-        // TODO: LOAD 
         var currentSchoolYearID = 0;
 
         var ilpSections;
         var ilpQuestions;
-        // var ilpSectionFetchPromise;
         var ilp;
 
-        // var ilpFieldDefs;
 
         // we can just hang onto these - they don't change.
         IlsSectionDef.find().$promise

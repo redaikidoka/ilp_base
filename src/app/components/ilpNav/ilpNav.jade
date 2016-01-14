@@ -20,11 +20,11 @@ div#ilpMainNav
             a(ui-sref="sandbox") Sandbox
         ul.nav.navbar-nav.navbar-right#loggedin(ng-show="vm.user.loggedin" )
           li.nav-item.user.dropdown
-            img(ng-src='{{vm.user.thumbnail}}')
-            a.username(ng-href="#") &nbsp; {{ vm.user.name }} 
-              ul.dropdown-menu
-                li
-                  a(ui-sref="logout") Logout
-                li
-                  a User Setup
-
+            a.dropdown-toggle(href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded = "false" ui-sref="logout")
+              img(ng-src='assets/images/staff/{{vm.user.thumbnail}}' )
+              span.username &nbsp; {{ vm.user.name }} 
+                ul.dropdown-menu
+                  li
+                    a(ui-sref="logout") Logout
+                  li
+                    a User Setup

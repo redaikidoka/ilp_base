@@ -1,17 +1,28 @@
 
 div.container
+  uib-alert(ng-show="aclass.hasProblem" close="dismissProblem($index)") {{aclass.problem}}
+
   h4 Grade: {{aclass.currentClass.grade | showgrade}}
   form
     fieldset.form-group
       label(for="course-description") {{aclass.currentClass.name}} Course Overview
-      textarea.form-control#course-description(rows="4" placeholder="enter the description of your course" ng-bind="aclass.currentClass.description")
+      textarea.form-control#course-description(rows="4" placeholder="enter the description of your course" ng-model="aclass.currentClass.description" ng-model-options="{ updateOn: 'blur' }"  ng-change="editClassDescription()" )
 
     button.btn.btn-primary.pull-right Save
 
 div.container.m-t-md
   div.card
     div.card-header
-      button.btn(ng-click="addStudent()").pull-right.disabled Add Student
+      div.pull-right
+        button.btn.btn-default(ng-click="toggleAddStudent()" ng-init="showAdd = 0") Add Students
+        br.clearfix
+        br.m-t-l
+        label(ng-show="showAdd") All Students in Grade
+        br
+        select( ng-show="showAdd" multiple="true" size="20" ng-model="aclass.selectedAddProspect" ng-options="prospect.name for prospect in aclass.fullStudentList | orderBy:'nameLast' track by prospect.idStudent" )
+        br
+        button.btn.btn-link(ng-show="showAdd" ng-click="addStudent()") Add These Students
+        
       h4 
         button.btn.btn-default(type="button" ng-click="isCollapsedS = !isCollapsedS")
           i.icon.ion-arrow-down-b(ng-show="!isCollapsedS")

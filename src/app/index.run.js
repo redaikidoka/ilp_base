@@ -18,6 +18,7 @@
   			//user needs authentication
   			$state.transitionTo("login");
   			event.preventDefault();
+        // console.log("prevented routing. Heading for login");
   		}
   	});
     $log.debug('runBlock end');

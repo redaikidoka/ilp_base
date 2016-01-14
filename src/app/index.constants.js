@@ -8,9 +8,9 @@
     .constant('imgPath', "/assets/images")
     .constant('appSettings', {
     	appName: 'ILP',
-    	appMode: 'test',
-    	appTesting: true,
-    	restURL: 'http://localhost:3000/api'
+    	appTesting: false
+     //    ,
+    	// restURL: 'http://localhost:3000/api'
     });
 
 })();

@@ -33,7 +33,7 @@
         // }
 
         /** @ngInject */
-        function NavController($log, $rootScope) {
+        function NavController($log, $scope, $rootScope) {
             // var vm = this;
             // var console = $log;
             
@@ -54,6 +54,11 @@
                
             // }
 
+            $scope.getStaffPhoto = function(_image) {
+                var fullimage= "assets/images/staff/" + _image;
+                console.log("image for user ", this.user.name, fullimage);
+                return fullimage;
+            };
 
         }
     }
