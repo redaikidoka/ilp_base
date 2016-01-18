@@ -56,7 +56,7 @@
 
             $scope.getStaffPhoto = function(_image) {
                 var fullimage= "assets/images/staff/" + _image;
-                console.log("image for user ", this.user.name, fullimage);
+                // console.log("image for user ", this.user.name, fullimage);
                 return fullimage;
             };
 

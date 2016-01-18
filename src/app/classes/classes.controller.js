@@ -21,7 +21,7 @@
       dtaClass.getClassList(vm.currentSchoolYearId)
         .then(function(result) {
             vm.classList = result;
-            // console.log("Grabbed Class list: ", vm.classList);
+            console.log("Grabbed Class list: ", vm.classList);
 
             $state.go('myclasses.class', {classId: vm.classList[0].idClass});
         }, function(err) {

@@ -35,7 +35,7 @@
         IlsFieldQuestions.find().$promise
             .then(function(questions) {
                 ilpQuestions = questions;
-                console.log("downloaded questions in dtaIlp main ", questions);
+                // console.log("downloaded questions in dtaIlp main ", questions);
             }, function(err) {
                 //TODO: process error
                 console.log("No questions. :(", err);

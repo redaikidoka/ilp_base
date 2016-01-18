@@ -12,6 +12,7 @@
     // load the config
     ConfigService.getCurrentYearId();
 
+    $rootScope.thisurl = 'http://192.241.235.93:3000/api';
   	$rootScope.$on("$stateChangeStart", function(event, toState /*, toParams, fromState, fromParams */){
 
   		if (toState.authenticate && !AuthService.isAuthenticated()) {

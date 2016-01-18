@@ -7,8 +7,6 @@ div.container-fluid
   img.m-t-md.profile-pic.pull-left(ng-src="{{getStudentPhoto(ilp.student.fullpicture)}}" alt="{{ilp.student.name}}" )
   h2.m-t-md {{ilp.student.name}} in 
     em {{currentClass.name}}
-  label Grade: 
-      em {{ilp.student.grade | showgrade}}
   label.m-l Age: 
     em {{ilp.student.age}}
     span.m-l(ng-show="ilp.student.gender") Gender: 

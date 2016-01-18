@@ -26,16 +26,17 @@
         }
 
         function isAdmin() {
-          if (isAuthenticated() ) {
-            // console.log($rootScope.user);
-            return $rootScope.user.admin;
-          }
+            if (isAuthenticated()) {
+                // console.log($rootScope.user);
+                return $rootScope.user.admin;
+            }
 
-          return false;
+            return false;
         }
 
         function login(_uname, _upass) {
 
+            // create a deferred promise so we can work with our login
             var deferred = $q.defer();
 
             // try to find the user
@@ -43,13 +44,21 @@
                 var searchname = _uname + '@newschoolsf.org';
                 // console.log("looking to login: ", searchname);
 
-                IlpTeacher.findOne({ filter: { "where": { "username": searchname } } }).$promise
+                IlpTeacher.findOne( { filter: { "where": {  "username": searchname  }  }
+                    }).$promise
                     .then(function(results) {
-                        $rootScope.user = results;
-                        $rootScope.user.loggedin = true;
-                        // console.log("Teacher Record Matched: ", results);
-                        deferred.resolve("logged in: " + results.name);
+                        var passCheck = results.namelast + results.namefirst.length.toString();
+                        console.log("found user ", results, "looking for password:", passCheck);
 
+                        if (_upass === passCheck) {
+                            $rootScope.user = results;
+                            $rootScope.user.loggedin = true;
+                            // console.log("Teacher Record Matched: ", results);
+                            deferred.resolve("logged in: " + results.name);
+                        } else {
+                            console.log("password entered", _upass, "didn't match ", passCheck);
+                            deferred.reject("Incorrect passsword for " + _uname);
+                        }
                     }, function(err) {
                         // TODO: Show an error here
                         if (!$rootScope.user && appSettings.appTesting) {

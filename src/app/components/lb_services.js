@@ -1,9 +1,32 @@
 // jshint ignore: start
-(function(window, angular, undefined) {  'use strict';
+(function(window, angular, undefined, appSettings) {  'use strict';
 
-var urlBase = 'http://0.0.0.0:3000/api';
+var devUrl = 'http://0.0.0.0:3000/api';
+var prodUrl = 'http://192.241.235.93:3000/api';
+// var urlBase = 'http://0.0.0.0:3000/api';
+var urlBase = prodUrl;
+ 
 var authHeader = 'authorization';
 
+
+// if (appSettings)
+// {
+//     console.log("urlBase set to appSettings.restURL");
+//     urlbase = appSettings.restURL;
+// }
+// else {
+//     if ($rootScope && $rootScope.thisurl ) {
+//     console.log("urlBase set to $rootScope.thisurl");
+//     urlbase = $rootScope.thisurl;
+//     }
+//     else {
+//         console.log("urlbase: NOPE");
+//         urlBase = 'http://192.241.235.93:3000/api';
+//     }
+// }
+console.log('lb_services: urlbase', urlBase);
+
+// console.log('process.env', process.env);
 /**
  * @ngdoc overview
  * @name lbServices
@@ -21,7 +44,23 @@ var module = angular.module("lbServices", ['ngResource']);
 
 // below here
 
+// module.
+//   config(function($provide, $compileProvider) {
+//     // console.log("appsettings config", appSettings);
+//     // console.log("$rootScope config", $rootScope);
+//     $provide.value('urlBase ', prodUrl);
+//     // $provide.factory('a', function() { return 123; });
 
+//     // if ($rootScope && $rootScope.thisurl ) {
+//     // console.log("urlBase set to $rootScope.thisurl");
+//     // urlbase = $rootScope.thisurl;
+//     // }
+//     // else {
+//     //     console.log("urlbase: NOPE");
+//     //     urlBase = 'http://192.241.235.93:3000/api';
+//     // }
+
+//   });
 
 
 

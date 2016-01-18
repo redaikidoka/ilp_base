@@ -1,6 +1,6 @@
 {
   "name": "ilpBase",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "dependencies": {
     "ionicons": "~2.0.1",
     "angular-animate": "~1.4.0",

@@ -1,4 +1,10 @@
 {
-  "myFirstCnt": true,
-  "mySecondCnt": { "hello": "world" }
+  "name": "ilpbase.config",
+  "deps": ["ngAnimate"],
+  "wrap": "commonjs",
+  "constants": {
+	  "development": { "dataurl": "http://0.0.0.0:3000/api" },
+	  "production": { "dataurl": "http://ilp.newschoolsf.org:3000/api" }
+	}
 }
+

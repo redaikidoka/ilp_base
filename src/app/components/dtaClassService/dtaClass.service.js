@@ -48,15 +48,17 @@
             return IlpClass.findById( { id: idClass} ).$promise;
          }
 
-        function getStudentList(classId) {
-            if (classId !== currentClassListId){
+        function getStudentList(_idClass) {
+            if (_idClass !== currentClassListId){
                 // clear the cache
-                currentClassListId = classId;
+                currentClassListId = _idClass;
                 studentList = {};
             }
 
+            console.log("loading students for class: ", _idClass);
+
             return VwClassStudentsWithIlp.find(
-                { filter: { where: { idClass: parseInt(classId) } } }
+                { filter: { where: { idClass: parseInt(_idClass) } } }
                 ).$promise;
 
         }
