@@ -11,7 +11,7 @@
       	.filter('textToLines', function() {
       		return function(text) {
       			if (text) {
-      				return text.split(/\r\n|\r|\n/g);
+      				return text.replace(/^\s*[\r\n]/gm, "").split(/\r\n|\r|\n/g);
       			}
       			else {return [];}
       		};

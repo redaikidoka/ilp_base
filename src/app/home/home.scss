@@ -1,14 +1,30 @@
 div#login {
+	form {
+		max-width: 95%;
+	}
 
 	div.input-group {
-		width: 25em;
-		min-width: 20em;
+		width: 20em;
+		// min-width: 20em;
+		max-width:90%;
 		// margin: 0 auto;
 		text-align:left;
+
+		input {
+			max-width:100%;
+		}
 	}
 
 	form { 
 		text-align: left; 
+	}
+
+	img#logo {
+		height: 36px;
+		width: 36px;
+		padding: 2px 0 0 2px;
+		float:left;
+
 	}
 
 }
@@ -23,5 +39,11 @@ div.fill {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+
+    h1 {
+    	background-color: hsla(229, 16%, 15%, 0.2);
+    	text-shadow: 2px 2px 3px hsla(240, 10%, 10%, 0.9);
+    	padding-right: 0.5em;
+    }
 
 }

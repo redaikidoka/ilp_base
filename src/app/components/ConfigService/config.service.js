@@ -39,6 +39,7 @@
                     currentYearId = getAppSettingInt('currentSchoolYear');
                     currentYear = getAppSetting('currentSchoolYear');
                     // console.log("currentYearId", currentYearId);
+                    // console.log("currentYear", currentYear);
 
                 }, function(err) {
                     console.log("ConfigService: No app config. :(", err);

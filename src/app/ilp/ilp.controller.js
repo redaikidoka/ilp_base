@@ -91,7 +91,7 @@
             // fetch the plan ::: $SCOPE.ILP.PLAN
             dtaIlp.getPlanYear($scope.idStudent, $scope.idYear).then(function(result) {
                 $scope.ilp.plan = result;
-                console.log("ilp.plan:: ", $scope.ilp.plan);
+                // console.log("ilp.plan:: ", $scope.ilp.plan);
                 loadFields(result.idIlp);
 
             }, function(err) {
@@ -119,13 +119,13 @@
             // console.log("loading fields");
             dtaIlp.getFields(idIlp).then(function(fields) {
                 $scope.ilp.plan.fields = fields;
-                console.log("ilp.plan.fields", fields);
+                // console.log("ilp.plan.fields", fields);
                 $scope.checkilp();
 
 
                 // get the section list
                 dtaIlp.getSections().then(function(sexions) {
-                    console.log("ilp.plan.sexions", sexions);
+                    // console.log("ilp.plan.sexions", sexions);
                     $scope.ilp.sections = sexions;
 
                     if ($stateParams.idSection) {
@@ -145,7 +145,7 @@
                     // getQuestions ::: $SCOPE.ILP.QUESTIONS
                     dtaIlp.getQuestions().then(function(result) {
                         $scope.ilp.questions = result;
-                        console.log("ilp.questions: ", $scope.ilp.questions);
+                        // console.log("ilp.questions: ", $scope.ilp.questions);
                         
                         // load questions into fields
                         for (var i =0;i<$scope.ilp.plan.fields.length;i++){

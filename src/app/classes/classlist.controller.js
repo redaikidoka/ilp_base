@@ -31,7 +31,7 @@
         dtaClass.getClass(vm.currentClassId)
             .then(function(result) {
                 vm.currentClass = result;
-                console.log("Grabbed Class : ", result);
+                // console.log("Grabbed Class : ", result);
 
             }, function(err) {
                 // Error occurred
@@ -42,7 +42,7 @@
         // vm.studentList = dtaClass.getStudentList(vm.currentClassId);
         dtaClass.getStudentList(vm.currentClassId)
             .then(function(results) {
-                console.log("got the student list for class: ", vm.currentClassId, results);
+                // console.log("got the student list for class: ", vm.currentClassId, results);
                 vm.studentList = results;
 
 
@@ -64,7 +64,7 @@
             } else {
                 dtaClass.getYearStudentList(vm.currentClass.idSchoolyear)
                     .then(function(results) {
-                        console.log("got the student list for year: ", vm.currentClass.idSchoolyear, results);
+                        // console.log("got the student list for year: ", vm.currentClass.idSchoolyear, results);
                         vm.fullStudentList = results;
                     }, function(err) {
                         //TODO: Process error

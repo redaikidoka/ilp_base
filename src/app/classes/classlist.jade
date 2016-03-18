@@ -11,30 +11,31 @@ div.container
     button.btn.btn-primary.pull-right Save
 
 div.container.m-t-md
-  div.card
-    div.card-header
-      div.pull-right
-        button.btn.btn-default(ng-click="toggleAddStudent()" ng-init="showAdd = 0") Add Students
-        br.clearfix
-        br.m-t-l
-        label(ng-show="showAdd") All Students in Grade
-        br
-        select( ng-show="showAdd" multiple="true" size="20" ng-model="aclass.selectedAddProspect" ng-options="prospect.name for prospect in aclass.fullStudentList | orderBy:'nameLast' track by prospect.idStudent" )
-        br
-        button.btn.btn-link(ng-show="showAdd" ng-click="addStudent()") Add These Students
+  div.pull-right(style="margin-bottom:-16px;")
+    button.btn.btn-default(ng-click="toggleAddStudent()" ng-init="showAdd = 0") Add Students
+    br.m-t-l
+    label(ng-show="showAdd") All Students in Grade
+    br
+    select( ng-show="showAdd" multiple="true" size="20" ng-model="aclass.selectedAddProspect" ng-options="prospect.name for prospect in aclass.fullStudentList | orderBy:'nameLast' track by prospect.idStudent" )
+    br
+    button.btn.btn-link(ng-show="showAdd" ng-click="addStudent()") Add These Students
         
+
+  div.card.clearfix
+    div.card-header
       h4 
         button.btn.btn-default(type="button" ng-click="isCollapsedS = !isCollapsedS")
           i.icon.ion-arrow-down-b(ng-show="!isCollapsedS")
           i.icon.ion-arrow-right-b(ng-show="isCollapsedS")
         span &nbsp;&nbsp; {{aclass.studentList.length}} Students 
+        br.clearfix
  
     div.card-block.collapse.in#collapseStudents(collapse="isCollapsedS")
-      ul.list-unstyled.student-list
-        li.p-b(ng-repeat="student in aclass.studentList | orderBy:'nameLast'" ) 
-          img.m-r(ng-src="assets/images/students/{{student.profilepicture}}" )
-          span {{student.name}}&nbsp;
-          btn-view-ilp(student="student" classid="aclass.currentClassId" intakedone="student.intakeDone")
+      div.col-lg-2.col-md-3.col-sm-4.col-xs-6(ng-repeat="student in aclass.studentList | orderBy:'nameLast'" ) 
+          label.m-t {{student.name}}&nbsp; 
+          img.student(ng-src="assets/images/students/{{student.profilepicture}}" )
+          btn-view-ilp.m-t(student="student" classid="aclass.currentClassId" intakedone="student.intakeDone")
+          
       br
       div.alert.alert-warning.alert-dismissible( role="alert" ng-show="$scope.problem")
         button.close(type="button" data-dismiss="alert" aria-label="Close")

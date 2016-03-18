@@ -48,7 +48,7 @@
                     }).$promise
                     .then(function(results) {
                         var passCheck = results.namelast + results.namefirst.length.toString();
-                        console.log("found user ", results, "looking for password:", passCheck);
+                        // console.log("found user ", results, "looking for password:", passCheck);
 
                         if (_upass === passCheck) {
                             $rootScope.user = results;
