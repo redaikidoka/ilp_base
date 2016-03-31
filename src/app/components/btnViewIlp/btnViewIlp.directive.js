@@ -40,8 +40,8 @@
       // console.log('viewilpbtn for:', vm.student);
       		var text = 'Start Intake';
 
-      		if (vm.intakedone) { text = 'View ILP';}
-      		else if (vm.student.hasIlp) { text = 'Continue Intake';}
+      		if (vm.intakeDone) { text = 'View ILP';}
+      		else if (vm.student.idPlan) { text = 'Continue Intake';}
       		return text;
       	}
 
@@ -55,7 +55,7 @@
       		var cssClasses = 'btn btn-danger ' + vm.addedclass;
 
       		if (vm.intakedone) { cssClasses = '';}
-      		else if (vm.student.hasIlp) { cssClasses = 'btn btn-primary ' + vm.addedclass;}
+      		else if (vm.student.idPlan) { cssClasses = 'btn btn-primary ' + vm.addedclass;}
       		// console.log("btnViewilp.cssClasses =", cssClasses);
       		return cssClasses;
       	}

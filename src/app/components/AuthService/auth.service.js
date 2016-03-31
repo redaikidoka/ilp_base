@@ -28,7 +28,7 @@
         function isAdmin() {
             if (isAuthenticated()) {
                 // console.log($rootScope.user);
-                return $rootScope.user.admin;
+                return $rootScope.user.isAdmin;
             }
 
             return false;
@@ -47,8 +47,9 @@
                 IlpTeacher.findOne( { filter: { "where": {  "username": searchname  }  }
                     }).$promise
                     .then(function(results) {
-                        var passCheck = results.namelast + results.namefirst.length.toString();
-                        // console.log("found user ", results, "looking for password:", passCheck);
+                        // console.log("AuthService.login: found user ", results );
+                        var passCheck = results.nameLast + results.nameFirst.length.toString();
+                        // console.log("AuthService.login: looking for password:", passCheck);
 
                         if (_upass === passCheck) {
                             $rootScope.user = results;

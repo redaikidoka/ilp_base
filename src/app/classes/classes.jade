@@ -7,7 +7,7 @@ div.m-t-md#classnav
   nav.navbar.subnav
     ul.nav.nav-pills
       li.nav-item(ng-repeat="c in myclasses.classList" ui-sref-active="active" )
-        a.nav-link(ui-sref="myclasses.class({classId: c.idClass})") {{c.name}}
+        a.nav-link(ui-sref="myclasses.class({classId: c.idClass})") {{c.className}}
 div(ui-view)
 
 

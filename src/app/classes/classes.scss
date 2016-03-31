@@ -33,6 +33,24 @@ img.student {
 	width: 90%;
 	height: auto;
 	display:block;
+	border-top-left-radius:2em;
+	border-top-right-radius:2em;
+	margin-bottom: -18px;
+}
+
+label.student {
+	width:90%;
+	background-color: hsla(0, 0%, 15%, 0.6);
+	color: white;
+	text-align: center;
+
+}
+
+.ilpbutton {
+	margin: 0 auto;
+	text-align: center;
+	margin-top: 0px;
+	margin-bottom: 25px;
 
 }
 /*

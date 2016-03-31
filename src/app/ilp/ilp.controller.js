@@ -54,9 +54,9 @@
 
         // get the class for this student
         dtaClass.getClass($scope.idClass).then(function(results) {
-            // console.log("ilp: loaded class", results);
+            console.log("ilp: loaded class", results);
             $scope.currentClass = results;
-            $scope.idYear = results.idSchoolyear;
+            $scope.idYear = results.idSchoolYear;
 
             // load the ilp
             loadIlp();
@@ -68,6 +68,7 @@
         // grab that class' list of students
         dtaClass.getStudentList($scope.idClass).then(function(results) {
             $scope.studentList = results;
+            console.log("ilp::classmate student list", results);
         }, function(err) {
             //TODO: show an error here
             console.log("ilp:no students :(", err);
@@ -77,6 +78,7 @@
 
             // fetch the student  ::: $SCOPE.ILP.STUDENT
             dtaIlp.getStudent($scope.idStudent, $scope.idYear).then(function(results) {
+                console.log("ilp.student:: ", results);
                 $scope.ilp.student = results;
 
                 $scope.setDefaultStudent(results.idStudent);
@@ -91,7 +93,7 @@
             // fetch the plan ::: $SCOPE.ILP.PLAN
             dtaIlp.getPlanYear($scope.idStudent, $scope.idYear).then(function(result) {
                 $scope.ilp.plan = result;
-                // console.log("ilp.plan:: ", $scope.ilp.plan);
+                console.log("ilp.plan:: ", $scope.ilp.plan);
                 loadFields(result.idIlp);
 
             }, function(err) {
@@ -104,7 +106,7 @@
                     .then(function(result) {
                         $scope.ilp.plan = result;
                         console.log("ilp.newplan::", $scope.ilp.plan);
-                        loadFields(result.idIlp);
+                        loadFields(result.idPlan);
                     }, function(err) {
                         // TODO: Show an error here
                         console.log("failed to post ilp", err);
@@ -119,21 +121,21 @@
             // console.log("loading fields");
             dtaIlp.getFields(idIlp).then(function(fields) {
                 $scope.ilp.plan.fields = fields;
-                // console.log("ilp.plan.fields", fields);
+                console.log("ilp.plan.fields::", fields);
                 $scope.checkilp();
 
 
                 // get the section list
                 dtaIlp.getSections().then(function(sexions) {
-                    // console.log("ilp.plan.sexions", sexions);
+                    console.log("ilp.plan.sexions", sexions);
                     $scope.ilp.sections = sexions;
 
                     if ($stateParams.idSection) {
                         $scope.currentSectionID = $stateParams.idSection;
                     } else {
                         // setting default section id
-                        // console.log("setting default section id to ", sexions[0].idSectionDef );
-                        // console.log("$stateParams: ", $stateParams);
+                        console.log("setting default section id to ", sexions[0].idSectionDef );
+                        console.log("$stateParams: ", $stateParams);
                         $scope.currentSectionID = sexions[0].idSectionDef;
 
                         // go to the first section.
@@ -145,7 +147,7 @@
                     // getQuestions ::: $SCOPE.ILP.QUESTIONS
                     dtaIlp.getQuestions().then(function(result) {
                         $scope.ilp.questions = result;
-                        // console.log("ilp.questions: ", $scope.ilp.questions);
+                        console.log("ilp.questions: ", $scope.ilp.questions);
                         
                         // load questions into fields
                         for (var i =0;i<$scope.ilp.plan.fields.length;i++){
@@ -169,7 +171,7 @@
         }
 
         $scope.scrollTo = function(id) {
-            // console.log('scroll to', id);
+            console.log('scroll to', id);
             $location.hash(id);
             $anchorScroll();
         };

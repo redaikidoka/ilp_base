@@ -6,7 +6,7 @@
         .service('dtaIlp', dtaIlp);
 
     /** @ngInject */
-    function dtaIlp($log, $q, Ilp, VwClassStudentsWithIlp, IlsSectionDef, VwIlpFields, IlpField, AuthService, IlsFieldQuestions) {
+    function dtaIlp($log, $q, IlpPlan, VwClassStudentsWithIlp, IlsSectionDef, VwIlpFields, IlpField, AuthService, IlsFieldQuestions) {
         var console = $log;
 
         var currentSchoolYearID = 0;
@@ -143,7 +143,7 @@
         function getPlan(studentID) {
 
             // console.log("ILP.findONe idStudent : ", studentID, "Schoolyear: ", currentSchoolYearID);
-            return Ilp.findOne({
+            return IlpPlan.findOne({
                 filter: {
                     where: {
                         idStudent: studentID,
@@ -157,11 +157,11 @@
         function getPlanYear(studentID, yearId) {
 
             // console.log("ILP.findONe idStudent : ", studentID, "Schoolyear: ", currentSchoolYearID);
-            return Ilp.findOne({
+            return IlpPlan.findOne({
                 filter: {
                     where: {
                         idStudent: studentID,
-                        idSchoolyear: yearId
+                        idSchoolYear: yearId
                     }
                 }
             }).$promise;
@@ -175,7 +175,7 @@
 
         function createPlanYear(studentID, yearID) {
             // // first create a plan
-            // return Ilp.create(
+            // return IlpPlan.create(
             //     { idStudent: studentID, 
             //         idSchoolyear: yearID, 
             //         sUserid: AuthService.getUserId()})

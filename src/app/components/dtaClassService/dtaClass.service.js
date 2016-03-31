@@ -6,7 +6,7 @@
         .service('dtaClass', dtaClass);
  
     /** @ngInject */
-    function dtaClass($log, IlpClass, IlpClassStudents, VwClassStudentsWithIlp, VwClassTeachers, VwStudents, AuthService) {
+    function dtaClass($log, IlpClass, IlpClassStudent, VwClassStudentsWithIlp, VwClassTeachers, VwStudents, AuthService) {
         var console = $log;
 
         // var currentSchoolYearId;
@@ -30,7 +30,7 @@
             // console.log("dtaClass::TeacherID: ", teacherID);
 
             if (AuthService.isAdmin()) {
-                // console.log("getting all classes");
+                console.log("getting all classes");
                 return IlpClass.find(   { idSchoolyear: yearId } 
                     ).$promise;
 
@@ -88,7 +88,7 @@
 
             console.log("new classstudent", classStudentData);
 
-            return IlpClassStudents
+            return IlpClassStudent
                 .create(classStudentData)
                 .$promise;
 
