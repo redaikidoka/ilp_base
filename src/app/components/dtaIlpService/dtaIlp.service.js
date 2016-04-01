@@ -161,7 +161,7 @@
                 filter: {
                     where: {
                         idStudent: studentID,
-                        idSchoolYear: yearId
+                        idSchoolyear: yearId
                     }
                 }
             }).$promise;
@@ -190,7 +190,7 @@
 
             console.log("new ilp", ilpData);
 
-            return Ilp
+            return IlpPlan
                 .create(ilpData)
                 .$promise;
 
@@ -267,13 +267,13 @@
             return null;
         }
 
-        function getFields(ilpID) {
+        function getFields(planID) {
 
-            // TODO: console.log("getting page", pagenum);
+            console.log("getting fields for ilp_plan.idPlan: ", planID);
             return VwIlpFields.find({
                 filter: {
                     where: {
-                        idIlp: ilpID
+                        idPlan: planID
                     }
                 }
             }).$promise;
