@@ -269,7 +269,7 @@
 
         function getFields(planID) {
 
-            console.log("getting fields for ilp_plan.idPlan: ", planID);
+            // console.log("dtaIlp::getFields getting fields for ilp_plan.idPlan: ", planID);
             return VwIlpFields.find({
                 filter: {
                     where: {
@@ -282,16 +282,17 @@
 
         // 2015-12-10 7:06:06 (Pól): given a vwilpfields object, let's do an update on the field itself, then slag the data back in.
         function updateFieldItem(theField) {
-            // return theField.$save();
+             var userID = AuthService.getUserId();
+                        // return theField.$save();
 
+            console.log("dtaIlp::updateFieldItem(theField::", theField, " by: ", userID);
             return IlpField.update({
                 where: {
-                    idStudent: theField.idStudent,
                     idField: theField.idField
                 }
             }, {
                 contents: theField.contents,
-                sUserid: AuthService.getUserId()
+                sUser: userID
             }).$promise;
         }
 

@@ -137,11 +137,10 @@ nav.navbar.subnav {
 		label.updatenote {
 			font-size: .6em;
 			float: left;
-			margin: -15px 0 0 4px;
+			margin: 3px 0 0 -3px;
 			font-style: italic;
 			color: lighten($text-color, 20%);
 		}
-
 
 		textarea:focus {
 			border: 0 transparent !important;

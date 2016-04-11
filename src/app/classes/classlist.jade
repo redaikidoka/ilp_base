@@ -11,16 +11,6 @@ div.container
     button.btn.btn-primary.pull-right Save
 
 div.container.m-t-md
-  div.pull-right(style="margin-bottom:-16px;")
-    button.btn.btn-default(ng-click="toggleAddStudent()" ng-init="showAdd = 0") Add Students
-    br.m-t-l
-    label(ng-show="showAdd") All Students in Grade
-    br
-    select( ng-show="showAdd" multiple="true" size="20" ng-model="aclass.selectedAddProspect" ng-options="prospect.name for prospect in aclass.fullStudentList | orderBy:'nameLast' track by prospect.idStudent" )
-    br
-    button.btn.btn-link(ng-show="showAdd" ng-click="addStudent()") Add These Students
-        
-
   div.card.clearfix
     div.card-header
       h4 
@@ -42,6 +32,20 @@ div.container.m-t-md
         button.close(type="button" data-dismiss="alert" aria-label="Close")
           span(aria-hidden="true") &times;
         strong We had a problem {{$scope.problem}}
+    div.clearfix
+      br
+    div.pull-right(style="margin-bottom:-16px;")
+      button.btn.btn-default(ng-click="toggleAddStudent()" ng-init="showAdd = 0") Add Students
+      div(ng-show="showAdd")
+        br.m-t-l
+        label() All Students in Grade
+        br
+        select(  multiple="true" size="20" ng-model="aclass.selectedAddProspect" ng-options="prospect.studentName for prospect in aclass.fullStudentList | orderBy:'nameLast' track by prospect.idStudent" )
+        br
+        button.m-b-l.btn.btn-link(ng-click="addStudent()") Add These Students
+        br.m-t-l
+        span .
+
 
   div.card
     div.card-header
