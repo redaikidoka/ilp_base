@@ -30,7 +30,7 @@
             // console.log("dtaClass::TeacherID: ", teacherID);
 
             if (AuthService.isAdmin()) {
-                console.log("getting all classes");
+                // console.log("getting all classes");
                 return IlpClass.find(   { idSchoolyear: yearId } 
                     ).$promise;
 
@@ -55,7 +55,7 @@
                 studentList = {};
             }
 
-            console.log("loading students for class: ", _idClass);
+            // console.log("dtaClass::getStudentList loading students for class: ", _idClass);
 
             return VwClassStudentsWithIlp.find(
                 { filter: { where: { idClass: parseInt(_idClass) } } }

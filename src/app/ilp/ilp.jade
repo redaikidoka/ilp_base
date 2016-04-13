@@ -1,18 +1,18 @@
 ilp-nav
 div.container-fluid
   label.update.pull-right Last Updated 
-    span(am-time-ago="ilp.lastUpdated" ng-show="ilp.plan.sUpdate" ) {{ilp.plan.sUpdate | fromNow}} ...
+    span(am-time-ago="ilp.plan.sUpdate" ng-show="ilp.plan.sUpdate" ) {{ilp.plan.sUpdate | fromNow}} ...
     br
-    span ID#: {{ilp.student.studentid}}
-  img.m-t-md.profile-pic.pull-left(ng-src="{{getStudentPhoto(ilp.student.fullPicture)}}" alt="{{ilp.student.studentName}}" )
-  h2.m-t-md {{ilp.student.studentName}} in 
+    span ID#: {{ilp.plan.student.studentid}}
+  img.m-t-md.profile-pic.pull-left(ng-src="{{getStudentPhoto(ilp.plan.student.fullPicture)}}" alt="{{ilp.plan.student.studentName}}" )
+  h2.m-t-md {{ilp.plan.student.studentName}} in 
     em {{currentClass.className}}
   label.m-l Age: 
-    em {{ilp.student.age}}
-    span.m-l(ng-show="ilp.student.gender") Gender: 
-      em {{ilp.student.gender}}
-  label.m-l(ng-show="ilp.student.homeLanguage") Speaks at Home:
-    em {{ilp.student.homeLanguage}}
+    em {{ilp.plan.student.age}}
+    span.m-l(ng-show="ilp.plan.student.gender") Gender: 
+      em {{ilp.plan.student.gender}}
+  label.m-l(ng-show="ilp.plan.student.homeLanguage") Speaks at Home:
+    em {{ilp.plan.student.homeLanguage}}
   div.pull-right#classlist-display
     label(style="margin-bottom:-20px;") {{currentClass.className}}&nbsp;Students
     br

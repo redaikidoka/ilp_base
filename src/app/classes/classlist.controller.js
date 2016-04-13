@@ -40,6 +40,7 @@
             });
 
         // vm.studentList = dtaClass.getStudentList(vm.currentClassId);
+        // 2016-04-11 16:43:33 (Pól):  TODO::try to cache these lists?
         dtaClass.getStudentList(vm.currentClassId)
             .then(function(results) {
                 // console.log("got the student list for class: ", vm.currentClassId, results);

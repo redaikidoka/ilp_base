@@ -6,11 +6,13 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($log, $rootScope, $state, AuthService, ConfigService) {
+  function runBlock($log, $rootScope, $state, AuthService, ConfigService, dtaIlp) {
     $rootScope.configs = {};
 
     // load the config
     ConfigService.getCurrentYearId();
+    //load the  ilp config
+    dtaIlp.currentSchoolYearID = ConfigService.getCurrentYearId();
 
     $rootScope.thisurl = 'http://192.241.235.93:3000/api';
   	$rootScope.$on("$stateChangeStart", function(event, toState /*, toParams, fromState, fromParams */){

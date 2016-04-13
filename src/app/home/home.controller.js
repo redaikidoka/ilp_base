@@ -15,7 +15,7 @@
         $scope.loginmessage = '';
         $scope.customBodyClass = 'home';
 
-        console.log($rootScope.bodyClass);
+        // console.log($rootScope.bodyClass);
 
 
         $scope.login = function(user, pw) {

@@ -12,17 +12,38 @@
         // .idYear
         // .currentClass{}
         // .studentList{}
+        // .currentSectionID
+        // .currentSection{}
         // 
+
+        // ROOTSCOPE:
+        //  .currentStudentID
+        //  .currentClassId
+        //
+
         var console = $log;
-
-        $scope.ilp = {};
-        // .ilp.student
-        // .ilp.sections
-        // .ilp.questions
-        // .ilp.plan =>  ilp.plan.fields
-
         // setup the variable for our student dropdown list
         $scope.selectedStudent = {};
+
+        // setup the ILP
+        $scope.ilp = {};
+        //  .plan{} =>  
+        //      .fields[]
+        //      .student {}
+
+        // .ilp.structure{}
+        //      .sections[]
+        //      .questions[]
+        //      .groups[]
+        //
+
+
+        // load the ILP Plan structure
+        loadIlpStructure();
+
+        //
+        // VERIFY the parameters
+        // 
 
         // verify the student id
         if ($stateParams.idStudent) {
@@ -31,6 +52,8 @@
             $rootScope.currentStudentId = $stateParams.idStudent;
         } else {
             //TODO: Load the last student / first student? First class? Rootscope?
+            console.log("ilpController:: ERR no student id in the param! :(params)", $stateParams,
+                "loaded: ", $rootScope.currentStudentId);
             $scope.idStudent = $rootScope.currentStudentId;
             //TODO: Load the first student in the class
         }
@@ -42,12 +65,12 @@
             $rootScope.currentClassId = $stateParams.idClass;
         } else {
             $scope.idClass = $rootScope.currentClassId;
-            console.log("ilp: no class id. :(params)", $stateParams,
+            console.log("ilpController:: ERR no class id. :(params)", $stateParams,
                 "loaded: ", $rootScope.currentClassId);
 
             // if we're doing a refresh, get back to the class list
             if (!$scope.idClass) {
-                console.log("no current class - reverting");
+                console.log("ilpController:: ERR no current class - reverting");
                 $state.go('myclasses');
             }
         }
@@ -56,7 +79,7 @@
         dtaClass.getClass($scope.idClass).then(function(results) {
             // console.log("ilp: loaded class", results);
             $scope.currentClass = results;
-            $scope.idYear = results.idSchoolYear;
+            $scope.idYear = results.idSchoolyear;
 
             // load the ilp
             loadIlp();
@@ -65,149 +88,72 @@
             console.log("ilp:no class :(", err);
         });
 
+
         // grab that class' list of students
         dtaClass.getStudentList($scope.idClass).then(function(results) {
             $scope.studentList = results;
-            console.log("ilp::classmate student list", results);
+            // console.log("ilp::classmate student list", results);
         }, function(err) {
             //TODO: show an error here
             console.log("ilp:no students :(", err);
         });
 
+
+        if ($stateParams.idSection) {
+            $scope.log("ilpController:: got section ", $stateParams.idSection)
+            $scope.currentSectionID = $stateParams.idSection;
+            $scope.currentSection = $scope.ilp.structure.sections[arrayObjectIndexOf($scope.ilp.sections, "idSectionDef", $scope.currentSectionID)];
+            
+        } else {
+            // setting default section id
+            console.log("ilp::loadFields -setting default section id to ", $scope.ilp.structure.sections[0] );
+            // console.log("ilp::loadFields - f$stateParams: ", $stateParams);
+            $scope.currentSectionID = $scope.ilp.structure.sections[0].idSectionDef;
+            $scope.currentSection = $scope.ilp.structure.sections[0];
+
+            // go to the first section.
+            // console.log("ilp::loadFields - Go to the first section!");
+
+            $state.go('ilp.section', {
+                idSection: $scope.currentSectionID
+            });
+        }
+
+            $scope.referenceSectionID = 9;
+            $scope.referenceSection = $scope.ilp.structure.sections[arrayObjectIndexOf($scope.ilp.structure.sections, "idSectionDef", $scope.referenceSectionID)];
+
+
+        function loadIlpStructure() {
+
+            // var ilpStructure = dtaIlp.getIlpStructure();
+
+            $scope.ilp.structure = dtaIlp.getIlpStructure();
+
+            console.log("ilpController:: pulled the structure of the ilp", $scope.ilp.structure);
+        }
+
+ 
         function loadIlp() {
+            // console.log("ilpController::loadIlp() for studentid", $scope.idStudent, " Year: ", $scope.idYear);
+            dtaIlp.loadPlan($scope.idStudent, $scope.idYear).then(function(plan) {
+                // console.log("ilpController::loadIlp() - got the plan! ", plan);
+                $scope.ilp.plan = plan;
 
-            // fetch the student  ::: $SCOPE.ILP.STUDENT
-            dtaIlp.getStudent($scope.idStudent, $scope.idYear).then(function(results) {
-                // console.log("ilp.student:: ", results);
-                $scope.ilp.student = results;
-
-                $scope.setDefaultStudent(results.idStudent);
+                console.log("ilpController::loadIlp() Loaded the plan:", $scope.ilp.plan);
 
             }, function(err) {
                 // TODO: Show an error here
 
                 // Error occurred
-                console.log("no student. :(", err);
-            });
-
-            // fetch the plan ::: $SCOPE.ILP.PLAN
-            dtaIlp.getPlanYear($scope.idStudent, $scope.idYear).then(function(result) {
-                $scope.ilp.plan = result;
-                console.log("ilp.plan:: ", $scope.ilp.plan);
-                loadFields(result.idPlan);
-
-
-            }, function(err) {
-                // Error occurred
-
-                console.log("no plan - creating", err);
-
-                // create the Plan
-                dtaIlp.createPlanYear($scope.idStudent, $scope.currentClass.idSchoolyear)
-                    .then(function(result) {
-                        $scope.ilp.plan = result;
-                        console.log("ilp.newplan::", $scope.ilp.plan);
-                        loadFields(result.idPlan);
-                    }, function(err) {
-                        // TODO: Show an error here
-                        console.log("failed to post ilp", err);
-                        $scope.problem = err.statusText;
-                    });
+                console.log("ilpController::loadIlp() - plan failed to load ", err);
             });
 
 
         }
 
-        function loadFields(_idPlan) {
-            // console.log("ilp::Controller::loadFields loading fields for Plan", _idPlan);
-            dtaIlp.getFields(_idPlan).then(function(fields) {
-                $scope.ilp.plan.fields = fields;
-                console.log("ilp.plan.fields::", fields);
-                $scope.checkilp();
 
 
-                // get the section list
-                dtaIlp.getSections().then(function(sexions) {
-                    console.log("ilp.sexions", sexions);
-                    $scope.ilp.sections = sexions;
-
-                    if ($stateParams.idSection) {
-                        $scope.currentSectionID = $stateParams.idSection;
-                        $scope.currentSection = $scope.ilp.sections[arrayObjectIndexOf($scope.ilp.sections, "idSectionDef", $scope.currentSectionID)];
-                    } else {
-                        // setting default section id
-                        console.log("setting default section id to ", sexions[0].idSectionDef );
-                        console.log("$stateParams: ", $stateParams);
-                        $scope.currentSectionID = sexions[0].idSectionDef;
-                        $scope.currentSection = $scope.ilp.sections[0];
-
-                        // go to the first section.
-                        console.log("Go to the first section!");
-
-                        $state.go('ilp.section', {
-                            idSection: sexions[0].idSectionDef
-                        });
-                    }
-
-                    calculateIlpInfo();
-
-                    // getQuestions ::: $SCOPE.ILP.QUESTIONS
-                    dtaIlp.getQuestions().then(function(result) {
-                        $scope.ilp.questions = result;
-                        console.log("ilp.questions: ", $scope.ilp.questions);
-                        
-                        // load questions into fields
-                        for (var i =0;i<$scope.ilp.plan.fields.length;i++){
-                            $scope.ilp.plan.fields[i].questions = dtaIlp.getQuestionforFieldDefId($scope.ilp.plan.fields[i].idFieldDef);
-                        }
-
-                    }, function(err) {
-                        console.log("ilp failed to get questions", err);
-                        $scope.problem = err.statusText;
-                    });
-
-
-                }, function(err) {
-                    console.log("no sections. :(", err);
-                });
-
-
-            }, function(err) {
-                console.log("couldn't load fields", err);
-            });
-        }
-
-        function calculateIlpInfo() {
-
-            if (!$scope.ilp || !$scope.ilp.sections || ! $scope.ilp.plan.fields)
-            {
-                console.log("ilp::calculateIlpInfo() - no ILP loaded. :(");
-
-                return;
-            }
-
-            for(var s =0; s < $scope.ilp.sections.length ; s++) {
-                var _idSectionDef = $scope.ilp.sections[s].idSectionDef;
-                // for each section
-                var groups = [];
-
-                for(var f=0; f < $scope.ilp.plan.fields.length; f++) {
-
-                    if ($scope.ilp.plan.fields[f].idSectionDef === _idSectionDef && 
-                            groups.indexOf($scope.ilp.plan.fields[f].idFieldGroup) < 0) {
-                        groups.push($scope.ilp.plan.fields[f].idFieldGroup);
-                    }
-                }
-
-                // assign the groups we found to the section
-                $scope.ilp.sections[s].groups = groups;
-
-                console.log("For Section[",s, "]: ", $scope.ilp.sections[s].sectionTitle, "the groups:", groups );
-              
-            }
-            
-        }
-
+        // arrayObjectIndexOf(arr, "stevie", "hello"); // 1
         function arrayObjectIndexOf(myArray, searchTerm, property) {
             for(var i = 0, len = myArray.length; i < len; i++) {
                 if (myArray[i][property] === searchTerm) {
@@ -215,7 +161,7 @@
             }
             return -1;
         }
-// arrayObjectIndexOf(arr, "stevie", "hello"); // 1
+
 
         $scope.scrollTo = function(id) {
             console.log('scroll to', id);
@@ -223,7 +169,7 @@
             $anchorScroll();
         };
 
-        $scope.getFields = function(idSection) {
+        $scope.getSectionFields = function(idSection) {
             if (!idSection) {
                 console.log("ilp::getFields: no Section id. :(", idSection);
                 return null;
@@ -301,8 +247,8 @@
         };
 
         $scope.getGroupClass = function(_idFieldGroup) {
-            console.log("ilp::getGroupClass:idFieldGroup:", _idFieldGroup);
-            if (_idFieldGroup === 10){
+            // console.log("ilp::getGroupClass:idFieldGroup:", _idFieldGroup);
+            if (_idFieldGroup === 10) {
                 return "col-md-4 col-sm-12";
             } else {
                 return "col-md-8 col-sm-12";

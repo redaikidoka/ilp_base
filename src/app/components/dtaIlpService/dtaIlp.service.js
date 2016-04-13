@@ -6,49 +6,29 @@
         .service('dtaIlp', dtaIlp);
 
     /** @ngInject */
-    function dtaIlp($log, $q, IlpPlan, VwClassStudentsWithIlp, IlsSectionDef, VwIlpFields, IlpField, AuthService, IlsFieldQuestions) {
+    function dtaIlp($log, $q, IlpPlan, VwClassStudentsWithIlp, IlsSectionDef, VwIlpFields, IlpField, AuthService, IlsFieldQuestions, IlsFieldGroup) {
         var console = $log;
 
-        var currentSchoolYearID = 0;
+        // var currentSchoolYearID = 0;
 
-        var ilpSections;
-        var ilpQuestions;
-        var ilp;
-
-
-        // we can just hang onto these - they don't change.
-        IlsSectionDef.find().$promise
-            .then(function(result) {
-                ilpSections = result;
-                // console.log("Grabbed the list of ilpSections : ", result);
-            }, function(err) {
-                // Error occurred
-                //TODO: Process error
-                console.log("no sections in dtaILP :(", err);
-            });
-
-        // getQuestions().then(function(result) {
-        //     ilpQuestions = result;
-        // }, function(err) {
-        //     console.log("no questions in dtaILP ", err);
-        // });
-        IlsFieldQuestions.find().$promise
-            .then(function(questions) {
-                ilpQuestions = questions;
-                // console.log("downloaded questions in dtaIlp main ", questions);
-            }, function(err) {
-                //TODO: process error
-                console.log("No questions. :(", err);
-
-            });
+        var ilp = {};
+        ilp.structure = {};
+        // console.log("dtaIlp :: loading");
+        loadStructure();
 
 
         this.loadPlan = loadPlan;
+        // this.loadStructure = loadStructure();
 
-        this.createPlan = createPlan;
-        this.createPlanYear = createPlanYear;
-        this.getPlan = getPlan;
-        this.getPlanYear = getPlanYear;
+        // 
+        // Exposed Functions
+        //
+        this.getIlpStructure = getIlpStructure;
+
+        // this.createPlan = createPlan;
+        this.createPlanforYear = createPlanYear;
+        // this.getPlan = getPlan;
+        this.getPlanbyStudentYear = getPlanYear;
         this.getStudent = getStudent;
         this.getFields = getFields;
         this.getSections = getSections;
@@ -58,63 +38,141 @@
         this.updateFieldItem = updateFieldItem;
         this.updateField = updateField;
 
-        function loadPlan(studentId, yearId) {
-            // RETURNS AN ILP OBJECT
-            // ilp.student {}
-            // ilp.plan {}
-            // ilp.plan.sections
-            // ilp.plan.fields
 
-            if (!studentId || !yearId) {
+        // ilp{}
+        //  .plan{}
+        //      .fields[]
+        //      .student{}
+
+        //  .structure{}
+        //      .sections[]
+        //      .questions[]
+        //      .groups[]
+
+        // heands the structure to the outside
+        function getIlpStructure() {
+            if (ilp.structure) {
+                return ilp.structure;
+            }
+            else { 
+                console.log("dtaIlp::getIlpStructure ERROR: NO STRUCTURE::");
+                return null;
+            }
+        }
+
+        function loadStructure() {
+            // we can just hang onto these - they don't change.
+
+            IlsSectionDef.find().$promise
+                .then(function(result) {
+                    ilp.structure.sections = result;
+                    // console.log("dtaIlp::loadStructure downloaded ILP Sections : ", ilp.structure.sections);
+                }, function(err) {
+                    // Error occurred
+                    //TODO: Process error
+                    console.log("dtaIlp::loadStructure no sections in dtaILP :(", err);
+                });
+
+            IlsFieldQuestions.find().$promise
+                .then(function(questions) {
+                    ilp.structure.questions = questions;
+                    // console.log("dtaIlp::loadStructure downloaded ILP Questions ", ilp.structure.questions);
+                }, function(err) {
+                    //TODO: process error
+                    console.log("dtaIlp::loadStructure No questions. :(", err);
+
+                });
+
+            IlsFieldGroup.find().$promise
+                .then(function(groups) {
+                    ilp.structure.groups = groups;
+                    // console.log("dtaIlp::loadStructure downloaded ILP Groups", ilp.structure.groups);
+                }, function(err) {
+                    //TODO: PROCESS ERROR
+                    console.error("dtaIlp::loadStructure no groups for the ILP!", err);
+                });
+        }
+
+        function loadPlan(_idStudent, _idYear) {
+            // RETURNS a promise for an ilp object
+            //  .plan{} =>  
+            //      .fields[]
+            //      .student {}
+
+            var deferred = $q.defer();
+
+            if (!_idStudent || !_idYear) {
                 ilp = null;
-                return false;
+                console.log("dtaIlp.loadPlan:: _idStudent", _idStudent, "_idYear", _idYear);
+                return deferred.reject("missing parameter");
 
             }
 
-            // load the student
             // check to see if we have it already
             if (ilp && ilp.plan && ilp.student) {
-                if (ilp.plan.idStudent === studentId &&
-                    ilp.plan.idSchoolYear === yearId &&
-                    ilp.student.idStudent === studentId) {
-                    return ilp;
+                if (ilp.plan.idStudent === _idStudent &&
+                    ilp.plan.idSchoolYear === _idYear &&
+                    ilp.plan.student.idStudent === _idStudent) {
+                     deferred.resolve(ilp.plan);
                 }
             }
 
             // clean up
-            ilp = {};
+            ilp.plan = {};
 
-            getStudent(studentId)
-                .then(function(results) {
+            // load the student
+            getStudent(_idStudent)
+                .then(function(student) {
                     // console.log("ilp:Got a student!", results);
-                    ilp.student = results;
+                    ilp.student = student;
 
                     // load the ilp record
-                    getPlan(studentId).then(function(results) {
-                        ilp.plan = results;
+                    getPlanYear(_idStudent, _idYear).then(function(plan) {
+                        ilp.plan = plan;
+                        ilp.plan.student = student;
 
-                        loadFields(ilp.plan.idIlp);
-                        // sections
-                        ilp.plan.sections = ilpSections;
+                        getFields(ilp.plan.idPlan).then(function(fields) {
+                            ilp.plan.fields = fields;
+                            // console.log("dtaIlp::LoadPlan got fields", fields);
 
-                        console.log("Assembled ilp: ", ilp);
+                            // calculateIlpInfo();
 
-                        return ilp;
+                             deferred.resolve(ilp.plan);
+                        }, function(err) {
+                            console.log("dtaIlp::LoadPlan() - couldn't get fields", err);
+                             deferred.reject("Couldn't load fields");
+                        });
+
+                        // console.log("dtaIlp::loadPlan() Assembled ilp: ", ilp);
+
+                        return deferred.resolve(ilp.plan);
                     }, function(err) {
-                        // Error occurred
-
+                        // no plan exists - make one!
                         console.log("no plan - creating", err);
 
                         // create the Plan
-                        createPlanYear(studentId, yearId)
+                        createPlanYear(_idStudent, _idYear)
                             .then(function(result) {
                                 // console.log("posted ilp:", result);
                                 ilp.plan = result;
-                                loadFields(ilp.plan.idIlp);
+                                ilp.plan.student = student;
+
+                                getFields(ilp.plan.idPlan).then(function(fields) {
+                                    ilp.plan.fields = fields;
+                                    console.log("dtaIlp::LoadPlan got new plan fields", fields);
+
+                                    // calculateIlpInfo();
+
+                                     deferred.resolve(ilp.plan);
+                                }, function(err) {
+                                    console.log("dtaIlp::LoadPlan() - couldn't get fields for new plan :(", err);
+                                     deferred.reject("Couldn't load fields for new plan");
+                                });
+
                             }, function(err) {
                                 // TODO: Show an error here
-                                console.log("failed to post ilp", err);
-                                return err;
+                                console.log("dtaIlp::loadPlan()-createPlanYear failed to post ilp", err);
+                                 deferred.reject("Cound not create plan " + err.statusText);
                             });
                     });
 
@@ -124,35 +182,13 @@
                     // Error occurred
                     console.log("no student. :(", err);
 
-                    return err;
+                     deferred.reject("Cound not find Student " + err.statusText);
                 });
 
+                // console.log("dtaIlp::loadPlan - returning deferred promise");
+                return deferred.promise;
         }
 
-        function loadFields(idILP) {
-
-            getFields(idILP).then(function(fields) {
-                ilp.plan.fields = fields;
-                console.log("dtaIlp: Loading fields", fields);
-            });
-
-        }
-
-
-        // get the ILP for a student in the current school year
-        function getPlan(studentID) {
-
-            // console.log("ILP.findONe idStudent : ", studentID, "Schoolyear: ", currentSchoolYearID);
-            return IlpPlan.findOne({
-                filter: {
-                    where: {
-                        idStudent: studentID,
-                        idSchoolyear: currentSchoolYearID
-                    }
-                }
-            }).$promise;
-            // return plan;
-        }
 
         function getPlanYear(studentID, yearId) {
 
@@ -168,10 +204,10 @@
             // return plan;
         }
 
-        function createPlan(studentId) {
-            // create a plan in the current year
-            return createPlanYear(studentId, currentSchoolYearID);
-        }
+        // function createPlan(studentId) {
+        //     // create a plan in the current year
+        //     return createPlanYear(studentId, currentSchoolYearID);
+        // }
 
         function createPlanYear(studentID, yearID) {
             // // first create a plan
@@ -210,26 +246,26 @@
         }
 
         function getSections() {
-            if (ilpSections) {
+            if (ilp.structure.sections) {
                 // $q.when(myRefData);
-                return $q.when(ilpSections);
+                return $q.when(ilp.structure.sections);
             } else {
                 return IlsSectionDef.find().$promise;
             }
         }
 
         function getQuestions() {
-            if (ilpQuestions) {
-                console.log("dtaIlp.getQuestions - loading local copy");
-                return $q.when(ilpQuestions);
+            if (ilp.structure.questions) {
+                // console.log("dtaIlp.getQuestions - loading local copy");
+                return $q.when(ilp.structure.questions);
             } else {
                 var deferred = $q.defer();
 
                 IlsFieldQuestions.find().$promise
                     .then(function(questions) {
-                        ilpQuestions = questions;
+                        ilp.structure.questions = questions;
                         console.log("downloaded questions in dtaIlp.getQuestions(): ", questions);
-                        deferred.resolve(ilpQuestions);
+                        deferred.resolve(ilp.structure.questions);
                     }, function(err) {
                         //TODO: process error
                         console.log("No questions. :(");
@@ -244,13 +280,12 @@
         function getQuestionforFieldDefId(_idFieldDef) {
             var qList = [];
             // console.log("fetching questions for idFieldDef: ", _idFieldDef);
-            if (_idFieldDef && ilpQuestions) {
+            if (_idFieldDef && ilp.structure.questions) {
                 // console.log("we have questions: ", ilpQuestions);
 
-                for (var i = 0; i < ilpQuestions.length; i++) 
-                {
-                    if (ilpQuestions[i].idFieldDef === _idFieldDef) {
-                        qList.push(ilpQuestions[i].questionText);
+                for (var i = 0; i < ilp.structure.questions.length; i++) {
+                    if (ilp.structure.questions[i].idFieldDef === _idFieldDef) {
+                        qList.push(ilp.structure.questions[i].questionText);
                     }
 
                 }
@@ -263,7 +298,8 @@
                 console.log("failed fetching questions for id: ", _idFieldDef);
             }
 
-            if (qList.length > 0) { return qList;}
+            if (qList.length > 0) {
+                return qList; }
             return null;
         }
 
@@ -282,8 +318,8 @@
 
         // 2015-12-10 7:06:06 (Pól): given a vwilpfields object, let's do an update on the field itself, then slag the data back in.
         function updateFieldItem(theField) {
-             var userID = AuthService.getUserId();
-                        // return theField.$save();
+            var userID = AuthService.getUserId();
+            // return theField.$save();
 
             console.log("dtaIlp::updateFieldItem(theField::", theField, " by: ", userID);
             return IlpField.update({
