@@ -31,10 +31,11 @@
         //      .fields[]
         //      .student {}
 
-        // .ilp.structure{}
+        //  .structure{}
         //      .sections[]
         //      .questions[]
         //      .groups[]
+        //      .fieldDefinitions[]
         //
 
 
@@ -93,6 +94,7 @@
         dtaClass.getStudentList($scope.idClass).then(function(results) {
             $scope.studentList = results;
             // console.log("ilp::classmate student list", results);
+            $scope.setDefaultStudent($scope.idStudent);
         }, function(err) {
             //TODO: show an error here
             console.log("ilp:no students :(", err);
@@ -100,9 +102,9 @@
 
 
         if ($stateParams.idSection) {
-            $scope.log("ilpController:: got section ", $stateParams.idSection)
+            $scope.log("ilpController:: got section ", $stateParams.idSection);
             $scope.currentSectionID = $stateParams.idSection;
-            $scope.currentSection = $scope.ilp.structure.sections[arrayObjectIndexOf($scope.ilp.sections, "idSectionDef", $scope.currentSectionID)];
+            $scope.currentSection = $scope.ilp.structure.sections[arrayObjectIndexOf($scope.ilp.structure.sections, "idSectionDef", $scope.currentSectionID)];
             
         } else {
             // setting default section id
@@ -121,7 +123,7 @@
 
             $scope.referenceSectionID = 9;
             $scope.referenceSection = $scope.ilp.structure.sections[arrayObjectIndexOf($scope.ilp.structure.sections, "idSectionDef", $scope.referenceSectionID)];
-
+            console.log("ilpController::ReferenceSection", $scope.referenceSection);
 
         function loadIlpStructure() {
 
@@ -129,7 +131,7 @@
 
             $scope.ilp.structure = dtaIlp.getIlpStructure();
 
-            console.log("ilpController:: pulled the structure of the ilp", $scope.ilp.structure);
+            // console.log("ilpController:: pulled the structure of the ilp", $scope.ilp.structure);
         }
 
  
@@ -138,8 +140,6 @@
             dtaIlp.loadPlan($scope.idStudent, $scope.idYear).then(function(plan) {
                 // console.log("ilpController::loadIlp() - got the plan! ", plan);
                 $scope.ilp.plan = plan;
-
-                console.log("ilpController::loadIlp() Loaded the plan:", $scope.ilp.plan);
 
             }, function(err) {
                 // TODO: Show an error here
@@ -152,9 +152,9 @@
         }
 
 
-
         // arrayObjectIndexOf(arr, "stevie", "hello"); // 1
-        function arrayObjectIndexOf(myArray, searchTerm, property) {
+        function arrayObjectIndexOf(myArray, property, searchTerm) {
+            // console.log("arrayObjectIndexOf ", myArray, "Searching on ", searchTerm, )
             for(var i = 0, len = myArray.length; i < len; i++) {
                 if (myArray[i][property] === searchTerm) {
                     return i; }
@@ -201,7 +201,7 @@
         };
 
         $scope.getQuestions = function(_idFieldDef) {
-            var found = $filter('filter')($scope.ilp.questions, {
+            var found = $filter('filter')($scope.ilp.structure.questions, {
                     idFieldDef: _idFieldDef
                 },
                 true);
@@ -210,7 +210,7 @@
                 // console.log("questions for ", _idFieldDef, found);
                 return found;
             } else {
-                // console.log("no questions for ", _idFieldDef);
+                console.log("no questions for ", _idFieldDef);
                 // console.log("the questions", $scope.ilp.questions)
                 return null;
             }
@@ -225,6 +225,7 @@
                 $scope.selectedStudent = found[0];
             } else {
                 $scope.selectedStudent = null;
+                console.log("ilpController::setDefaultStudent didn't find ", studentId, "in the studentList", $scope.studentList);
             }
 
             // console.log("found:", found);
@@ -243,6 +244,16 @@
                 return "col-lg-3 col-sm-4 col-xs-12";
             } else {
                 return "col-lg-3 col-sm-6 col-xs-12";
+            }
+        };
+
+        $scope.getGroupName = function(_idFieldGroup) {
+            var index = arrayObjectIndexOf($scope.ilp.structure.groups, "idFieldGroup", _idFieldGroup);
+            // console.log("ilpController::GetGroupName(", _idFieldGroup, ") looking in index: ", index);
+            if (index >= 0) {
+                return $scope.ilp.structure.groups[index].groupName;
+            } else {
+                return '';
             }
         };
 
@@ -282,7 +293,7 @@
         };
 
         $scope.checkilp = function() {
-
+            // console.log("ilpController::checkilp");
             if (!$scope.ilp.plan || !$scope.ilp.plan.fields) {
                 return false;
             }
@@ -299,10 +310,22 @@
                 }
             }
 
-            console.log("checkilp: done?", $scope.ilp.plan.intakeDone);
+            // console.log("checkilp: done?", $scope.ilp.plan.intakeDone);
 
             if ($scope.ilp.plan.intakeDone) {
-                $scope.ilp.plan.$save();
+                // console.log("calling save on the plan itself");
+                dtaIlp.planDone($scope.ilp.plan.idPlan)
+                    .then(function(result) {
+                        $scope.ilp.plan.sUpdate = Date.now();
+                        if (!result) {
+                            console.log("ilpController::checkilp saved Plan", result);
+                        }
+                    }, function(err) {
+                        // Error occurred
+                        //TODO: Process error
+                        console.log("ilpController::checkilp failed to save plan :(", err);
+                    });
+
             }
         };
 

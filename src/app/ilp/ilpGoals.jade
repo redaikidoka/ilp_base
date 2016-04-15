@@ -1,9 +1,9 @@
 div
-  button.btn.btn-save.m-t.m-l(type="button" ng-click="checkilp()") Save
+  button.btn.btn-save.m-t.m-r.pull-right(type="button" ng-click="checkilp()") Save
   div.clearfix.container-fluid.m-t#ilp-goal-entry
-    //- div.clearfix(ng-repeat="group in ilp.plan.fields | unique: 'groupName' | orderBy: ['groupOrder', 'displayOrder'] | filter: {idSectionDef: 9} track by group.groupName")
-    //-   h3.clearfix {{group.displayGroup}}
-    //-   ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ idSectionDef: 9, groupName: group.groupName}"  datafield="fld" ng-class="getFieldClass(fld)" )
-    //-   br.clearfix
+    div.clearfix(ng-repeat="groupId in ilp.structure.sections[8].groupIds")
+      h3.clearfix {{getGroupName(groupId)}}
+      ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ idSectionDef: 9, idFieldGroup: groupId, isHistorical:false}"  datafield="fld" ng-class="getFieldClass(fld)" )
+      br.clearfix
   button.btn.btn-save.m-t.m-l.pull-right(type="button" ng-click="checkilp()") Save
   br

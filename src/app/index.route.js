@@ -47,7 +47,7 @@
         url: '/ilp/{idStudent}?idClass',
         templateUrl: 'app/ilp/ilp.html',
         controller: 'IlpController',
-        controllerAs: 'ilp',
+        controllerAs: 'ilpC',
         authenticate: true
       })
       .state('ilp.section', {

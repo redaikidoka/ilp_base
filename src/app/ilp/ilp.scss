@@ -87,6 +87,14 @@ nav.navbar.subnav {
 		background-color: $header-dark-bg-color;
 		color: white;
 		border-radius: 10px 10px 0 0 / 10px 10px 0 0;
+
+		label.updatenote {
+			font-size: .6em;
+			float: right;
+			margin: 6px 2px 0px 0 ;
+			font-style: italic;
+			color: lighten($text-color, 95%);
+		}
 	}
 
 	.card-header.hilite {
@@ -162,6 +170,10 @@ nav.navbar.subnav {
 			}		
 
 			border-radius: 0 0 10px 10px;		
+	}
+
+	.card-block.history {
+		background-color: #DDD;
 	}
 
 

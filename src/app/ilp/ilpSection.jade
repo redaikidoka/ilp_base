@@ -3,19 +3,17 @@ div
   button.btn.m-r.pull-right.btn-goal(ng-click="scrollTo('goal-display')") GOALS
 div.clearfix.container-fluid.m-t#ilp-summary
     div(ng-repeat="groupId in currentSection.groupIds" ng-class="getGroupClass(groupId)" )
-      ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ idSectionDef: currentSectionId, idFieldGroup: groupId}"  datafield="fld" questions="ilp.questions" onchangecallback="checkilp")
+      ilp-field(ng-repeat="fld in ilp.plan.fields | filter:{ idSectionDef: currentSectionId, idFieldGroup: groupId, isHistorical:false}"  datafield="fld"  onchangecallback="checkilp")
       br.clearfix
       br.clearfix
 
 div.clearfix.m-t
 div#goal-display.container-fluid.clearfix.m-t
-  h1 GOALS
-  label featuring: {{ilp.structure}}
-  div.col-md-4.col-sm-6(ng-repeat="goalGroupId in referenceSection.groupIds" )
-    h1 Hi, everyone
-    h3 ID: {{goalGroupId}}
-    div(ng-repeat="displayGoal in ilp.plan.fields | filter:{ idSectionDef: 9, idFieldGroup: goalGroupId}" ng-show="displayGoal.contents")
-      h4 {{displayGoal.name}}
+  h1 PROGRESS 
+  div.col-md-4.col-sm-6(ng-repeat="goalGroupId in ilp.structure.sections[8].groupIds" )
+    h3 {{ getGroupName(goalGroupId) }}
+    div(ng-repeat="displayGoal in ilp.plan.fields | filter:{ idSectionDef: 9, idFieldGroup: goalGroupId, isHistorical: false}" ng-show="displayGoal.contents")
+      h4 {{displayGoal.fieldName}}
       ul
         li(ng-repeat="listitem in (displayGoal.contents | textToLines)") {{listitem}}
 div#signature

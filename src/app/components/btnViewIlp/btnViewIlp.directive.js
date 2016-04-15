@@ -39,9 +39,11 @@
       	if (vm.student) {
       // console.log('viewilpbtn for:', vm.student);
       		var text = 'Start Intake';
+          if (vm.student.idPlan) { text = 'Continue Intake';}
+      		if (vm.intakedone) { text = 'View Plan';} else {
 
-      		if (vm.intakeDone) { text = 'View ILP';}
-      		else if (vm.student.idPlan) { text = 'Continue Intake';}
+          }
+
       		return text;
       	}
 

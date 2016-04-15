@@ -15,7 +15,7 @@
             require: 'ngModel',
             scope: {
                 datafield: '=',
-                onchangecallback: "&"
+                onchangecallback: '&'
             },
             // link: linkField,
             controller: ilpFieldController,
@@ -32,10 +32,9 @@
 
             //setup logging
             var console = $log;
-            // if ($scope.datafield) {
-            //  $scope.myQuestions = dtaIlp.getQuestionforFieldDefId($scope.datafield.idFieldDef);
-            // }
-            $scope.showQuestions = 0;
+
+            vm.showQuestions = 0;
+            vm.showHistory = 0;
 
             // console.log("for this field def id", $scope.datafield, " i got these questions: ", $scope.myQuestions);
 
@@ -69,14 +68,17 @@
 
                     // console.log("update function: ", $scope.onchangecallback);
                     // $parent.$scope.checkilp();
+                    // $scope.checkilp();
                     if (vm.onchangecallback) {
+                        console.log("callback!");
                         vm.onchangecallback();
                     }
+                    else { console.log("no callback. :(");}
                 }, function(err) {
                     // TODO: Show an error here
 
                     // Error occurred
-                    console.log("No update :(", err);
+                    console.log("ilpField::editField Field Update Failed :(", err);
                 });
             };
         }
