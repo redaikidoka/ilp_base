@@ -16,7 +16,7 @@ div.container-fluid
   div.pull-right#classlist-display
     label(style="margin-bottom:-20px;") {{currentClass.className}}&nbsp;Students
     br
-    btn-view-ilp.m-l.pull-right(student="selectedStudent" sizer='btn-xs' classid="idClass" intakedone="ilp.plan.intakeDone")
+    btn-view-ilp.m-l.pull-right(student="selectedStudent" sizer='btn-xs' classid="idClass" intakedone="selectedStudent.intakeDone")
     select( ng-model="selectedStudent" ng-options="student.studentName for student in studentList | orderBy:'nameLast' track by student.idStudent " )
 div.m-t-md#plan-nav
   nav.navbar.subnav

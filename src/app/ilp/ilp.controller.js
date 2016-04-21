@@ -108,7 +108,7 @@
             
         } else {
             // setting default section id
-            console.log("ilp::loadFields -setting default section id to ", $scope.ilp.structure.sections[0] );
+            // console.log("ilp::loadFields -setting default section id to ", $scope.ilp.structure.sections[0] );
             // console.log("ilp::loadFields - f$stateParams: ", $stateParams);
             $scope.currentSectionID = $scope.ilp.structure.sections[0].idSectionDef;
             $scope.currentSection = $scope.ilp.structure.sections[0];
@@ -200,32 +200,32 @@
 
         };
 
-        $scope.getQuestions = function(_idFieldDef) {
-            var found = $filter('filter')($scope.ilp.structure.questions, {
-                    idFieldDef: _idFieldDef
-                },
-                true);
+        // $scope.getQuestions = function(_idFieldDef) {
+        //     var found = $filter('filter')($scope.ilp.structure.questions, {
+        //             idFieldDef: _idFieldDef
+        //         },
+        //         true);
 
-            if (found && found.length) {
-                // console.log("questions for ", _idFieldDef, found);
-                return found;
-            } else {
-                console.log("no questions for ", _idFieldDef);
-                // console.log("the questions", $scope.ilp.questions)
-                return null;
-            }
-        };
+        //     if (found && found.length) {
+        //         // console.log("questions for ", _idFieldDef, found);
+        //         return found;
+        //     } else {
+        //         console.log("no questions for ", _idFieldDef);
+        //         // console.log("the questions", $scope.ilp.questions)
+        //         return null;
+        //     }
+        // };
 
         $scope.setDefaultStudent = function(studentId) {
             // console.log("looking for student: ", studentId);
-            var found = $filter('filter')($scope.studentList, {
-                idStudent: studentId
-            }, true);
+            var found = $filter('filter')($scope.studentList, 
+                { idStudent: studentId }, true);
             if (found && found.length) {
                 $scope.selectedStudent = found[0];
             } else {
                 $scope.selectedStudent = null;
                 console.log("ilpController::setDefaultStudent didn't find ", studentId, "in the studentList", $scope.studentList);
+                // $scope.selectedStudent = $scope.ilp.plan.student;
             }
 
             // console.log("found:", found);

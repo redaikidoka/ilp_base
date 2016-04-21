@@ -2,9 +2,10 @@
 (function(window, angular, undefined, appSettings) {  'use strict';
 
 var devUrl = 'http://0.0.0.0:3000/api';
-var prodUrl = 'http://192.241.235.93:3000/api';
+// var prodUrl = 'http://192.241.235.93:3000/api';
 // var urlBase = 'http://0.0.0.0:3000/api';
-var urlBase = devUrl;
+var prodUrl = 'http://104.236.182.35:3000/api';
+var urlBase = prodUrl;
  
 var authHeader = 'authorization';
 

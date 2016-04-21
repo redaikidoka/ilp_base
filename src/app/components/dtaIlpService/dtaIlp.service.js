@@ -263,7 +263,7 @@
                         // console.log("dtaIlp::calculateIlpInfo()  --- no history");
                     }
                 } else {
-                   console.log("dtaIlp::calculateIlpInfo() not checking history for historical idFieldDef: ", _idFieldDef, " ID:", ilpCurrentPlan.fields[f].idField);
+                   // console.log("dtaIlp::calculateIlpInfo() not checking history for historical idFieldDef: ", _idFieldDef, " ID:", ilpCurrentPlan.fields[f].idField);
                 }
 
             }
