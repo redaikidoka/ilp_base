@@ -4,7 +4,7 @@ div.card
     h4.m-l( uib-tooltip="{{vm.datafield.fieldDescription}}" ) 
       span {{vm.datafield.fieldName}}
       img.icon.history(src="assets/icons/i_..._active.png" ng-show="vm.datafield.history" ng-click="vm.showHistory = !vm.showHistory" alt="Show History" title="Show History")
-      img.icon.prompts(src="assets/icons/i_question.png" ng-click="vm.showQuestions = !vm.showQuestions" ng-show="vm.datafield.fieldDefinition.questions" title="Show Prompt Questions")
+      img.icon.prompts(src="assets/icons/i_question_active.png" ng-click="vm.showQuestions = !vm.showQuestions" ng-show="vm.datafield.fieldDefinition.questions" title="Show Prompt Questions")
   div.card-block
     textarea(rows="{{getRows()}}" placeholder="{{vm.datafield.fieldDescription}}" ng-change="editField()" ng-model="vm.datafield.contents" ng-model-options="{ updateOn: 'blur' }") 
 

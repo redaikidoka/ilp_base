@@ -26,7 +26,8 @@
         } else {
 
         }
-
+        $scope.isOverviewCollapsed = true;
+        
         // vm.currentClass = dtaClass.getClass(vm.currentClassId);
         dtaClass.getClass(vm.currentClassId)
             .then(function(result) {

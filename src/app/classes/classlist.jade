@@ -2,13 +2,23 @@
 div.container
   uib-alert(ng-show="aclass.hasProblem" close="dismissProblem($index)") {{aclass.problem}}
 
-  h4 Grade: {{aclass.currentClass.grade | showgrade}}
-  form
+  h3 Grade: {{aclass.currentClass.grade | showgrade}}
+  
+  h4 
+    button.btn.btn-default(type="button" ng-click="isOverviewCollapsed = !isOverviewCollapsed")
+          i.icon.ion-arrow-down-b(ng-show="!isOverviewCollapsed")
+          i.icon.ion-arrow-right-b(ng-show="isOverviewCollapsed")
+      span &nbsp;Course Overview for
+      em &nbsp;{{aclass.currentClass.className}} 
+
+
+  
+  form.collapse.in(collapse="isOverviewCollapsed")
     fieldset.form-group
-      label(for="course-description") {{aclass.currentClass.name}} Course Overview
       textarea.form-control#course-description(rows="4" placeholder="enter the description of your course" ng-model="aclass.currentClass.description" ng-model-options="{ updateOn: 'blur' }"  ng-change="editClassDescription()" )
 
     button.btn.btn-primary.pull-right Save
+  
 
 div.container.m-t-md
   div.card.clearfix
@@ -23,7 +33,7 @@ div.container.m-t-md
     div.card-block.collapse.in#collapseStudents(collapse="isCollapsedS")
       div.col-lg-2.col-md-3.col-sm-4.col-xs-6(ng-repeat="student in aclass.studentList | orderBy:'nameLast'" ) 
           a(title="ILP for {{student.studentName}}"  ui-sref="ilp({ idStudent: student.idStudent, idClass: aclass.currentClassId })" )
-            img.student(ng-src="assets/images/students/{{student.profilePicture}}" )
+            img.student(ng-src="assets/images/students/{{student.profilePicture}}" onerror='this.style.display = "none"')
           label.student {{student.studentName}}&nbsp; 
           btn-view-ilp.center.ilpbutton(student="student" classid="aclass.currentClassId" intakedone="student.intakeDone")
           
