@@ -7,10 +7,7 @@ div.container-fluid
   img.m-t-md.profile-pic.pull-left(ng-src="{{getStudentPhoto(ilp.plan.student.fullPicture)}}" alt="{{ilp.plan.student.studentName}}" )
   h2.m-t-md {{ilp.plan.student.studentName}} in 
     em {{currentClass.className}}
-  label.m-l Age: 
-    em {{ilp.plan.student.age}}
-    span.m-l(ng-show="ilp.plan.student.gender") Gender: 
-      em {{ilp.plan.student.gender}}
+  
   label.m-l(ng-show="ilp.plan.student.homeLanguage") Speaks at Home:
     em {{ilp.plan.student.homeLanguage}}
   div.pull-right#classlist-display
@@ -22,7 +19,7 @@ div.m-t-md#plan-nav
   nav.navbar.subnav
     ul.nav.nav-pills
       li.nav-item(ui-sref-active="active")
-        a.nav-link(ui-sref="ilp.section({idSection: 1})" ) Summary&nbsp;
+        a.nav-link(ui-sref="ilp.section({idSection: 1})" ) Intake&nbsp;
           i.icon.ion-alert(ng-show="!ilp.plan.intakeDone" ) &nbsp;
        li.nav-item(ui-sref-active="active")
         a.nav-link(ui-sref="ilp.goals({idSection: 9})" ) Progress

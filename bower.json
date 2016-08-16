@@ -1,8 +1,8 @@
 {
-  "name": "ilpBase",
-  "version": "0.1.0",
+  "name": "ilp_base",
+  "version": "0.2.0",
   "dependencies": {
-    "ionicons": "~2.0.1",
+    "ionicons": "~2",
     "angular-animate": "~1.5",
     "angular-cookies": "~1.5",
     "angular-touch": "~1.5",

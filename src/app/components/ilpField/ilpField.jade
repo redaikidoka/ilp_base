@@ -6,7 +6,7 @@ div.card
       img.icon.history(src="assets/icons/i_..._active.png" ng-show="vm.datafield.history" ng-click="vm.showHistory = !vm.showHistory" alt="Show History" title="Show History")
       img.icon.prompts(src="assets/icons/i_question_active.png" ng-click="vm.showQuestions = !vm.showQuestions" ng-show="vm.datafield.fieldDefinition.questions" title="Show Prompt Questions")
   div.card-block
-    textarea(rows="{{getRows()}}" placeholder="{{vm.datafield.fieldDescription}}" ng-change="editField()" ng-model="vm.datafield.contents" ng-model-options="{ updateOn: 'blur' }") 
+    textarea(rows="{{getRows()}}" placeholder="{{vm.datafield.fieldDescription}}" ng-change="editField()" ng-model="vm.datafield.contents" ng-model-options="{ updateOn: 'blur' }" ng-show="{{showTextArea()}}") 
 
   div.card-block.history(ng-show="vm.showHistory")
     div(ng-repeat="historicalField in vm.datafield.history")

@@ -55,6 +55,15 @@
                 return 8;
             };
 
+            $scope.showTextArea = function() {
+                if (vm.datafield.fieldType === "TS" || vm.datafield.fieldType === "L" || vm.datafield.fieldType === "T")
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
             $scope.editField = function() {
                 // console.log("field we are saving:", vm.datafield);
 
