@@ -62,7 +62,7 @@
                 }
 
                 return false;
-            }
+            };
 
             $scope.editField = function() {
                 // console.log("field we are saving:", vm.datafield);
